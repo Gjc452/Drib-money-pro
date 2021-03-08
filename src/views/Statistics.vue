@@ -1,7 +1,7 @@
 <template>
-  <div>
-   3
-  </div>
+  <Layout>
+    <div>明细</div>
+  </Layout>
 </template>
 
 <script lang="ts">

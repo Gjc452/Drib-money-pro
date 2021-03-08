@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div>
-      记账
+      社区
     </div>
   </Layout>
 </template>
@@ -11,7 +11,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 
 @Component
-export default class Money extends Vue {
+export default class News extends Vue {
 }
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <div>1</div>
+  <Layout>
+    <div>图表</div>
+  </Layout>
 </template>
 
 <script lang="ts">

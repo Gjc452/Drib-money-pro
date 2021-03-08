@@ -12,6 +12,10 @@
       <Icon name="add"/>
       记账
     </router-link>
+    <router-link to="/news" class="item" active-class="selected">
+      <Icon name="iconset0456"/>
+      社区
+    </router-link>
     <router-link to="/user" class="item" active-class="selected">
       <Icon name="yonghu"/>
       我的
