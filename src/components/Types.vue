@@ -17,7 +17,7 @@ export default class Notes extends Vue {
   selectType(type) {
     if (type !== '-' && type !== '+') {throw new Error('type is unknown');}
     if (this.type === type) {return;}
-    this.$emit('update:type', type);
+    this.$emit('update:value', type);
   }
 
   back() {
