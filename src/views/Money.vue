@@ -1,42 +1,19 @@
 <template>
   <div class="moneyWrapper">
     <ul class="types">
-      <li class="selected">支出</li>
-      <li>收入</li>
-      <span>取消</span>
+      <li @click="selectType('-')" :class="type ==='-' && 'selected'">支出</li>
+      <li @click="selectType('+')" :class="type === '+' && 'selected'">收入</li>
+      <span @click="back">取消</span>
     </ul>
     <div class="tagsWrapper">
       <ul class="tags">
-        <li>
-          <div class="selected">
-            <Icon name="canyin"/>
+        <li @click="toggle(tag.id)" v-for="tag in tagList" :key="tag.id">
+          <div :class="selectedTags.indexOf(tag.id)>=0 && 'selected'">
+            <Icon :name="tag.icon"/>
           </div>
-          <span>餐饮</span>
+          <span>{{ tag.name }}</span>
         </li>
-        <li>
-          <div>
-            <Icon name="gouwu"/>
-          </div>
-          <span>购物</span>
-        </li>
-        <li>
-          <div>
-            <Icon name="riyong"/>
-          </div>
-          <span>日用</span>
-        </li>
-        <li>
-          <div>
-            <Icon name="lvxing"/>
-          </div>
-          <span>旅行</span>
-        </li>
-        <li>
-          <div>
-            <Icon name="yule"/>
-          </div>
-          <span>娱乐</span>
-        </li>
+        {{ selectedTags }}
       </ul>
     </div>
   </div>
@@ -48,11 +25,51 @@ import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Money extends Vue {
+  type = '-';
+  tagList: TagList = this.tagListOut;
+  selectedTags: number[] = [];
+
+  get tagListIn() {
+    return this.$store.state.tagListIn;
+  }
+
+  get tagListOut() {
+    return this.$store.state.tagListOut;
+  }
+
+  updated() {
+    if (this.type === '-') {
+      this.tagList = this.tagListOut;
+    } else {
+      this.tagList = this.tagListIn;
+    }
+  }
+
+  selectType(type: '-' | '+') {
+    if (type !== '-' && type !== '+') {throw new Error('type is unknow');}
+    if (this.type === type) {return;}
+    this.type = type;
+    this.selectedTags = [];
+  }
+
+  toggle(id) {
+    const index = this.selectedTags.indexOf(id);
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(id);
+    }
+  }
+
+  back() {
+    this.$router.back();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 .moneyWrapper {
   display: flex;
   flex-direction: column;
@@ -64,10 +81,12 @@ export default class Money extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
-    li{
+
+    li {
       padding: 15px 18px;
       font-weight: bolder;
       position: relative;
+
       &.selected::after {
         content: '';
         position: absolute;
@@ -78,43 +97,52 @@ export default class Money extends Vue {
         background: #333;
       }
     }
-    span{
+
+    span {
+      cursor: pointer;
       font-size: 14px;
       position: absolute;
       right: 10px;
     }
   }
-  .tagsWrapper{
+
+  .tagsWrapper {
     flex-grow: 1;
     overflow: auto;
   }
+
   .tags {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    li{
+
+    li {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       margin: 12px 0;
       width: 25%;
-      div{
+
+      div {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 10px;
         border-radius: 50%;
-        background: rgb(245,245,245);
-        &.selected{
+        background: rgb(245, 245, 245);
+
+        &.selected {
           background: $color-highlight;
         }
-        .icon{
+
+        .icon {
           width: 26px;
           height: 26px;
         }
       }
-      span{
+
+      span {
         padding-top: 6px;
         font-size: 12px;
       }
