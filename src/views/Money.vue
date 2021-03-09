@@ -7,27 +7,30 @@
     </ul>
     <div class="tagsWrapper">
       <ul class="tags">
-        <li @click="toggle(tag.id)" v-for="tag in tagList" :key="tag.id">
-          <div :class="selectedTags.indexOf(tag.id)>=0 && 'selected'">
+        <li @click="setSelectedTag(tag.id)" v-for="tag in tagList" :key="tag.id">
+          <div :class="{selected: selectedTag === tag.id}">
             <Icon :name="tag.icon"/>
           </div>
           <span>{{ tag.name }}</span>
         </li>
-        {{ selectedTags }}
       </ul>
     </div>
+    <NumberPad v-if="selectedTag >= 0"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import NumberPad from '@/components/NumberPad.vue';
 
-@Component
+@Component({
+  components: {NumberPad}
+})
 export default class Money extends Vue {
   type = '-';
-  tagList: TagList = this.tagListOut;
-  selectedTags: number[] = [];
+  tagList = this.tagListOut;
+  selectedTag = -1;
 
   get tagListIn() {
     return this.$store.state.tagListIn;
@@ -49,16 +52,11 @@ export default class Money extends Vue {
     if (type !== '-' && type !== '+') {throw new Error('type is unknow');}
     if (this.type === type) {return;}
     this.type = type;
-    this.selectedTags = [];
+    this.selectedTag = -1;
   }
 
-  toggle(id) {
-    const index = this.selectedTags.indexOf(id);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    } else {
-      this.selectedTags.push(id);
-    }
+  setSelectedTag(id: number) {
+    this.selectedTag = id;
   }
 
   back() {
