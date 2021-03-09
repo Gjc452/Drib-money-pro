@@ -17,8 +17,8 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Tags extends Vue {
-  @Prop() readonly tagList;
-  @Prop() readonly selectedTag;
+  @Prop(Array) readonly tagList!: [];
+  @Prop(Number) readonly selectedTag!: number;
 
   setSelectedTag(id: number) {
     this.$emit('update:selectedTag', id);

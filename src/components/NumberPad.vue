@@ -3,7 +3,7 @@
     <label class="notes">
       <span class="iconWrapper"><Icon name="notepad"/></span>
       <span class="name">备注:</span>
-      <input type="text" placeholder="点击写备注...">
+      <input type="text" :value="notes" @input="onChange" placeholder="点击写备注...">
       <span class="output">0.00</span>
     </label>
     <div class="numberPad">
@@ -34,10 +34,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
+  @Prop() readonly notes!: string;
+
+  onChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    this.$emit('update:notes', input.value);
+  }
 }
 </script>
 

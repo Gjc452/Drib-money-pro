@@ -2,7 +2,7 @@
   <div class="moneyWrapper">
     <Types :type="type" @update:value="changeType"/>
     <Tags :tagList="tagList" :selectedTag.sync="selectedTag"/>
-    <NumberPad v-if="selectedTag >= 0"/>
+    <NumberPad v-if="selectedTag >= 0" :notes.sync="notes"/>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default class Money extends Vue {
   type = '-';
   tagList = this.tagListOut;
   selectedTag = -1;
+  notes = '';
 
   get tagListIn() {
     return this.$store.state.tagListIn;
@@ -37,7 +38,7 @@ export default class Money extends Vue {
     }
   }
 
-  changeType(value) {
+  changeType(value: string) {
     this.type = value;
     this.selectedTag = -1;
   }

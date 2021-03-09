@@ -12,9 +12,9 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
-  @Prop(String) readonly type: string;
+  @Prop(String) readonly type!: string;
 
-  selectType(type) {
+  selectType(type: string) {
     if (type !== '-' && type !== '+') {throw new Error('type is unknown');}
     if (this.type === type) {return;}
     this.$emit('update:value', type);
