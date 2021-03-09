@@ -65,7 +65,7 @@ nav {
 .addWrapper{
   position: absolute;
   top:-22px;
-  padding: 4px;
+  padding: 5px;
   background: white;
   border-left: 1px solid rgb(227,227,227);
   border-top: 1px solid rgb(227,227,227);
