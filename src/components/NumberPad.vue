@@ -4,9 +4,9 @@
       <span class="iconWrapper"><Icon name="notepad"/></span>
       <span class="name">备注:</span>
       <input type="text" :value="notes" @input="onChange" placeholder="点击写备注...">
-      <span class="output">0.00</span>
+      <span class="output">{{ amount }}</span>
     </label>
-    <div class="numberPad">
+    <div class="numberPad" @click="onClickButton" ref="numberPad">
       <button>7</button>
       <button>8</button>
       <button>9</button>
@@ -24,8 +24,10 @@
       <button>-</button>
       <button>.</button>
       <button>0</button>
-      <button>
+      <button class="remove">
+        <span>删</span>
         <Icon class="delete" name="backspace"/>
+        <span>除</span>
       </button>
       <button class="ok">完成</button>
     </div>
@@ -39,10 +41,47 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class NumberPad extends Vue {
   @Prop() readonly notes!: string;
+  amount = '0';
+
 
   onChange(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     this.$emit('update:notes', input.value);
+  }
+
+  onClickButton(e: MouseEvent) {
+    let text;
+    let t = e.target as HTMLButtonElement;
+    while (!t.matches('button')) {
+      if (t === this.$refs.numberPad) {
+        t = null;
+        break;
+      }
+      t = t.parentNode;
+    }
+    if (t) {text = t.textContent;}
+    console.log(text);
+    if ('0123456789'.indexOf(text) >= 0) {
+      if (this.amount === '0') {
+        this.amount = text;
+      } else {
+        this.amount += text;
+      }
+    } else if (text === '.') {
+      if (this.amount.indexOf(text) >= 0) {
+        return;
+      } else {
+        this.amount += text;
+      }
+    } else if (text === '删除') {
+      if (this.amount.length === 1) {
+        this.amount = '0';
+      } else {
+        this.amount = this.amount.slice(0, -1);
+      }
+    } else if (text === '完成') {
+      return;
+    }
   }
 }
 </script>
@@ -107,6 +146,12 @@ export default class NumberPad extends Vue {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      &.remove {
+        span {
+          visibility: hidden;
+        }
+      }
 
       .calendar {
         width: 19px;
