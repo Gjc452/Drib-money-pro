@@ -1,10 +1,6 @@
 <template>
   <div class="moneyWrapper">
-    <ul class="types">
-      <li @click="selectType('-')" :class="type ==='-' && 'selected'">支出</li>
-      <li @click="selectType('+')" :class="type === '+' && 'selected'">收入</li>
-      <span @click="back">取消</span>
-    </ul>
+    <Types :type="type" @update:type="changeType"/>
     <div class="tagsWrapper">
       <ul class="tags">
         <li @click="setSelectedTag(tag.id)" v-for="tag in tagList" :key="tag.id">
@@ -23,9 +19,10 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import NumberPad from '@/components/NumberPad.vue';
+import Types from '@/components/Types.vue';
 
 @Component({
-  components: {NumberPad}
+  components: {Types, NumberPad}
 })
 export default class Money extends Vue {
   type = '-';
@@ -48,19 +45,13 @@ export default class Money extends Vue {
     }
   }
 
-  selectType(type: '-' | '+') {
-    if (type !== '-' && type !== '+') {throw new Error('type is unknow');}
-    if (this.type === type) {return;}
-    this.type = type;
+  changeType(value) {
+    this.type = value;
     this.selectedTag = -1;
   }
 
   setSelectedTag(id: number) {
     this.selectedTag = id;
-  }
-
-  back() {
-    this.$router.back();
   }
 }
 </script>
@@ -72,37 +63,6 @@ export default class Money extends Vue {
   display: flex;
   flex-direction: column;
   height: 100vh;
-
-  .types {
-    background: $color-highlight;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    li {
-      padding: 15px 18px;
-      font-weight: bolder;
-      position: relative;
-
-      &.selected::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        background: #333;
-      }
-    }
-
-    span {
-      cursor: pointer;
-      font-size: 14px;
-      position: absolute;
-      right: 10px;
-    }
-  }
 
   .tagsWrapper {
     flex-grow: 1;
