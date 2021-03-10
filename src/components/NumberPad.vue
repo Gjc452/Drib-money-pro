@@ -29,24 +29,35 @@
         <Icon class="delete" name="backspace"/>
         <span>除</span>
       </button>
-      <button class="ok">完成</button>
+      <button v-if="counting" class="ok">=</button>
+      <button v-else class="ok">完成</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import getLastIndex from '@/lib/getLastIndex';
+import addBits from '@/lib/addBits';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
   @Prop() readonly notes!: string;
   amount = '0';
-
+  counting = false;
 
   onChange(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     this.$emit('update:notes', input.value);
+  }
+
+  amountLastIndex() {
+    return [getLastIndex(/[+-]/gi, this.amount), getLastIndex(/[.]/gi, this.amount)];
+  }
+
+  countingToggle(index: number) {
+    this.counting = index > 0 && index < this.amount.length - 1;
   }
 
   onClickButton(e: MouseEvent) {
@@ -60,27 +71,79 @@ export default class NumberPad extends Vue {
       t = t.parentNode;
     }
     if (t) {text = t.textContent;}
-    console.log(text);
+    if (text) {
+      this.count(text);
+    }
+  }
+
+  count(text: string) {
+    const index = this.amountLastIndex();
     if ('0123456789'.indexOf(text) >= 0) {
+      if (this.amount.length >= 10) {return;}
       if (this.amount === '0') {
         this.amount = text;
-      } else {
-        this.amount += text;
-      }
-    } else if (text === '.') {
-      if (this.amount.indexOf(text) >= 0) {
+      } else if (text === '0' && index[0] === this.amount.length - 2) {
+        return;
+      } else if (index[0] !== this.amount.length - 1 && index[1] === this.amount.length - 3) {
         return;
       } else {
         this.amount += text;
       }
-    } else if (text === '删除') {
-      if (this.amount.length === 1) {
-        this.amount = '0';
+    } else if (text === '.') {
+      if (this.amount.length >= 10) {return;}
+      if (this.amount.indexOf(text) >= 0 && index[0] < 0) {
+        return;
       } else {
-        this.amount = this.amount.slice(0, -1);
+        const num = this.amount.split('.').length - 1;
+        if (num < 2) {
+          this.amount += text;
+        }
       }
+    } else if ('+-'.indexOf(text) >= 0) {
+      if (index[0] >= 0) {
+        if (index[0] === this.amount.length - 1) {
+          this.amount = (this.amount.slice(0, -1) + text);
+        } else {
+          this.amount = this.cutAmount(addBits(this.amount));
+          this.counting = false;
+          this.amount += text;
+        }
+        return;
+      } else {
+        this.amount += text;
+      }
+    } else if (text === '=') {
+      this.amount = this.cutAmount(addBits(this.amount));
+    } else if (text === '删除') {
+      this.remove();
     } else if (text === '完成') {
-      return;
+      if (index[0] === this.amount.length - 1 || this.amount.slice(-1) === '.') {
+        this.amount = this.amount.slice(0, -1);
+      } else {
+        return;
+      }
+    }
+    this.countingToggle(index[0]);
+  }
+
+  cutAmount(value: string) {
+    if (value.indexOf('.') >= 0) {
+      const n = parseFloat(value).toFixed(2);
+      if (n.slice(-1) === '0') {
+        return n.slice(0, -1);
+      } else {
+        return n;
+      }
+    } else {
+      return value.toString();
+    }
+  }
+
+  remove() {
+    if (this.amount.length === 1) {
+      this.amount = '0';
+    } else {
+      this.amount = this.amount.slice(0, -1);
     }
   }
 }
@@ -120,6 +183,7 @@ export default class NumberPad extends Vue {
       height: 40px;
       flex-grow: 1;
       padding: 0 6px;
+      min-width: 20px;
     }
 
     .output {
