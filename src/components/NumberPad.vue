@@ -10,9 +10,12 @@
       <button>7</button>
       <button>8</button>
       <button>9</button>
-      <button>
+      <button v-if="selectedDate === now">
         <Icon class="calendar" name="rili"/>
         <span>今天</span>
+      </button>
+      <button v-else @click="isVisible =true">
+        {{ this.selectedDate.replace(/[-]/g, '/') }}
       </button>
       <button>4</button>
       <button>5</button>
@@ -32,6 +35,7 @@
       <button v-if="counting" class="ok">=</button>
       <button v-else class="ok">完成</button>
     </div>
+    <DatePicker :selected-date.sync="selectedDate" :is-visible.sync="isVisible"/>
   </div>
 </template>
 
@@ -40,12 +44,19 @@ import Vue from 'vue';
 import getLastIndex from '@/lib/getLastIndex';
 import addBits from '@/lib/addBits';
 import {Component, Prop} from 'vue-property-decorator';
+import DatePicker from '@/components/DatePicker.vue';
+import dayjs from 'dayjs';
 
-@Component
+@Component({
+  components: {DatePicker}
+})
 export default class NumberPad extends Vue {
   @Prop() readonly notes!: string;
-  amount = '0';
+  isVisible = false;
   counting = false;
+  amount = '0';
+  now = dayjs().format('YYYY-MM-DD');
+  selectedDate = this.now;
 
   onChange(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
@@ -122,6 +133,8 @@ export default class NumberPad extends Vue {
       } else {
         return;
       }
+    } else if (text === '今天') {
+      this.isVisible = true;
     }
     this.countingToggle(index[0]);
   }
