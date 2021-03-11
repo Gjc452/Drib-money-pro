@@ -93,7 +93,7 @@ export default class NumberPad extends Vue {
       if (this.amount.length >= 10) {return;}
       if (this.amount === '0') {
         this.amount = text;
-      } else if (text === '0' && index[0] === this.amount.length - 2) {
+      } else if (text === '0' && index[0] === this.amount.length - 2 && this.amount.slice(-1) === '0') {
         return;
       } else if (index[0] !== this.amount.length - 1 && index[1] === this.amount.length - 3) {
         return;
