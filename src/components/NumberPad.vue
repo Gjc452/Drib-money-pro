@@ -72,8 +72,7 @@ export default class NumberPad extends Vue {
   }
 
   onClickButton(e: MouseEvent) {
-    let text;
-    let t = e.target as HTMLButtonElement;
+    let text,t = e.target as HTMLButtonElement;
     while (!t.matches('button')) {
       if (t === this.$refs.numberPad) {
         t = null;
