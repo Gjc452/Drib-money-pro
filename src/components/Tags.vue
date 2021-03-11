@@ -7,6 +7,12 @@
         </div>
         <span>{{ tag.name }}</span>
       </li>
+      <router-link to="/money/setTags">
+        <div>
+          <Icon name="shezhi"/>
+        </div>
+        <span>设置</span>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -39,7 +45,7 @@ export default class Tags extends Vue {
   justify-content: flex-start;
   flex-wrap: wrap;
 
-  li {
+  li, a {
     display: flex;
     flex-direction: column;
     justify-content: center;

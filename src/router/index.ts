@@ -6,6 +6,7 @@ import Statistics from '@/views/Statistics.vue';
 import User from '@/views/User.vue';
 import NoteFound from '@/views/NoteFound.vue';
 import News from '@/views/News.vue';
+import SetTags from '@/views/SetTags.vue';
 
 Vue.use(VueRouter);
 
@@ -16,27 +17,31 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/money',
-    component: Money
+    component: Money,
   },
   {
-    path:'/chart',
-    component:Chart
+    path: '/money/setTags',
+    component: SetTags
   },
   {
-    path:'/statistics',
-    component:Statistics
+    path: '/chart',
+    component: Chart
   },
   {
-    path:'/user',
-    component:User
+    path: '/statistics',
+    component: Statistics
   },
   {
-    path:'/news',
-    component:News
+    path: '/user',
+    component: User
   },
   {
-    path:'*',
-    component:NoteFound
+    path: '/news',
+    component: News
+  },
+  {
+    path: '*',
+    component: NoteFound
 
   }
 ];
