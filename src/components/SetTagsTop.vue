@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="top">
-      <Icon name="icon"/>
+      <Icon @click.native="back" name="icon"/>
       <span>类别设置</span>
       <Icon/>
     </div>
@@ -11,18 +11,21 @@
     </div>
   </header>
 </template>
-
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 
 @Component
 export default class SetTagsTop extends Vue {
+  back() {
+    this.$router.back();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 header {
   padding: 0 10px;
   background: $color-highlight;

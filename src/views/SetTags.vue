@@ -3,8 +3,8 @@
     <SetTagsTop/>
     <main>
       <ul>
-        <li v-for="tag in tagList" :key="tag.id">
-          <Icon name="substract"/>
+        <li v-for="tag in tagList()" :key="tag.id">
+          <Icon @click.native="deleteTag(tag.id)" name="substract"/>
           <div>
             <Icon :name="tag.icon"/>
           </div>
@@ -14,12 +14,12 @@
       </ul>
       <div>更多类别</div>
       <ul>
-        <li>
-          <Icon name="addTag"/>
+        <li v-for="tag in otherTagListOut" :key="tag.id">
+          <Icon @click.native="addTag(tag.id)" name="addTag"/>
           <div>
-            <Icon name="haizi"/>
+            <Icon :name="tag.icon"/>
           </div>
-          <span>孩子</span>
+          <span>{{ tag.name }}</span>
           <Icon name="menu"/>
         </li>
       </ul>
@@ -31,22 +31,62 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import SetTagsTop from '@/components/SetTagsTop.vue';
 import SetTagsFooter from '@/components/SetTagsFooter.vue';
+import SetTagsTop from '@/components/SetTagsTop.vue';
+import findIndex from '@/lib/findIndex';
+import store from '@/store';
 
 @Component({
-  components: {SetTagsFooter, SetTagsTop}
+  components: {SetTagsTop, SetTagsFooter}
 })
 export default class EditTags extends Vue {
-  tagList = this.tagListOut;
+  type = '-';
+
+  tagList() {
+    if (this.type === '-') {
+      return this.tagListOut;
+    } else {
+      return this.tagListIn;
+    }
+  }
+
+  deleteTag(id: number) {
+    if (this.type === '-') {
+      this.$store.commit('deleteTagListOut', findIndex(this.tagListOut, id));
+    } else {
+      this.$store.commit('deleteTagListIn', findIndex(this.tagListIn));
+    }
+  }
+
+  addTag(id: number) {
+    if (this.type === '-') {
+      this.$store.commit('addTagListOut', findIndex(this.otherTagListOut, id));
+    } else {
+      this.$store.commit('addTagListIn', findIndex(this.otherTagListIn));
+    }
+  }
+
+  created() {
+    store.commit('fetchTagList');
+  }
 
   get tagListIn() {
-    return this.$store.state.tagListIn;
+    return store.state.tagListIn;
+  }
+
+  get otherTagListIn() {
+    return store.state.otherTagListIn;
+  }
+
+  get otherTagListOut() {
+    return store.state.otherTagListOut;
   }
 
   get tagListOut() {
-    return this.$store.state.tagListOut;
+    return store.state.tagListOut;
   }
+
+
 }
 </script>
 
@@ -57,6 +97,7 @@ export default class EditTags extends Vue {
   display: flex;
   flex-direction: column;
   height: 100vh;
+
 
   main {
     flex-grow: 1;
