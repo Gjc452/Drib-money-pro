@@ -6,17 +6,25 @@
       <Icon/>
     </div>
     <div class="change">
-      <div class="selected">支出</div>
-      <div>收入</div>
+      <div @click="selected('-')" :class="value === '-' && 'selected'">支出</div>
+      <div @click="selected('+')" :class="value === '+' && 'selected'">收入</div>
     </div>
   </header>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class SetTagsTop extends Vue {
+  @Prop(String) readonly value!: string;
+
+  selected(type: string) {
+    if (type !== '-' && type !== '+') {throw new Error('type is unknown');}
+    if (this.value === type) {return;}
+    this.$emit('update:value', type);
+  }
+
   back() {
     this.$router.back();
   }

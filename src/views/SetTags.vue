@@ -1,6 +1,6 @@
 <template>
   <div class="setTagsWrapper">
-    <SetTagsTop/>
+    <SetTagsTop :value.sync="type"/>
     <main>
       <ul>
         <li v-for="tag in tagList()" :key="tag.id">
@@ -14,7 +14,7 @@
       </ul>
       <div>更多类别</div>
       <ul>
-        <li v-for="tag in otherTagListOut" :key="tag.id">
+        <li v-for="tag in otherTagList()" :key="tag.id">
           <Icon @click.native="addTag(tag.id)" name="addTag"/>
           <div>
             <Icon :name="tag.icon"/>
@@ -50,11 +50,19 @@ export default class EditTags extends Vue {
     }
   }
 
+  otherTagList() {
+    if (this.type === '-') {
+      return this.otherTagListOut;
+    } else {
+      return this.otherTagListIn;
+    }
+  }
+
   deleteTag(id: number) {
     if (this.type === '-') {
       this.$store.commit('deleteTagListOut', findIndex(this.tagListOut, id));
     } else {
-      this.$store.commit('deleteTagListIn', findIndex(this.tagListIn));
+      this.$store.commit('deleteTagListIn', findIndex(this.tagListIn, id));
     }
   }
 
@@ -62,7 +70,7 @@ export default class EditTags extends Vue {
     if (this.type === '-') {
       this.$store.commit('addTagListOut', findIndex(this.otherTagListOut, id));
     } else {
-      this.$store.commit('addTagListIn', findIndex(this.otherTagListIn));
+      this.$store.commit('addTagListIn', findIndex(this.otherTagListIn, id));
     }
   }
 
