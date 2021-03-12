@@ -14,7 +14,7 @@
       </ul>
       <div>更多类别</div>
       <ul>
-        <li v-for="tag in otherTagList()" :key="tag.id">
+        <li v-for="tag in deleteTagList()" :key="tag.id">
           <Icon @click.native="addTag(tag.id)" name="addTag"/>
           <div>
             <Icon :name="tag.icon"/>
@@ -44,26 +44,26 @@ export default class EditTags extends Vue {
 
   tagList() {
     if (this.value === '-') {
-      return this.tagListOut;
+      return this.tagListOut[0];
     } else {
-      return this.tagListIn;
+      return this.tagListIn[0];
     }
   }
 
-  otherTagList() {
+  deleteTagList() {
     if (this.value === '-') {
-      return this.otherTagListOut;
+      return this.tagListOut[1];
     } else {
-      return this.otherTagListIn;
+      return this.tagListIn[1];
     }
   }
 
   deleteTag(id: number) {
-    this.value === '-' ? this.$store.commit('deleteTagListOut', findIndex(this.tagListOut, id)) : this.$store.commit('deleteTagListIn', findIndex(this.tagListIn, id));
+    this.value === '-' ? this.$store.commit('deleteTagListOut', findIndex(this.tagListOut[0], id)) : this.$store.commit('deleteTagListIn', findIndex(this.tagListIn[0], id));
   }
 
   addTag(id: number) {
-    this.value === '-' ? this.$store.commit('addTagListOut', findIndex(this.otherTagListOut, id)) : this.$store.commit('addTagListIn', findIndex(this.otherTagListIn, id));
+    this.value === '-' ? this.$store.commit('addTagListOut', findIndex(this.tagListOut[1], id)) : this.$store.commit('addTagListIn', findIndex(this.tagListIn[1], id));
   }
 
   created() {
@@ -77,14 +77,6 @@ export default class EditTags extends Vue {
 
   get tagListIn() {
     return store.state.tagListIn;
-  }
-
-  get otherTagListIn() {
-    return store.state.otherTagListIn;
-  }
-
-  get otherTagListOut() {
-    return store.state.otherTagListOut;
   }
 
   get tagListOut() {

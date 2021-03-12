@@ -1,7 +1,7 @@
 <template>
   <div class="moneyWrapper">
     <Types :type="type" @update:value="changeType"/>
-    <Tags :tagList="tagList" :selectedTag.sync="selectedTag"/>
+    <Tags :selectedTag.sync="selectedTag"/>
     <NumberPad v-if="selectedTag >= 0" :notes.sync="notes"/>
   </div>
 </template>
@@ -12,33 +12,17 @@ import {Component} from 'vue-property-decorator';
 import NumberPad from '@/components/NumberPad.vue';
 import Types from '@/components/Types.vue';
 import Tags from '@/components/Tags.vue';
+import store from '@/store';
 
 @Component({
   components: {Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-  tagList = this.tagListOut;
   selectedTag = -1;
   notes = '';
 
   get type() {
-    return this.$store.state.type;
-  }
-
-  get tagListIn() {
-    return this.$store.state.tagListIn;
-  }
-
-  get tagListOut() {
-    return this.$store.state.tagListOut;
-  }
-
-  updated() {
-    if (this.type === '-') {
-      this.tagList = this.tagListOut;
-    } else {
-      this.tagList = this.tagListIn;
-    }
+    return store.state.type;
   }
 
   changeType(value: string) {

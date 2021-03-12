@@ -1,7 +1,7 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <li @click="setSelectedTag(tag.id)" v-for="tag in tagList" :key="tag.id">
+      <li @click="setSelectedTag(tag.id)" v-for="tag in tagList()" :key="tag.id">
         <div :class="{selected: selectedTag === tag.id}">
           <Icon :name="tag.icon"/>
         </div>
@@ -20,14 +20,34 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import store from '@/store';
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly tagList!: [];
   @Prop(Number) readonly selectedTag!: number;
 
   setSelectedTag(id: number) {
     this.$emit('update:selectedTag', id);
+  }
+
+  get tagListIn() {
+    return store.state.tagListIn;
+  }
+
+  get tagListOut() {
+    return store.state.tagListOut;
+  }
+
+  get type() {
+    return store.state.type;
+  }
+
+  tagList() {
+    if (this.type === '-') {
+      return this.tagListOut[0];
+    } else {
+      return this.tagListIn[0];
+    }
   }
 }
 </script>

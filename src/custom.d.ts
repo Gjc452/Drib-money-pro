@@ -4,9 +4,7 @@ type TagList = {
   name: string;
 }
 type RootState = {
-  tagListOut: TagList[];
-  tagListIn: TagList[];
-  otherTagListOut: TagList[];
-  otherTagListIn: TagList[];
+  tagListOut: TagList[][];
+  tagListIn: TagList[][];
   type: '-' | '+';
 }
