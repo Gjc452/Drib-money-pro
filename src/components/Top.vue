@@ -2,7 +2,7 @@
   <div class="top">
     <Icon @click.native="back" name="icon"/>
     <span>{{ topName }}</span>
-    <span>{{ name }}</span>
+    <span class="right">{{ name }}</span>
   </div>
 </template>
 
@@ -31,6 +31,10 @@ export default class Top extends Vue {
   .icon {
     width: 20px;
     height: 20px;
+  }
+
+  .right {
+    font-size: 12px;
   }
 }
 </style>
