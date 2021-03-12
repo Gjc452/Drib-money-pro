@@ -35,8 +35,8 @@ import Top from '@/components/Top.vue';
   components: {Top}
 })
 export default class CustomTag extends Vue {
-  tags = ['gouwu', 'jiaotong', 'riyong', 'tongxun', 'yanjiu', 'caipiao', 'fushi', 'lvxing', 'jujia', 'zhufang', 'haizi', 'weixiu'];
-  selectedTag = 'gouwu';
+  tags = ['icon-gouwu', 'icon-jiaotong', 'icon-riyong', 'icon-tongxun', 'icon-yanjiu', 'icon-caipiao', 'icon-fushi', 'icon-lvxing', 'icon-jujia', 'icon-zhufang', 'icon-haizi', 'icon-weixiu'];
+  selectedTag = 'icon-gouwu';
   input = '';
 
   selected(tag: string) {

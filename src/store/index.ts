@@ -5,13 +5,18 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    tagListOut: [[{id: 0, icon: 'canyin', name: '餐饮'}, {id: 1, icon: 'gouwu', name: '购物'}, {
-      id: 2, icon: 'riyong', name: '日用'
-    }, {id: 3, icon: 'jiaotong', name: '交通'}, {id: 4, icon: 'shucai', name: '蔬菜'}, {
-      id: 5, icon: 'shuiguo', name: '水果'
-    }, {id: 6, icon: 'lingshi', name: '零食'}, {id: 7, icon: 'yundong', name: '运动'}], []],
-    tagListIn: [[{id: 0, icon: '--', name: '工资'}, {id: 1, icon: 'jianzhi', name: '兼职'}, {
-      id: 2, icon: 'licai', name: '理财'
+    tags: [{title: '娱乐', icons: []}, {title: '饮食', icons: []}, {title: '医疗', icons: []}, {
+      title: '学习',
+      icons: []
+    }, {title: '购物', icons: []}
+      , {title: '家居', icons: []}, {title: '办公', icons: []}, {title: '收入', icons: []}],
+    tagListOut: [[{id: 0, icon: 'icon-canyin', name: '餐饮'}, {id: 1, icon: 'icon-gouwu', name: '购物'}, {
+      id: 2, icon: 'icon-riyong', name: '日用'
+    }, {id: 3, icon: 'icon-jiaotong', name: '交通'}, {id: 4, icon: 'icon-shucai', name: '蔬菜'}, {
+      id: 5, icon: 'icon-shuiguo', name: '水果'
+    }, {id: 6, icon: 'icon-lingshi', name: '零食'}, {id: 7, icon: 'icon-yundong', name: '运动'}], []],
+    tagListIn: [[{id: 0, icon: 'icon---', name: '工资'}, {id: 1, icon: 'icon-jianzhi', name: '兼职'}, {
+      id: 2, icon: 'icon-licai', name: '理财'
     }], []],
     type: '-'
   } as RootState,
@@ -27,20 +32,14 @@ const store = new Vuex.Store({
       window.localStorage.setItem('tagListOut', JSON.stringify(state.tagListOut));
       window.localStorage.setItem('tagListIn', JSON.stringify(state.tagListIn));
     },
-    deleteTagListOut(state, index: number) {
-      state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1));
+    deleteTagList(state, payload: { type: string; index: number }) {
+      const {type, index} = payload;
+      type === '-' ? state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1)) : state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
       store.commit('saveTagList');
     },
-    deleteTagListIn(state, index: number) {
-      state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
-      store.commit('saveTagList');
-    },
-    addTagListOut(state, index: number) {
-      state.tagListOut[0].push(...state.tagListOut[1].splice(index, 1));
-      store.commit('saveTagList');
-    },
-    addTagListIn(state, index: number) {
-      state.tagListIn[0].push(...state.tagListIn[1].splice(index, 1));
+    addTagList(state, payload: { type: string; index: number }) {
+      const {type, index} = payload;
+      type === '-' ? state.tagListOut[0].push(...state.tagListOut[1].splice(index, 1)) : state.tagListIn[0].push(...state.tagListIn[1].splice(index, 1));
       store.commit('saveTagList');
     }
   },

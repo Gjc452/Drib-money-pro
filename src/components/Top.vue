@@ -1,6 +1,6 @@
 <template>
   <div class="top">
-    <Icon @click.native="back" name="icon"/>
+    <Icon @click.native="back" name="icon-icon"/>
     <span>{{ topName }}</span>
     <span @click="saveTag" class="right">{{ name }}</span>
   </div>

@@ -9,7 +9,7 @@
       </li>
       <router-link to="/money/setTags">
         <div>
-          <Icon name="shezhi"/>
+          <Icon name="icon-shezhi"/>
         </div>
         <span>设置</span>
       </router-link>

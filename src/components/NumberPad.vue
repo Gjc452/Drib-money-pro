@@ -1,7 +1,7 @@
 <template>
   <div class="numberPadWrapper">
     <label class="notes">
-      <span class="iconWrapper"><Icon name="notepad"/></span>
+      <span class="iconWrapper"><Icon name="icon-notepad"/></span>
       <span class="name">备注:</span>
       <input type="text" :value="notes" @input="onChange" placeholder="点击写备注...">
       <span class="output">{{ amount }}</span>
@@ -11,7 +11,7 @@
       <button>8</button>
       <button>9</button>
       <button v-if="selectedDate === now">
-        <Icon class="calendar" name="rili"/>
+        <Icon class="calendar" name="icon-rili"/>
         <span>今天</span>
       </button>
       <button v-else @click="isVisible =true">
@@ -29,7 +29,7 @@
       <button>0</button>
       <button class="remove">
         <span>删</span>
-        <Icon class="delete" name="backspace"/>
+        <Icon class="delete" name="icon-backspace"/>
         <span>除</span>
       </button>
       <button v-if="counting" class="ok">=</button>
@@ -72,7 +72,7 @@ export default class NumberPad extends Vue {
   }
 
   onClickButton(e: MouseEvent) {
-    let text,t = e.target as HTMLButtonElement;
+    let text, t = e.target as HTMLButtonElement;
     while (!t.matches('button')) {
       if (t === this.$refs.numberPad) {
         t = null;

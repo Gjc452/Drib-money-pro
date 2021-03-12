@@ -1,7 +1,7 @@
 <template>
   <footer>
     <router-link to="/money/setTags/customTag">
-      <Icon name="add"/>
+      <Icon name="icon-add"/>
       <span>添加类别</span>
     </router-link>
   </footer>
