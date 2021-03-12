@@ -7,6 +7,7 @@ import User from '@/views/User.vue';
 import NoteFound from '@/views/NoteFound.vue';
 import News from '@/views/News.vue';
 import SetTags from '@/views/SetTags.vue';
+import CustomTag from '@/views/CustomTag.vue';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/money/setTags',
     component: SetTags
+  },
+  {
+    path: '/money/setTags/customTag',
+    component: CustomTag
   },
   {
     path: '/chart',

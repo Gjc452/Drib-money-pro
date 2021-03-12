@@ -1,10 +1,6 @@
 <template>
   <header>
-    <div class="top">
-      <Icon @click.native="back" name="icon"/>
-      <span>类别设置</span>
-      <Icon/>
-    </div>
+    <Top top-name="类别设置"/>
     <div class="change">
       <div @click="selected('-')" :class="value === '-' && 'selected'">支出</div>
       <div @click="selected('+')" :class="value === '+' && 'selected'">收入</div>
@@ -14,8 +10,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import Top from '@/components/Top.vue';
 
-@Component
+@Component({
+  components: {Top}
+})
 export default class SetTagsTop extends Vue {
   @Prop(String) readonly value!: string;
 
@@ -37,18 +36,6 @@ export default class SetTagsTop extends Vue {
 header {
   padding: 0 10px;
   background: $color-highlight;
-
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0 20px;
-
-    .icon {
-      width: 20px;
-      height: 20px;
-    }
-  }
 
   .change {
     display: flex;
