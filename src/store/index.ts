@@ -7,7 +7,7 @@ const store = new Vuex.Store({
   state: {
     tags: [{
       title: '娱乐',
-      icons: ['icon-youlechang', 'icon-shejian', 'icon-BowlingSpare', 'icon-Skiing', 'icon-Trekking', 'icontoukui', 'icon-shoubing', 'icon-pingpang', 'icon--puke', 'icon--chouma', 'icon-guanying', 'icon-xiangqi', 'icon-huabing', 'icon-youyong', 'icon-bangqiu', 'icon-yumaoqiu', 'icon-fanchuan', 'icon-lanqiukuang', 'icon-taiqiu']
+      icons: ['icon-youlechang', 'icon-shejian', 'icon-BowlingSpare', 'icon-Skiing', 'icon-Trekking', 'icon-toukui', 'icon-shoubing', 'icon-pingpang', 'icon--puke', 'icon--chouma', 'icon-guanying', 'icon-xiangqi', 'icon-huabing', 'icon-youyong', 'icon-bangqiu', 'icon-yumaoqiu', 'icon-fanchuan', 'icon-lanqiukuang', 'icon-taiqiu']
     },
       {
         title: '饮食',

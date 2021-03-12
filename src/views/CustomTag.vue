@@ -8,14 +8,14 @@
         <Icon :name="this.selectedTag"/>
       </div>
       <label>
-        <input v-model="input" type="text" placeholder="输入类别名称（不超过四个汉字）">
+        <input v-model="input" maxlength="4" type="text" placeholder="输入类别名称（不超过四个汉字）">
       </label>
     </div>
     <div class="main">
-      <div class="tagWrapper">
-        <span>娱乐</span>
+      <div class="tagWrapper" v-for="(tags,index) in tagList" :key="index">
+        <span>{{ tags.title }}</span>
         <ul>
-          <li @click="selected(tag)" v-for="tag in tags" :key="tag">
+          <li @click="selected(tag)" v-for="(tag,index) in tags.icons" :key="index">
             <div class="iconWrapper" :class="selectedTag === tag && 'selected'">
               <Icon :name="tag"/>
             </div>
@@ -30,17 +30,21 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Top from '@/components/Top.vue';
+import store from '@/store';
 
 @Component({
   components: {Top}
 })
 export default class CustomTag extends Vue {
-  tags = ['icon-gouwu', 'icon-jiaotong', 'icon-riyong', 'icon-tongxun', 'icon-yanjiu', 'icon-caipiao', 'icon-fushi', 'icon-lvxing', 'icon-jujia', 'icon-zhufang', 'icon-haizi', 'icon-weixiu'];
-  selectedTag = 'icon-gouwu';
+  selectedTag = 'icon-youlechang';
   input = '';
 
   selected(tag: string) {
     this.selectedTag = tag;
+  }
+
+  get tagList() {
+    return store.state.tags;
   }
 }
 </script>
