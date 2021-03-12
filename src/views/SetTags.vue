@@ -44,12 +44,17 @@ import SetTagsFooter from '@/components/SetTagsFooter.vue';
 import SetTagsTop from '@/components/SetTagsTop.vue';
 import findIndex from '@/lib/findIndex';
 import store from '@/store';
+import {EventBus} from '@/lib/eventBus';
 
 @Component({
   components: {SetTagsTop, SetTagsFooter}
 })
 export default class EditTags extends Vue {
   value = this.type;
+
+  beforeDestroy() {
+    EventBus.$emit('getValue', this.value);
+  }
 
   tagList() {
     if (this.value === '-') {
