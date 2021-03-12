@@ -1,8 +1,8 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <li @click="setSelectedTag(tag.id)" v-for="tag in tagList()" :key="tag.id">
-        <div :class="{selected: selectedTag === tag.id}">
+      <li @click="setSelectedTag(tag.icon)" v-for="tag in tagList()" :key="tag.icon">
+        <div :class="{selected: selectedTag === tag.icon}">
           <Icon :name="tag.icon"/>
         </div>
         <span>{{ tag.name }}</span>
@@ -26,8 +26,8 @@ import store from '@/store';
 export default class Tags extends Vue {
   @Prop(Number) readonly selectedTag!: number;
 
-  setSelectedTag(id: number) {
-    this.$emit('update:selectedTag', id);
+  setSelectedTag(name: string) {
+    this.$emit('update:selectedTag', name);
   }
 
   get tagListIn() {

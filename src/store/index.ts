@@ -5,18 +5,44 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    tags: [{title: '娱乐', icons: []}, {title: '饮食', icons: []}, {title: '医疗', icons: []}, {
-      title: '学习',
-      icons: []
-    }, {title: '购物', icons: []}
-      , {title: '家居', icons: []}, {title: '办公', icons: []}, {title: '收入', icons: []}],
-    tagListOut: [[{id: 0, icon: 'icon-canyin', name: '餐饮'}, {id: 1, icon: 'icon-gouwu', name: '购物'}, {
-      id: 2, icon: 'icon-riyong', name: '日用'
-    }, {id: 3, icon: 'icon-jiaotong', name: '交通'}, {id: 4, icon: 'icon-shucai', name: '蔬菜'}, {
-      id: 5, icon: 'icon-shuiguo', name: '水果'
-    }, {id: 6, icon: 'icon-lingshi', name: '零食'}, {id: 7, icon: 'icon-yundong', name: '运动'}], []],
-    tagListIn: [[{id: 0, icon: 'icon---', name: '工资'}, {id: 1, icon: 'icon-jianzhi', name: '兼职'}, {
-      id: 2, icon: 'icon-licai', name: '理财'
+    tags: [{
+      title: '娱乐',
+      icons: ['icon-youlechang', 'icon-shejian', 'icon-BowlingSpare', 'icon-Skiing', 'icon-Trekking', 'icontoukui', 'icon-shoubing', 'icon-pingpang', 'icon--puke', 'icon--chouma', 'icon-guanying', 'icon-xiangqi', 'icon-huabing', 'icon-youyong', 'icon-bangqiu', 'icon-yumaoqiu', 'icon-fanchuan', 'icon-lanqiukuang', 'icon-taiqiu']
+    },
+      {
+        title: '饮食',
+        icons: ['icon-mifan', 'icon-hanbao', 'icon-jiubei', 'icon-xuegao', 'icon-kafei', 'icon-huoguo', 'icon-dangao', 'icon-dangao1', 'icon-shaokao', 'icon-shuichanhaixian', 'icon-yinliao-naicha', 'icon-kaoji', 'icon-shousi', 'icon-noodle', 'icon-bingqilin', 'icon-pingguo', 'icon-xiangjiao', 'icon-pijiu', 'icon-jitui']
+      },
+      {
+        title: '医疗',
+        icons: ['icon-yisheng', 'icon-tingzhenqi', 'icon-yao', 'icon-CTjiancha', 'icon-zhuyuan', 'icon-yunfu', 'icon-huaban', 'icon-lunyi', 'icon-yachi', 'icon-diandi']
+      }, {
+        title: '学习',
+        icons: ['icon-gangqin', 'icon-xianweijing', 'icon-huihua', 'icon-shangke', 'icon-boshimao', 'icon-wenju', 'icon-jita', 'icon-shuji', 'icon-xuexiao', 'icon-jisuanqi']
+      }, {
+        title: '购物',
+        icons: ['icon-erji', 'icon-pidai', 'icon-gaogenxie', 'icon-shuihu', 'icon-zhiniaoku', 'icon-maozi', 'icon-xiangji', 'icon-lingdai', 'icon-qunzi', 'icon-penzai', 'icon-jiezhi', 'icon-computer', 'icon-shoubiao', 'icon-kuzi', 'icon-xiaodao', 'icon-neiyi', 'icon-xianglian', 'icon-xiezi', 'icon-ximiannai', 'icon-Bag', 'icon-yanjing', 'icon-gouwuche', 'icon-neiku', 'icon-xianhua', 'icon-huazhuangpin', 'icon-hudiejie']
+      }
+      , {
+        title: '家居',
+        icons: ['icon-bingxiang', 'icon-shafa', 'icon-dengpao', 'icon-dianshi', 'icon-yundou', 'icon-pentou', 'icon-pentou', 'icon-kongtiao', 'icon-linyu', 'icon-xiyiji', 'icon-chuifengji', 'icon-chuang', 'icon-dianfei', 'icon-yigui', 'icon-weixiu', 'icon-cheliang']
+      },
+      {
+        title: '交通',
+        icons: ['icon-paoche1', 'icon-danche', 'icon-jiayou', 'icon-huoche', 'icon-gonglu', 'icon-xiaohuoche', 'icon-fangche', 'icon-feiji', 'icon-lunchuan', 'icon-taxi', 'icon-tingche', 'icon-diandong', 'icon-motuoche']
+      }, {
+        title: '收入',
+        icons: ['icon-panjue', 'icon-jijin', 'icon-qian', 'icon-guquan', 'icon-jiangli', 'icon-qianbao', 'icon-saoma', 'icon-cunqian', 'icon-hongbao', 'icon-shouru', 'icon-xianjin']
+      }],
+    tagListOut: [[{icon: 'icon-canyin', name: '餐饮'}, {icon: 'icon-gouwu', name: '购物'}, {
+      icon: 'icon-riyong',
+      name: '日用'
+    }, {icon: 'icon-jiaotong', name: '交通'}, {icon: 'icon-shucai', name: '蔬菜'}, {
+      icon: 'icon-shuiguo', name: '水果'
+    }, {icon: 'icon-lingshi', name: '零食'}, {icon: 'icon-yundong', name: '运动'}], []],
+    tagListIn: [[{icon: 'icon---', name: '工资'}, {icon: 'icon-jianzhi', name: '兼职'}, {
+      icon: 'icon-licai',
+      name: '理财'
     }], []],
     type: '-'
   } as RootState,
