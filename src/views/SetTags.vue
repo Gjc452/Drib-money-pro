@@ -3,8 +3,8 @@
     <SetTagsTop :value.sync="value"/>
     <main>
       <ul>
-        <li v-for="tag in tagList()" :key="tag.id">
-          <Icon @click.native="deleteTag(tag.id)" name="icon-substract"/>
+        <li v-for="tag in tagList()" :key="tag.icon">
+          <Icon @click.native="deleteTag(tag.icon)" name="icon-substract"/>
           <div>
             <Icon :name="tag.icon"/>
           </div>
@@ -14,8 +14,8 @@
       </ul>
       <div v-if="deleteTagList().length!==0">更多类别</div>
       <ul>
-        <li v-for="tag in deleteTagList()" :key="tag.id">
-          <Icon @click.native="addTag(tag.id)" name="icon-addTag"/>
+        <li v-for="tag in deleteTagList()" :key="tag.icon">
+          <Icon @click.native="addTag(tag.icon)" name="icon-addTag"/>
           <div>
             <Icon :name="tag.icon"/>
           </div>
@@ -58,13 +58,13 @@ export default class EditTags extends Vue {
     }
   }
 
-  deleteTag(id: number) {
-    const index = this.value === '-' ? findIndex(this.tagListOut[0], id) : findIndex(this.tagListIn[0], id);
+  deleteTag(icon: string) {
+    const index = this.value === '-' ? findIndex(this.tagListOut[0], icon) : findIndex(this.tagListIn[0], icon);
     this.$store.commit('deleteTagList', {type: this.value, index});
   }
 
-  addTag(id: number) {
-    const index = this.value === '-' ? findIndex(this.tagListOut[0], id) : findIndex(this.tagListIn[0], id);
+  addTag(icon: string) {
+    const index = this.value === '-' ? findIndex(this.tagListOut[1], icon) : findIndex(this.tagListIn[1], icon);
     this.$store.commit('addTagList', {type: this.value, index});
   }
 
