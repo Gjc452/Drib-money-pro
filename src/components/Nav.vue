@@ -1,28 +1,28 @@
 <template>
   <nav>
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="mingxi"/>
+      <Icon name="icon-mingxi"/>
       明细
     </router-link>
     <router-link to="/chart" class="item" active-class="selected">
-      <Icon name="tongji"/>
+      <Icon name="icon-tongji"/>
       图表
     </router-link>
     <router-link to="/money" class="item" active-class="selected">
       <div class="addWrapper">
         <div class="iconWrapper">
-          <Icon name="add"/>
+          <Icon name="icon-add"/>
         </div>
       </div>
       <Icon/>
       记账
     </router-link>
     <router-link to="/news" class="item" active-class="selected">
-      <Icon name="iconset0456"/>
+      <Icon name="icon-iconset0456"/>
       社区
     </router-link>
     <router-link to="/user" class="item" active-class="selected">
-      <Icon name="yonghu"/>
+      <Icon name="icon-yonghu"/>
       我的
     </router-link>
   </nav>
@@ -62,21 +62,24 @@ nav {
     color: $color-highlight;
   }
 }
-.addWrapper{
+
+.addWrapper {
   position: absolute;
-  top:-22px;
+  top: -22px;
   padding: 5px;
   background: white;
-  border-left: 1px solid rgb(227,227,227);
-  border-top: 1px solid rgb(227,227,227);
-  border-radius: 50% 50% ;
+  border-left: 1px solid rgb(227, 227, 227);
+  border-top: 1px solid rgb(227, 227, 227);
+  border-radius: 50% 50%;
   transform: rotate(45deg);
-  .iconWrapper{
+
+  .iconWrapper {
     transform: rotate(-45deg);
     background: $color-highlight;
     padding: 10px;
     border-radius: 50%;
-    .icon{
+
+    .icon {
       width: 20px;
       height: 20px;
     }

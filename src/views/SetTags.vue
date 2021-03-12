@@ -12,7 +12,7 @@
           <Icon name="icon-menu"/>
         </li>
       </ul>
-      <div>更多类别</div>
+      <div v-if="deleteTagList().length!==0">更多类别</div>
       <ul>
         <li v-for="tag in deleteTagList()" :key="tag.id">
           <Icon @click.native="addTag(tag.id)" name="icon-addTag"/>
