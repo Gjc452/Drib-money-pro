@@ -8,4 +8,5 @@ type RootState = {
   tagListIn: TagList[];
   otherTagListOut: TagList[];
   otherTagListIn: TagList[];
+  type: '-' | '+';
 }

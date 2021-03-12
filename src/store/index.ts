@@ -15,8 +15,12 @@ const store = new Vuex.Store({
     }],
     otherTagListOut: [],
     otherTagListIn: [],
+    type: '-'
   } as RootState,
   mutations: {
+    setType(state, type: '-' | '+') {
+      state.type = type;
+    },
     fetchTagList(state) {
       state.otherTagListOut = JSON.parse(window.localStorage.getItem('otherTagListOut') || '[]');
       state.otherTagListIn = JSON.parse(window.localStorage.getItem('otherTagListIn') || '[]');

@@ -17,10 +17,13 @@ import Tags from '@/components/Tags.vue';
   components: {Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-  type = '-';
   tagList = this.tagListOut;
   selectedTag = -1;
   notes = '';
+
+  get type() {
+    return this.$store.state.type;
+  }
 
   get tagListIn() {
     return this.$store.state.tagListIn;
@@ -39,7 +42,7 @@ export default class Money extends Vue {
   }
 
   changeType(value: string) {
-    this.type = value;
+    this.$store.commit('setType', value);
     this.selectedTag = -1;
   }
 }

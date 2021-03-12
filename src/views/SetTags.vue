@@ -1,6 +1,6 @@
 <template>
   <div class="setTagsWrapper">
-    <SetTagsTop :value.sync="type"/>
+    <SetTagsTop :value.sync="value"/>
     <main>
       <ul>
         <li v-for="tag in tagList()" :key="tag.id">
@@ -40,10 +40,10 @@ import store from '@/store';
   components: {SetTagsTop, SetTagsFooter}
 })
 export default class EditTags extends Vue {
-  type = '-';
+  value = this.type;
 
   tagList() {
-    if (this.type === '-') {
+    if (this.value === '-') {
       return this.tagListOut;
     } else {
       return this.tagListIn;
@@ -51,7 +51,7 @@ export default class EditTags extends Vue {
   }
 
   otherTagList() {
-    if (this.type === '-') {
+    if (this.value === '-') {
       return this.otherTagListOut;
     } else {
       return this.otherTagListIn;
@@ -59,23 +59,20 @@ export default class EditTags extends Vue {
   }
 
   deleteTag(id: number) {
-    if (this.type === '-') {
-      this.$store.commit('deleteTagListOut', findIndex(this.tagListOut, id));
-    } else {
-      this.$store.commit('deleteTagListIn', findIndex(this.tagListIn, id));
-    }
+    this.value === '-' ? this.$store.commit('deleteTagListOut', findIndex(this.tagListOut, id)) : this.$store.commit('deleteTagListIn', findIndex(this.tagListIn, id));
   }
 
   addTag(id: number) {
-    if (this.type === '-') {
-      this.$store.commit('addTagListOut', findIndex(this.otherTagListOut, id));
-    } else {
-      this.$store.commit('addTagListIn', findIndex(this.otherTagListIn, id));
-    }
+    this.value === '-' ? this.$store.commit('addTagListOut', findIndex(this.otherTagListOut, id)) : this.$store.commit('addTagListIn', findIndex(this.otherTagListIn, id));
   }
 
   created() {
     store.commit('fetchTagList');
+  }
+
+
+  get type() {
+    return this.$store.state.type;
   }
 
   get tagListIn() {
