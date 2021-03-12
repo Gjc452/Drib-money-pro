@@ -2,7 +2,7 @@
   <div class="top">
     <Icon @click.native="back" name="icon"/>
     <span>{{ topName }}</span>
-    <span class="right">{{ name }}</span>
+    <span @click="saveTag" class="right">{{ name }}</span>
   </div>
 </template>
 
@@ -14,6 +14,15 @@ import {Component, Prop} from 'vue-property-decorator';
 export default class Top extends Vue {
   @Prop(String) readonly topName!: string;
   @Prop(String) readonly name?: string;
+  @Prop(String) readonly value?: string;
+
+  saveTag() {
+    if (!this.value) {
+      window.alert('不能添加空格');
+    } else {
+      return;
+    }
+  }
 
   back() {
     this.$router.back();

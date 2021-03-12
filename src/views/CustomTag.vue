@@ -1,263 +1,23 @@
 <template>
   <div class="addWrapper">
     <div class="topWrapper">
-      <Top top-name="添加支出类别" name="完成"/>
+      <Top top-name="添加支出类别" name="完成" :value="input"/>
     </div>
     <div class="selectedTag">
       <div class="iconWrapper  selected">
-        <Icon name="meirong"/>
+        <Icon :name="this.selectedTag"/>
       </div>
       <label>
-        <input type="text" placeholder="输入类别名称（不超过四个汉字）">
+        <input v-model="input" type="text" placeholder="输入类别名称（不超过四个汉字）">
       </label>
     </div>
     <div class="main">
       <div class="tagWrapper">
         <span>娱乐</span>
         <ul>
-          <li>
-            <div class="iconWrapper selected">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="tagWrapper">
-        <span>娱乐</span>
-        <ul>
-          <li>
-            <div class="iconWrapper selected">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="tagWrapper">
-        <span>娱乐</span>
-        <ul>
-          <li>
-            <div class="iconWrapper selected">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="tagWrapper">
-        <span>娱乐</span>
-        <ul>
-          <li>
-            <div class="iconWrapper selected">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="tagWrapper">
-        <span>娱乐</span>
-        <ul>
-          <li>
-            <div class="iconWrapper selected">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
-            </div>
-          </li>
-          <li>
-            <div class="iconWrapper">
-              <Icon name="meirong"/>
+          <li @click="selected(tag)" v-for="tag in tags" :key="tag">
+            <div class="iconWrapper" :class="selectedTag === tag && 'selected'">
+              <Icon :name="tag"/>
             </div>
           </li>
         </ul>
@@ -275,6 +35,13 @@ import Top from '@/components/Top.vue';
   components: {Top}
 })
 export default class CustomTag extends Vue {
+  tags = ['gouwu', 'jiaotong', 'riyong', 'tongxun', 'yanjiu', 'caipiao', 'fushi', 'lvxing', 'jujia', 'zhufang', 'haizi', 'weixiu'];
+  selectedTag = 'gouwu';
+  input = '';
+
+  selected(tag: string) {
+    this.selectedTag = tag;
+  }
 }
 </script>
 
