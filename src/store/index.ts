@@ -39,11 +39,36 @@ const store = new Vuex.Store({
       name: '日用'
     }, {icon: 'icon-jiaotong', name: '交通'}, {icon: 'icon-shucai', name: '蔬菜'}, {
       icon: 'icon-shuiguo', name: '水果'
-    }, {icon: 'icon-lingshi', name: '零食'}, {icon: 'icon-yundong', name: '运动'}], []],
-    tagListIn: [[{icon: 'icon---', name: '工资'}, {icon: 'icon-jianzhi', name: '兼职'}, {
+    }, {icon: 'icon-lingshi', name: '零食'}, {icon: 'icon-yundong', name: '运动'}, {
+      icon: 'icon-fushi',
+      name: '服饰'
+    }, {icon: 'icon-zhufang', name: '住房'}, {icon: 'icon-jujia', name: '居家'}, {
+      icon: 'icon-haizi',
+      name: '孩子'
+    }, {icon: 'icon-changbei', name: '长辈'}, {icon: 'icon-shejiao', name: '社交'}, {
+      icon: 'icon-lvxing',
+      name: '旅行'
+    }, {icon: 'icon-yanjiu', name: '烟酒'}, {icon: 'icon-shuma', name: '数码'}, {
+      icon: 'icon-qiche',
+      name: '汽车'
+    }, {icon: 'icon-33485', name: '医疗'}
+      , {icon: 'icon-xuexi', name: '书籍'}, {icon: 'icon-maozi', name: '学习'}, {
+        icon: 'icon-chongwu',
+        name: '宠物'
+      }, {icon: 'icon-liwu', name: '礼物'}, {icon: 'icon-juanzeng', name: '捐赠'}, {
+        icon: 'icon-weixiu',
+        name: '维修'
+      }, {icon: 'icon-caipiao', name: '彩票'}, {icon: 'icon-jiaren', name: '亲友'}, {
+        icon: 'icon-kuaidi',
+        name: '快递'
+      }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-bangong', name: '办公'}, {
+        icon: 'icon-tongxun',
+        name: '通讯'
+      }, {icon: 'icon-meirong', name: '美容'}, {icon: 'icon-yule', name: '娱乐'}], []],
+    tagListIn: [[{icon: 'icon-gongzi', name: '工资'}, {icon: 'icon-jianzhi', name: '兼职'}, {
       icon: 'icon-licai',
       name: '理财'
-    }], []],
+    }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-'
   } as RootState,
   mutations: {
