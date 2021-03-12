@@ -10,5 +10,6 @@ type RootState = {
   tags: Tags[];
   tagListOut: TagList[][];
   tagListIn: TagList[][];
+  customTags: TagList[];
   type: '-' | '+';
 }

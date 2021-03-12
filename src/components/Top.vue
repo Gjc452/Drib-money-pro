@@ -8,19 +8,26 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import store from '@/store';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Top extends Vue {
   @Prop(String) readonly topName!: string;
   @Prop(String) readonly name?: string;
-  @Prop(String) readonly value?: string;
+  @Prop(String) readonly value!: string;
+  @Prop(String) readonly selectedTag!: string;
+
+  created() {
+    store.commit('fetchCustomTag');
+  }
 
   saveTag() {
     if (!this.value) {
       window.alert('不能添加空格');
     } else {
-      return;
+      store.commit('addCustomTag', {icon: this.selectedTag, name: this.value});
+      this.back();
     }
   }
 

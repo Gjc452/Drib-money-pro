@@ -11,6 +11,15 @@
           <span>{{ tag.name }}</span>
           <Icon name="icon-menu"/>
         </li>
+        <li v-for="tag in customTags" :key="tag.icon">
+          <Icon @click.native="deleteCustomTag(tag.icon)" name="icon-substract"/>
+          <div>
+            <Icon :name="tag.icon"/>
+          </div>
+          <span>{{ tag.name }}</span>
+          <span class="custom">(自定义)</span>
+          <Icon name="icon-menu"/>
+        </li>
       </ul>
       <div v-if="deleteTagList().length!==0">更多类别</div>
       <ul>
@@ -58,6 +67,10 @@ export default class EditTags extends Vue {
     }
   }
 
+  deleteCustomTag(icon: string) {
+    store.commit('deleteCustomTag', findIndex(this.customTags, icon));
+  }
+
   deleteTag(icon: string) {
     const index = this.value === '-' ? findIndex(this.tagListOut[0], icon) : findIndex(this.tagListIn[0], icon);
     this.$store.commit('deleteTagList', {type: this.value, index});
@@ -70,6 +83,7 @@ export default class EditTags extends Vue {
 
   created() {
     store.commit('fetchTagList');
+    store.commit('fetchCustomTag');
   }
 
   get type() {
@@ -84,6 +98,9 @@ export default class EditTags extends Vue {
     return store.state.tagListOut;
   }
 
+  get customTags() {
+    return store.state.customTags;
+  }
 
 }
 </script>
@@ -138,7 +155,12 @@ export default class EditTags extends Vue {
           font-size: 12px;
         }
 
-        .icon:nth-child(4) {
+        .custom {
+          padding-left: 10px;
+          color: rgb(185, 185, 185)
+        }
+
+        > .icon:last-child {
           margin-left: auto;
           color: rgb(231, 231, 231);
         }

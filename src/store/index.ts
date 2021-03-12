@@ -69,7 +69,8 @@ const store = new Vuex.Store({
       icon: 'icon-licai',
       name: '理财'
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
-    type: '-'
+    type: '-',
+    customTags: []
   } as RootState,
   mutations: {
     setType(state, type: '-' | '+') {
@@ -92,6 +93,21 @@ const store = new Vuex.Store({
       const {type, index} = payload;
       type === '-' ? state.tagListOut[0].push(...state.tagListOut[1].splice(index, 1)) : state.tagListIn[0].push(...state.tagListIn[1].splice(index, 1));
       store.commit('saveTagList');
+    },
+    fetchCustomTag(state) {
+      state.customTags = JSON.parse(window.localStorage.getItem('customTags') || '[]');
+    },
+    saveCustomTags(state) {
+      window.localStorage.setItem('customTags', JSON.stringify(state.customTags));
+    },
+    deleteCustomTag(state, index: number) {
+      state.customTags.splice(index, 1);
+      store.commit('saveCustomTags');
+    },
+    addCustomTag(state, payload: { icon: string; name: string }) {
+      const {icon, name} = payload;
+      state.customTags.push({icon, name});
+      store.commit('saveCustomTags');
     }
   },
   actions: {},

@@ -1,7 +1,7 @@
 <template>
   <div class="addWrapper">
     <div class="topWrapper">
-      <Top top-name="添加支出类别" name="完成" :value="input"/>
+      <Top top-name="添加支出类别" name="完成" :value="input" :selected-tag="selectedTag"/>
     </div>
     <div class="selectedTag">
       <div class="iconWrapper  selected">
