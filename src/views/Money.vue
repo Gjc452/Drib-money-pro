@@ -2,7 +2,7 @@
   <div class="moneyWrapper">
     <Types :type="type" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
-    <NumberPad v-if="selectedTag" :notes.sync="notes"/>
+    <NumberPad v-if="selectedTag !== 'icon'" :notes.sync="notes"/>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ import store from '@/store';
   components: {Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-  selectedTag = '';
+  selectedTag = 'icon';
   notes = '';
 
   get type() {
@@ -27,7 +27,7 @@ export default class Money extends Vue {
 
   changeType(value: string) {
     this.$store.commit('setType', value);
-    this.selectedTag = '';
+    this.selectedTag = 'icon';
   }
 }
 </script>

@@ -24,7 +24,7 @@ import store from '@/store';
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Number) readonly selectedTag!: number;
+  @Prop(String) readonly selectedTag!: string;
 
   setSelectedTag(name: string) {
     this.$emit('update:selectedTag', name);
