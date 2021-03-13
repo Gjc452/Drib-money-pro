@@ -71,7 +71,8 @@ const store = new Vuex.Store({
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-',
     addType: '-',
-    customTags: []
+    customTagsOut: [],
+    customTagsIn: []
   } as RootState,
   mutations: {
     setType(state, type: '-' | '+') {
@@ -99,18 +100,20 @@ const store = new Vuex.Store({
       store.commit('saveTagList');
     },
     fetchCustomTag(state) {
-      state.customTags = JSON.parse(window.localStorage.getItem('customTags') || '[]');
+      state.customTagsOut = JSON.parse(window.localStorage.getItem('customTagsOut') || '[]');
+      state.customTagsIn = JSON.parse(window.localStorage.getItem('customTagsIn') || '[]');
     },
     saveCustomTags(state) {
-      window.localStorage.setItem('customTags', JSON.stringify(state.customTags));
+      window.localStorage.setItem('customTagsOut', JSON.stringify(state.customTagsOut));
+      window.localStorage.setItem('customTagsIn', JSON.stringify(state.customTagsIn));
     },
     deleteCustomTag(state, index: number) {
-      state.customTags.splice(index, 1);
+      state.addType === '-' ? state.customTagsOut.splice(index, 1) : state.customTagsIn.splice(index, 1);
       store.commit('saveCustomTags');
     },
     addCustomTag(state, payload: { icon: string; name: string }) {
       const {icon, name} = payload;
-      state.customTags.push({icon, name});
+      state.addType === '-' ? state.customTagsOut.push({icon, name}) : state.customTagsIn.push({icon, name});
       store.commit('saveCustomTags');
     }
   },

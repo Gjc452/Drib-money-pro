@@ -11,7 +11,7 @@
           <span>{{ tag.name }}</span>
           <Icon name="icon-menu"/>
         </li>
-        <li v-for="tag in customTags" :key="tag.icon">
+        <li v-for="tag in customTags()" :key="tag.name">
           <Icon @click.native="deleteCustomTag(tag.icon)" name="icon-substract"/>
           <div>
             <Icon :name="tag.icon"/>
@@ -64,6 +64,14 @@ export default class EditTags extends Vue {
     }
   }
 
+  customTags() {
+    if (this.value === '-') {
+      return this.customTagsOut;
+    } else {
+      return this.customTagsIn;
+    }
+  }
+
   deleteTagList() {
     if (this.value === '-') {
       return this.tagListOut[1];
@@ -73,7 +81,8 @@ export default class EditTags extends Vue {
   }
 
   deleteCustomTag(icon: string) {
-    store.commit('deleteCustomTag', findIndex(this.customTags, icon));
+    const index = this.value === '-' ? findIndex(this.customTagsOut, icon) : findIndex(this.customTagsIn, icon);
+    store.commit('deleteCustomTag', index);
   }
 
   deleteTag(icon: string) {
@@ -87,8 +96,8 @@ export default class EditTags extends Vue {
   }
 
   created() {
-    store.commit('fetchTagList');
     store.commit('fetchCustomTag');
+    store.commit('fetchTagList');
   }
 
   get type() {
@@ -103,8 +112,12 @@ export default class EditTags extends Vue {
     return store.state.tagListOut;
   }
 
-  get customTags() {
-    return store.state.customTags;
+  get customTagsOut() {
+    return store.state.customTagsOut;
+  }
+
+  get customTagsIn() {
+    return store.state.customTagsIn;
   }
 
 }

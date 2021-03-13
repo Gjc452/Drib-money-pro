@@ -26,9 +26,28 @@ export default class Top extends Vue {
     if (!this.value) {
       window.alert('不能添加空格');
     } else {
-      store.commit('addCustomTag', {icon: this.selectedTag, name: this.value});
-      this.back();
+      let result;
+      this.addType === '-' ? result = this.customTagsOut.filter(tag => tag.name === this.value) : result = this.customTagsIn.filter(tag => tag.name === this.value);
+      if (result.length === 0) {
+        store.commit('addCustomTag', {icon: this.selectedTag, name: this.value});
+        this.back();
+      } else {
+        window.alert('类别不能重复添加');
+      }
+
     }
+  }
+
+  get customTagsOut() {
+    return store.state.customTagsOut;
+  }
+
+  get customTagsIn() {
+    return store.state.customTagsIn;
+  }
+
+  get addType() {
+    return store.state.addType;
   }
 
   back() {
