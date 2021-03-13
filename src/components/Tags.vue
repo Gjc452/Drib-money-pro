@@ -7,6 +7,12 @@
         </div>
         <span>{{ tag.name }}</span>
       </li>
+      <li @click="setSelectedTag(tag.icon)" v-for="tag in customTags()" :key="tag.icon">
+        <div :class="{selected: selectedTag === tag.icon}">
+          <Icon :name="tag.icon"/>
+        </div>
+        <span>{{ tag.name }}</span>
+      </li>
       <router-link to="/money/setTags">
         <div>
           <Icon name="icon-shezhi"/>
@@ -30,6 +36,11 @@ export default class Tags extends Vue {
     this.$emit('update:selectedTag', name);
   }
 
+  created() {
+    store.commit('fetchCustomTag');
+    store.commit('fetchTagList');
+  }
+
   get tagListIn() {
     return store.state.tagListIn;
   }
@@ -38,8 +49,24 @@ export default class Tags extends Vue {
     return store.state.tagListOut;
   }
 
+  get customTagsOut() {
+    return store.state.customTagsOut;
+  }
+
+  get customTagsIn() {
+    return store.state.customTagsIn;
+  }
+
   get type() {
     return store.state.type;
+  }
+
+  customTags() {
+    if (this.type === '-') {
+      return this.customTagsOut;
+    } else {
+      return this.customTagsIn;
+    }
   }
 
   tagList() {
