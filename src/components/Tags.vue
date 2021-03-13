@@ -7,7 +7,7 @@
         </div>
         <span>{{ tag.name }}</span>
       </li>
-      <li @click="setSelectedTag(tag.icon)" v-for="tag in customTags()" :key="tag.icon">
+      <li @click="setSelectedTag(tag.icon)" v-for="tag in customTags()" :key="tag.name">
         <div :class="{selected: selectedTag === tag.icon}">
           <Icon :name="tag.icon"/>
         </div>
