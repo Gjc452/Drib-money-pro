@@ -18,7 +18,7 @@ import store from '@/store';
   components: {Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-  selectedTag = 'icon';
+  selectedTag = {};
   notes = '';
 
   get type() {
@@ -27,7 +27,7 @@ export default class Money extends Vue {
 
   changeType(value: string) {
     this.$store.commit('setType', value);
-    this.selectedTag = 'icon';
+    this.selectedTag = {};
   }
 }
 </script>
