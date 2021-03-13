@@ -44,7 +44,6 @@ import SetTagsFooter from '@/components/SetTagsFooter.vue';
 import SetTagsTop from '@/components/SetTagsTop.vue';
 import findIndex from '@/lib/findIndex';
 import store from '@/store';
-import {EventBus} from '@/lib/eventBus';
 
 @Component({
   components: {SetTagsTop, SetTagsFooter}
@@ -52,8 +51,9 @@ import {EventBus} from '@/lib/eventBus';
 export default class EditTags extends Vue {
   value = this.type;
 
-  beforeDestroy() {
-    EventBus.$emit('getValue', this.value);
+
+  updated() {
+    store.commit('setAddType', this.value);
   }
 
   tagList() {
@@ -92,7 +92,7 @@ export default class EditTags extends Vue {
   }
 
   get type() {
-    return this.$store.state.type;
+    return store.state.type;
   }
 
   get tagListIn() {

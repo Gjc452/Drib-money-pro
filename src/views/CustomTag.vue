@@ -1,7 +1,7 @@
 <template>
   <div class="addWrapper">
     <div class="topWrapper">
-      <Top :top-name="this.value === '-' ? '添加支出类别' : '添加收入类别'" name="完成" :value="input" :selected-tag="selectedTag"/>
+      <Top :top-name="addType === '-' ? '添加支出类别' : '添加收入类别'" name="完成" :value="input" :selected-tag="selectedTag"/>
     </div>
     <div class="selectedTag">
       <div class="iconWrapper  selected">
@@ -31,7 +31,6 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Top from '@/components/Top.vue';
 import store from '@/store';
-import {EventBus} from '@/lib/eventBus';
 
 @Component({
   components: {Top}
@@ -39,19 +38,13 @@ import {EventBus} from '@/lib/eventBus';
 export default class CustomTag extends Vue {
   selectedTag = 'icon-youlechang';
   input = '';
-  value = '-';
-
-  mounted() {
-    EventBus.$on('getValue', (value) => {
-      console.log(value);
-      setTimeout(() => {
-        this.value = value;
-      });
-    });
-  }
 
   selected(tag: string) {
     this.selectedTag = tag;
+  }
+
+  get addType() {
+    return store.state.addType;
   }
 
   get tagList() {

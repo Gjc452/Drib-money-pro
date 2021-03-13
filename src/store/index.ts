@@ -70,11 +70,15 @@ const store = new Vuex.Store({
       name: '理财'
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-',
+    addType: '-',
     customTags: []
   } as RootState,
   mutations: {
     setType(state, type: '-' | '+') {
       state.type = type;
+    },
+    setAddType(state, type: '-' | '+') {
+      state.addType = type;
     },
     fetchTagList(state) {
       state.tagListOut = JSON.parse(window.localStorage.getItem('tagListOut') || `'${state.tagListOut}'`);

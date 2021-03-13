@@ -12,4 +12,5 @@ type RootState = {
   tagListIn: TagList[][];
   customTags: TagList[];
   type: '-' | '+';
+  addType: '-' | '+';
 }
