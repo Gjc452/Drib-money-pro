@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import dayjs from 'dayjs';
 
 Vue.use(Vuex);
 
@@ -71,6 +72,8 @@ const store = new Vuex.Store({
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-',
     addType: '-',
+    record: {id: 0, tag: {}, notes: '', type: '-', amount: 0, createAt: dayjs().format('YYYY-MM-DD')},
+    recordList: [{}]
   } as RootState,
   mutations: {
     setType(state, type: '-' | '+') {
@@ -91,7 +94,6 @@ const store = new Vuex.Store({
     },
     deleteTagList(state, payload: { type: string; index: number }) {
       const {type, index} = payload;
-      console.log(state.tagListOut[0][index].custom);
       if (type === '-') {
         state.tagListOut[0][index].custom === true ? state.tagListOut[0].splice(index, 1) : state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1));
       } else {
@@ -112,6 +114,20 @@ const store = new Vuex.Store({
         custom
       });
       store.commit('saveTagList');
+    },
+    setRecord(state, payload: { id: number; tag: Tag; notes: string; type: string; amount: number; createAt: string }) {
+      const {id, tag, notes, type, amount, createAt} = payload;
+      state.record = {id, tag, notes, type, amount, createAt};
+    },
+    resetRecord(state) {
+      state.record = {
+        id: 0,
+        tag: {icon: 'icon-canyin', name: '餐饮'},
+        notes: '',
+        type: '-',
+        amount: 0,
+        createAt: dayjs().format('YYYY-MM-DD')
+      };
     }
   },
   actions: {},

@@ -1,4 +1,4 @@
-type TagList = {
+type Tag = {
   icon: string;
   name: string;
   custom?: boolean;
@@ -7,10 +7,21 @@ type Tags = {
   title: string;
   icons: string[];
 }
+
+type RecordItem = {
+  id: number;
+  tag: Tag;
+  notes: string;
+  type: string;
+  amount: number;
+  createAt: string;
+}
 type RootState = {
   tags: Tags[];
-  tagListOut: TagList[][];
-  tagListIn: TagList[][];
+  tagListOut: Tag[][];
+  tagListIn: Tag[][];
+  record: RecordItem;
+  recordList: RecordItem[];
   type: '-' | '+';
   addType: '-' | '+';
 }
