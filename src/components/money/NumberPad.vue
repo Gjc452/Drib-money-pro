@@ -4,7 +4,7 @@
       <span class="iconWrapper"><Icon name="icon-notepad"/></span>
       <span class="name">备注:</span>
       <input type="text" :value="notes" @input="onChange" placeholder="点击写备注...">
-      <span class="output">{{ amount }}</span>
+      <span class="output">{{ input }}</span>
     </label>
     <div class="numberPad" @click="onClickButton" ref="numberPad">
       <button>7</button>
@@ -43,7 +43,7 @@
 import Vue from 'vue';
 import getLastIndex from '@/lib/getLastIndex';
 import addBits from '@/lib/addBits';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import DatePicker from '@/components/nutUI/DatePicker.vue';
 import dayjs from 'dayjs';
 
@@ -51,12 +51,19 @@ import dayjs from 'dayjs';
   components: {DatePicker}
 })
 export default class NumberPad extends Vue {
-  @Prop() readonly notes!: string;
+  @Prop(String) readonly notes!: string;
+  @Prop(String) readonly createAt!: string;
+  @Prop(String) readonly amount!: string;
   isVisible = false;
   counting = false;
-  amount = '0';
+  input = this.amount;
   now = dayjs().format('YYYY-MM-DD');
-  selectedDate = this.now;
+  selectedDate = this.createAt;
+
+  @Watch('selectedDate')
+  update() {
+    this.$emit('update:createAt', this.selectedDate);
+  }
 
   onChange(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
@@ -64,11 +71,11 @@ export default class NumberPad extends Vue {
   }
 
   amountLastIndex() {
-    return [getLastIndex(/[+-]/gi, this.amount), getLastIndex(/[.]/gi, this.amount)];
+    return [getLastIndex(/[+-]/gi, this.input), getLastIndex(/[.]/gi, this.input)];
   }
 
   countingToggle(index: number) {
-    this.counting = index > 0 && index < this.amount.length - 1;
+    this.counting = index > 0 && index < this.input.length - 1;
   }
 
   onClickButton(e: MouseEvent) {
@@ -89,48 +96,48 @@ export default class NumberPad extends Vue {
   count(text: string) {
     const index = this.amountLastIndex();
     if ('0123456789'.indexOf(text) >= 0) {
-      if (this.amount.length >= 10) {return;}
-      if (this.amount === '0') {
-        this.amount = text;
-      } else if (text === '0' && index[0] === this.amount.length - 2 && this.amount.slice(-1) === '0') {
+      if (this.input.length >= 10) {return;}
+      if (this.input === '0') {
+        this.input = text;
+      } else if (text === '0' && index[0] === this.input.length - 2 && this.input.slice(-1) === '0') {
         return;
-      } else if (index[0] !== this.amount.length - 1 && index[1] === this.amount.length - 3) {
+      } else if (index[0] !== this.input.length - 1 && index[1] === this.input.length - 3) {
         return;
       } else {
-        this.amount += text;
+        this.input += text;
       }
     } else if (text === '.') {
-      if (this.amount.length >= 10) {return;}
-      if (this.amount.indexOf(text) >= 0 && index[0] < 0) {
+      if (this.input.length >= 10) {return;}
+      if (this.input.indexOf(text) >= 0 && index[0] < 0) {
         return;
       } else {
-        const num = this.amount.split('.').length - 1;
+        const num = this.input.split('.').length - 1;
         if (num < 2) {
-          this.amount += text;
+          this.input += text;
         }
       }
     } else if ('+-'.indexOf(text) >= 0) {
       if (index[0] >= 0) {
-        if (index[0] === this.amount.length - 1) {
-          this.amount = (this.amount.slice(0, -1) + text);
+        if (index[0] === this.input.length - 1) {
+          this.input = (this.input.slice(0, -1) + text);
         } else {
-          this.amount = this.cutAmount(addBits(this.amount));
+          this.input = this.cutAmount(addBits(this.input));
           this.counting = false;
-          this.amount += text;
+          this.input += text;
         }
         return;
       } else {
-        this.amount += text;
+        this.input += text;
       }
     } else if (text === '=') {
-      this.amount = this.cutAmount(addBits(this.amount));
+      this.input = this.cutAmount(addBits(this.input));
     } else if (text === '删除') {
       this.remove();
     } else if (text === '完成') {
-      if (index[0] === this.amount.length - 1 || this.amount.slice(-1) === '.') {
-        this.amount = this.amount.slice(0, -1);
+      if (index[0] === this.input.length - 1 || this.input.slice(-1) === '.') {
+        this.input = this.input.slice(0, -1);
       } else {
-        return;
+        this.$emit('update:amount', this.input);
       }
     } else if (text === '今天') {
       this.isVisible = true;
@@ -152,10 +159,10 @@ export default class NumberPad extends Vue {
   }
 
   remove() {
-    if (this.amount.length === 1) {
-      this.amount = '0';
+    if (this.input.length === 1) {
+      this.input = '0';
     } else {
-      this.amount = this.amount.slice(0, -1);
+      this.input = this.input.slice(0, -1);
     }
   }
 }

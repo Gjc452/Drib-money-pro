@@ -2,8 +2,8 @@
   <div class="moneyWrapper">
     <Types :type="type" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
-    <NumberPad v-if="Object.keys(selectedTag).length !== 0" :selected-tag="selectedTag" :type="type"
-               :notes.sync="notes"/>
+    <NumberPad v-if="Object.keys(selectedTag).length !== 0" :selected-tag.sync="selectedTag"
+               :notes.sync="notes" :create-at.sync="createAt" :amount.sync="amount"/>
   </div>
 </template>
 
@@ -19,11 +19,28 @@ import store from '@/store';
   components: {Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-  selectedTag = {};
-  notes = '';
+  selectedTag = this.record.tag;
+  notes = this.record.notes;
+  amount = this.record.amount.toString();
+  createAt = this.record.createAt;
+
+  updated() {
+    store.commit('setRecord', {
+      id: this.record.id,
+      tag: this.selectedTag,
+      notes: this.notes,
+      type: this.type,
+      amount: parseFloat(this.amount),
+      createAt: this.createAt
+    });
+  }
 
   get type() {
     return store.state.type;
+  }
+
+  get record() {
+    return store.state.record;
   }
 
   changeType(value: string) {
