@@ -3,7 +3,7 @@
     <SetTagsTop :type="addType" @update:type="setAddType"/>
     <main>
       <ul>
-        <li v-for="tag in tagList()" :key="tag.icon">
+        <li v-for="tag in tagList()" :key="tag.name">
           <Icon @click.native="deleteTag(tag.icon)" name="icon-substract"/>
           <div>
             <Icon :name="tag.icon"/>
@@ -11,19 +11,10 @@
           <span>{{ tag.name }}</span>
           <Icon name="icon-menu"/>
         </li>
-        <li v-for="tag in customTags()" :key="tag.name">
-          <Icon @click.native="deleteCustomTag(tag.icon)" name="icon-substract"/>
-          <div>
-            <Icon :name="tag.icon"/>
-          </div>
-          <span>{{ tag.name }}</span>
-          <span class="custom">(自定义)</span>
-          <Icon name="icon-menu"/>
-        </li>
       </ul>
       <div v-if="deleteTagList().length!==0">更多类别</div>
       <ul>
-        <li v-for="tag in deleteTagList()" :key="tag.icon">
+        <li v-for="tag in deleteTagList()" :key="tag.name">
           <Icon @click.native="addTag(tag.icon)" name="icon-addTag"/>
           <div>
             <Icon :name="tag.icon"/>
@@ -62,25 +53,12 @@ export default class EditTags extends Vue {
     }
   }
 
-  customTags() {
-    if (this.addType === '-') {
-      return this.customTagsOut;
-    } else {
-      return this.customTagsIn;
-    }
-  }
-
   deleteTagList() {
     if (this.addType === '-') {
       return this.tagListOut[1];
     } else {
       return this.tagListIn[1];
     }
-  }
-
-  deleteCustomTag(icon: string) {
-    const index = this.addType === '-' ? findIndex(this.customTagsOut, icon) : findIndex(this.customTagsIn, icon);
-    store.commit('deleteCustomTag', index);
   }
 
   deleteTag(icon: string) {
@@ -94,7 +72,6 @@ export default class EditTags extends Vue {
   }
 
   created() {
-    store.commit('fetchCustomTag');
     store.commit('fetchTagList');
   }
 
@@ -108,14 +85,6 @@ export default class EditTags extends Vue {
 
   get tagListOut() {
     return store.state.tagListOut;
-  }
-
-  get customTagsOut() {
-    return store.state.customTagsOut;
-  }
-
-  get customTagsIn() {
-    return store.state.customTagsIn;
   }
 
 }

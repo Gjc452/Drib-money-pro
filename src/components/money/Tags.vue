@@ -1,13 +1,7 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <li @click="setSelectedTag({icon:tag.icon,name:tag.name})" v-for="tag in tagList()" :key="tag.icon">
-        <div :class="{selected: selectedTag.icon === tag.icon}">
-          <Icon :name="tag.icon"/>
-        </div>
-        <span>{{ tag.name }}</span>
-      </li>
-      <li @click="setSelectedTag({icon:tag.icon,name:tag.name})" v-for="tag in customTags()" :key="tag.name">
+      <li @click="setSelectedTag({icon:tag.icon,name:tag.name})" v-for="tag in tagList()" :key="tag.name">
         <div :class="{selected: selectedTag.icon === tag.icon}">
           <Icon :name="tag.icon"/>
         </div>
@@ -37,7 +31,6 @@ export default class Tags extends Vue {
   }
 
   created() {
-    store.commit('fetchCustomTag');
     store.commit('fetchTagList');
   }
 
@@ -49,24 +42,8 @@ export default class Tags extends Vue {
     return store.state.tagListOut;
   }
 
-  get customTagsOut() {
-    return store.state.customTagsOut;
-  }
-
-  get customTagsIn() {
-    return store.state.customTagsIn;
-  }
-
   get type() {
     return store.state.type;
-  }
-
-  customTags() {
-    if (this.type === '-') {
-      return this.customTagsOut;
-    } else {
-      return this.customTagsIn;
-    }
   }
 
   tagList() {

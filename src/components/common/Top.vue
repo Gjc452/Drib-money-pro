@@ -19,7 +19,7 @@ export default class Top extends Vue {
   @Prop(String) readonly selectedTag!: string;
 
   created() {
-    store.commit('fetchCustomTag');
+    store.commit('fetchTagList');
   }
 
   saveTag() {
@@ -27,9 +27,9 @@ export default class Top extends Vue {
       window.alert('不能添加空格');
     } else {
       let result;
-      this.addType === '-' ? result = this.customTagsOut.filter(tag => tag.name === this.value) : result = this.customTagsIn.filter(tag => tag.name === this.value);
+      this.addType === '-' ? result = this.tagListOut[0].filter(tag => tag.name === this.value) : result = this.tagListIn[0].filter(tag => tag.name === this.value);
       if (result.length === 0) {
-        store.commit('addCustomTag', {icon: this.selectedTag, name: this.value});
+        store.commit('addCustomTag', {icon: this.selectedTag, name: this.value, custom: true});
         this.back();
       } else {
         window.alert('类别不能重复添加');
@@ -37,12 +37,12 @@ export default class Top extends Vue {
     }
   }
 
-  get customTagsOut() {
-    return store.state.customTagsOut;
+  get tagListOut() {
+    return store.state.tagListOut;
   }
 
-  get customTagsIn() {
-    return store.state.customTagsIn;
+  get tagListIn() {
+    return store.state.tagListIn;
   }
 
   get addType() {

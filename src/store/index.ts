@@ -71,8 +71,6 @@ const store = new Vuex.Store({
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-',
     addType: '-',
-    customTagsOut: [],
-    customTagsIn: []
   } as RootState,
   mutations: {
     setType(state, type: '-' | '+') {
@@ -93,7 +91,12 @@ const store = new Vuex.Store({
     },
     deleteTagList(state, payload: { type: string; index: number }) {
       const {type, index} = payload;
-      type === '-' ? state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1)) : state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
+      console.log(state.tagListOut[0][index].custom);
+      if (type === '-') {
+        state.tagListOut[0][index].custom === true ? state.tagListOut[0].splice(index, 1) : state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1));
+      } else {
+        state.tagListOut[1][index].custom === true ? state.tagListIn[0].splice(index, 1) : state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
+      }
       store.commit('saveTagList');
     },
     addTagList(state, payload: { type: string; index: number }) {
@@ -101,22 +104,14 @@ const store = new Vuex.Store({
       type === '-' ? state.tagListOut[0].push(...state.tagListOut[1].splice(index, 1)) : state.tagListIn[0].push(...state.tagListIn[1].splice(index, 1));
       store.commit('saveTagList');
     },
-    fetchCustomTag(state) {
-      state.customTagsOut = JSON.parse(window.localStorage.getItem('customTagsOut') || '[]');
-      state.customTagsIn = JSON.parse(window.localStorage.getItem('customTagsIn') || '[]');
-    },
-    saveCustomTags(state) {
-      window.localStorage.setItem('customTagsOut', JSON.stringify(state.customTagsOut));
-      window.localStorage.setItem('customTagsIn', JSON.stringify(state.customTagsIn));
-    },
-    deleteCustomTag(state, index: number) {
-      state.addType === '-' ? state.customTagsOut.splice(index, 1) : state.customTagsIn.splice(index, 1);
-      store.commit('saveCustomTags');
-    },
-    addCustomTag(state, payload: { icon: string; name: string }) {
-      const {icon, name} = payload;
-      state.addType === '-' ? state.customTagsOut.push({icon, name}) : state.customTagsIn.push({icon, name});
-      store.commit('saveCustomTags');
+    addCustomTag(state, payload: { icon: string; name: string; custom: boolean }) {
+      const {icon, name, custom} = payload;
+      state.addType === '-' ? state.tagListOut[0].push({icon, name, custom}) : state.tagListIn[0].push({
+        icon,
+        name,
+        custom
+      });
+      store.commit('saveTagList');
     }
   },
   actions: {},
