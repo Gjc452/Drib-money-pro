@@ -82,8 +82,10 @@ const store = new Vuex.Store({
       state.addType = type;
     },
     fetchTagList(state) {
-      state.tagListOut = JSON.parse(window.localStorage.getItem('tagListOut') || `'${state.tagListOut}'`);
-      state.tagListIn = JSON.parse(window.localStorage.getItem('tagListIn') || `'${state.tagListIn}'`);
+      const tagListOut = JSON.parse(window.localStorage.getItem('tagListOut') || '[]');
+      const tagListIn = JSON.parse(window.localStorage.getItem('tagListIn') || '[]');
+      state.tagListOut = tagListOut.length === 0 ? state.tagListOut : tagListOut;
+      state.tagListIn = tagListIn.length === 0 ? state.tagListIn : tagListIn;
     },
     saveTagList(state) {
       window.localStorage.setItem('tagListOut', JSON.stringify(state.tagListOut));
