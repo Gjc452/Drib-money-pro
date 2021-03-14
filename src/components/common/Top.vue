@@ -27,8 +27,9 @@ export default class Top extends Vue {
       window.alert('不能添加空格');
     } else {
       let result;
-      this.addType === '-' ? result = this.tagListOut[0].filter(tag => tag.name === this.value) : result = this.tagListIn[0].filter(tag => tag.name === this.value);
-      if (result.length === 0) {
+      this.addType === '-' ? result = this.tagListOut.map(tags => tags.filter(tag => tag.name === this.value)) : result = this.tagListIn.map(tags => tags.filter(tag => tag.name === this.value));
+      const n = [...result.map(arr => arr.length)].reduce((a, b) => { return a + b;});
+      if (n === 0) {
         store.commit('addCustomTag', {icon: this.selectedTag, name: this.value, custom: true});
         this.back();
       } else {
