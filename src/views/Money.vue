@@ -2,7 +2,8 @@
   <div class="moneyWrapper">
     <Types :type="type" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
-    <NumberPad v-if="selectedTag !== 'icon'" :notes.sync="notes"/>
+    <NumberPad v-if="Object.keys(selectedTag).length !== 0" :selected-tag="selectedTag" :type="type"
+               :notes.sync="notes"/>
   </div>
 </template>
 
