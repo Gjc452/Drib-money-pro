@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
-import Top from '@/components/Top.vue';
+import Top from '@/components/common/Top.vue';
 
 @Component({
   components: {Top}

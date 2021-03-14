@@ -9,9 +9,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import NumberPad from '@/components/NumberPad.vue';
-import Types from '@/components/Types.vue';
-import Tags from '@/components/Tags.vue';
+import NumberPad from '@/components/money/NumberPad.vue';
+import Types from '@/components/money/Types.vue';
+import Tags from '@/components/money/Tags.vue';
 import store from '@/store';
 
 @Component({

@@ -34,7 +34,6 @@ export default class Top extends Vue {
       } else {
         window.alert('类别不能重复添加');
       }
-
     }
   }
 

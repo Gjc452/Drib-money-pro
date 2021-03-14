@@ -44,7 +44,7 @@ import Vue from 'vue';
 import getLastIndex from '@/lib/getLastIndex';
 import addBits from '@/lib/addBits';
 import {Component, Prop} from 'vue-property-decorator';
-import DatePicker from '@/components/DatePicker.vue';
+import DatePicker from '@/components/nutUI/DatePicker.vue';
 import dayjs from 'dayjs';
 
 @Component({

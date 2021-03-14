@@ -29,7 +29,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import Top from '@/components/Top.vue';
+import Top from '@/components/common/Top.vue';
 import store from '@/store';
 
 @Component({

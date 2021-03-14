@@ -2,9 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Icon from '@/components/Icon.vue';
-import Nav from '@/components/Nav.vue';
-import Layout from '@/components/Layout.vue';
+import Icon from '@/components/common/Icon.vue';
+import Nav from '@/components/common/Nav.vue';
+import Layout from '@/components/common/Layout.vue';
 import NutUI from '@nutui/nutui'
 import '@nutui/nutui/dist/nutui.css'
 

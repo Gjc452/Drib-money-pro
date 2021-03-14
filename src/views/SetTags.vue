@@ -40,8 +40,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import SetTagsFooter from '@/components/SetTagsFooter.vue';
-import SetTagsTop from '@/components/SetTagsTop.vue';
+import SetTagsFooter from '@/components/setTags/SetTagsFooter.vue';
+import SetTagsTop from '@/components/setTags/SetTagsTop.vue';
 import findIndex from '@/lib/findIndex';
 import store from '@/store';
 
