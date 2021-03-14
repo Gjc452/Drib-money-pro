@@ -72,7 +72,14 @@ const store = new Vuex.Store({
     }, {icon: 'icon-lijin', name: '礼金'}, {icon: 'icon-qitashouru', name: '其他'}], []],
     type: '-',
     addType: '-',
-    record: {id: 0, tag: {}, notes: '', type: '-', amount: 0, createAt: dayjs().format('YYYY-MM-DD')},
+    record: {
+      id: 0,
+      tag: {icon: 'icon', name: 'name'},
+      notes: '',
+      type: '-',
+      amount: 0,
+      createAt: dayjs().format('YYYY-MM-DD')
+    },
     recordList: [{}]
   } as RootState,
   mutations: {
@@ -122,7 +129,7 @@ const store = new Vuex.Store({
     resetRecord(state) {
       state.record = {
         id: 0,
-        tag: {icon: 'icon-canyin', name: '餐饮'},
+        tag: {icon: 'icon', name: 'name'},
         notes: '',
         type: '-',
         amount: 0,

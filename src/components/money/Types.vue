@@ -9,6 +9,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import store from '@/store';
 
 @Component
 export default class Notes extends Vue {
@@ -22,6 +23,7 @@ export default class Notes extends Vue {
 
   back() {
     this.$router.back();
+    store.commit('resetRecord')
     setTimeout(() => {
       this.$store.commit('setType', '-');
     }, 100);
