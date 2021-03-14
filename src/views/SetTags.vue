@@ -1,6 +1,6 @@
 <template>
   <div class="setTagsWrapper">
-    <SetTagsTop :value.sync="value"/>
+    <SetTagsTop :type="addType" @update:type="setAddType"/>
     <main>
       <ul>
         <li v-for="tag in tagList()" :key="tag.icon">
@@ -49,15 +49,13 @@ import store from '@/store';
   components: {SetTagsTop, SetTagsFooter}
 })
 export default class EditTags extends Vue {
-  value = this.type;
 
-
-  updated() {
-    store.commit('setAddType', this.value);
+  setAddType(value: string) {
+    store.commit('setAddType', value);
   }
 
   tagList() {
-    if (this.value === '-') {
+    if (this.addType === '-') {
       return this.tagListOut[0];
     } else {
       return this.tagListIn[0];
@@ -65,7 +63,7 @@ export default class EditTags extends Vue {
   }
 
   customTags() {
-    if (this.value === '-') {
+    if (this.addType === '-') {
       return this.customTagsOut;
     } else {
       return this.customTagsIn;
@@ -73,7 +71,7 @@ export default class EditTags extends Vue {
   }
 
   deleteTagList() {
-    if (this.value === '-') {
+    if (this.addType === '-') {
       return this.tagListOut[1];
     } else {
       return this.tagListIn[1];
@@ -81,18 +79,18 @@ export default class EditTags extends Vue {
   }
 
   deleteCustomTag(icon: string) {
-    const index = this.value === '-' ? findIndex(this.customTagsOut, icon) : findIndex(this.customTagsIn, icon);
+    const index = this.addType === '-' ? findIndex(this.customTagsOut, icon) : findIndex(this.customTagsIn, icon);
     store.commit('deleteCustomTag', index);
   }
 
   deleteTag(icon: string) {
-    const index = this.value === '-' ? findIndex(this.tagListOut[0], icon) : findIndex(this.tagListIn[0], icon);
-    this.$store.commit('deleteTagList', {type: this.value, index});
+    const index = this.addType === '-' ? findIndex(this.tagListOut[0], icon) : findIndex(this.tagListIn[0], icon);
+    this.$store.commit('deleteTagList', {type: this.addType, index});
   }
 
   addTag(icon: string) {
-    const index = this.value === '-' ? findIndex(this.tagListOut[1], icon) : findIndex(this.tagListIn[1], icon);
-    this.$store.commit('addTagList', {type: this.value, index});
+    const index = this.addType === '-' ? findIndex(this.tagListOut[1], icon) : findIndex(this.tagListIn[1], icon);
+    this.$store.commit('addTagList', {type: this.addType, index});
   }
 
   created() {
@@ -100,8 +98,8 @@ export default class EditTags extends Vue {
     store.commit('fetchTagList');
   }
 
-  get type() {
-    return store.state.type;
+  get addType() {
+    return store.state.addType;
   }
 
   get tagListIn() {

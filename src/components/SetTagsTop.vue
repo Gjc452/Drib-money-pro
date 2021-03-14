@@ -2,8 +2,8 @@
   <header>
     <Top top-name="类别设置"/>
     <div class="change">
-      <div @click="selected('-')" :class="value === '-' && 'selected'">支出</div>
-      <div @click="selected('+')" :class="value === '+' && 'selected'">收入</div>
+      <div @click="selected('-')" :class="type === '-' && 'selected'">支出</div>
+      <div @click="selected('+')" :class="type === '+' && 'selected'">收入</div>
     </div>
   </header>
 </template>
@@ -16,16 +16,12 @@ import Top from '@/components/Top.vue';
   components: {Top}
 })
 export default class SetTagsTop extends Vue {
-  @Prop(String) readonly value!: string;
+  @Prop(String) readonly type!: string;
 
   selected(type: string) {
     if (type !== '-' && type !== '+') {throw new Error('type is unknown');}
-    if (this.value === type) {return;}
-    this.$emit('update:value', type);
-  }
-
-  back() {
-    this.$router.back();
+    if (this.type === type) {return;}
+    this.$emit('update:type', type);
   }
 }
 </script>

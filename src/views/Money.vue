@@ -26,7 +26,8 @@ export default class Money extends Vue {
   }
 
   changeType(value: string) {
-    this.$store.commit('setType', value);
+    store.commit('setType', value);
+    store.commit('setAddType', value);
     this.selectedTag = {};
   }
 }
