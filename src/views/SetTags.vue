@@ -9,6 +9,7 @@
             <Icon :name="tag.icon"/>
           </div>
           <span>{{ tag.name }}</span>
+          <span v-if="tag.custom" class="custom">自定义</span>
           <Icon name="icon-menu"/>
         </li>
       </ul>
