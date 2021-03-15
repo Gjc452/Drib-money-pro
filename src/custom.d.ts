@@ -13,7 +13,7 @@ type RecordItem = {
   tag: Tag;
   notes: string;
   type: string;
-  amount: number;
+  amount: string;
   createAt: string;
 }
 type RootState = {

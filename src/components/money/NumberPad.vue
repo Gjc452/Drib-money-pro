@@ -137,12 +137,13 @@ export default class NumberPad extends Vue {
       if (index[0] === this.input.length - 1 || this.input.slice(-1) === '.') {
         this.input = this.input.slice(0, -1);
       } else {
-        this.$emit('update:amount', this.input);
+        this.$emit('submit', this.input);
       }
     } else if (text === '今天') {
       this.isVisible = true;
     }
     this.countingToggle(index[0]);
+    this.$emit('update:amount', this.input);
   }
 
   cutAmount(value: string) {

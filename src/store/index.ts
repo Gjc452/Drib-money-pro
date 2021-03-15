@@ -77,7 +77,7 @@ const store = new Vuex.Store({
       tag: {icon: 'icon', name: 'name'},
       notes: '',
       type: '-',
-      amount: 0,
+      amount: '0',
       createAt: dayjs().format('YYYY-MM-DD')
     },
     recordList: [{}]
@@ -122,7 +122,7 @@ const store = new Vuex.Store({
       });
       store.commit('saveTagList');
     },
-    setRecord(state, payload: { id: number; tag: Tag; notes: string; type: string; amount: number; createAt: string }) {
+    setRecord(state, payload: { id: number; tag: Tag; notes: string; type: string; amount: string; createAt: string }) {
       const {id, tag, notes, type, amount, createAt} = payload;
       state.record = {id, tag, notes, type, amount, createAt};
     },
@@ -132,9 +132,20 @@ const store = new Vuex.Store({
         tag: {icon: 'icon', name: 'name'},
         notes: '',
         type: '-',
-        amount: 0,
+        amount: '0',
         createAt: dayjs().format('YYYY-MM-DD')
       };
+    },
+    fetchRecordList(state) {
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+    },
+    saveRecordList(state) {
+      window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
+    },
+    saveRecord(state) {
+      state.recordList.push(state.record);
+      store.commit('saveRecordList');
+      store.commit('resetRecord');
     }
   },
   actions: {},

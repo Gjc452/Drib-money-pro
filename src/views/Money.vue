@@ -3,7 +3,8 @@
     <Types :type="type" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
     <NumberPad v-if="selectedTag.icon !== 'icon'" :selected-tag.sync="selectedTag"
-               :notes.sync="notes" :create-at.sync="createAt" :amount.sync="amount"/>
+               :notes.sync="notes" :create-at.sync="createAt" :amount.sync="amount"
+               @submit="saveRecord"/>
   </div>
 </template>
 
@@ -21,8 +22,17 @@ import store from '@/store';
 export default class Money extends Vue {
   selectedTag = this.record.tag;
   notes = this.record.notes;
-  amount = this.record.amount.toString();
+  amount = this.record.amount;
   createAt = this.record.createAt;
+
+  mounted() {
+    this.$store.commit('fetchRecordList');
+  }
+
+  saveRecord() {
+    this.$store.commit('saveRecord');
+    this.$router.replace('/statistics');
+  }
 
   updated() {
     store.commit('setRecord', {
@@ -30,7 +40,7 @@ export default class Money extends Vue {
       tag: this.selectedTag,
       notes: this.notes,
       type: this.type,
-      amount: parseFloat(this.amount),
+      amount: this.amount,
       createAt: this.createAt
     });
   }
