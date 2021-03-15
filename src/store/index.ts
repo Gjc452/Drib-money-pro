@@ -141,7 +141,8 @@ const store = new Vuex.Store({
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     },
     saveRecordList(state) {
-      state.record.id = idCreate();
+      state.record.id === 0 ? state.record.id = idCreate() : '';
+      state.record.notes === '' ? state.record.notes = state.record.tag.name : '';
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
     saveRecord(state) {
