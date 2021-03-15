@@ -5,7 +5,8 @@
       title="请选择日期"
       :default-value="selectedDate"
       :is-show-chinese="false"
-      end-date="2046-12-24"
+      end-date="2026-12-31"
+      start-date="2016-1-1"
       @close="switchPicker('isVisible')"
       @choose="setChooseValue"
   >
