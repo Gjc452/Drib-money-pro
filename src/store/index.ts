@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import dayjs from 'dayjs';
+import idCreate from '@/lib/idCreate';
 
 Vue.use(Vuex);
 
@@ -140,6 +141,7 @@ const store = new Vuex.Store({
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     },
     saveRecordList(state) {
+      state.record.id = idCreate();
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
     saveRecord(state) {
