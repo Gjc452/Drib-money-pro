@@ -47,19 +47,11 @@ export default class EditTags extends Vue {
   }
 
   tagList() {
-    if (this.addType === '-') {
-      return this.tagListOut[0];
-    } else {
-      return this.tagListIn[0];
-    }
+    return this.addType === '-' ? this.tagListOut[0] : this.tagListIn[0];
   }
 
   deleteTagList() {
-    if (this.addType === '-') {
-      return this.tagListOut[1];
-    } else {
-      return this.tagListIn[1];
-    }
+    return this.addType === '-' ? this.tagListOut[1] : this.tagListIn[1];
   }
 
   deleteTag(icon: string) {

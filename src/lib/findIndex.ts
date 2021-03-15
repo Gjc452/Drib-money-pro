@@ -1,4 +1,4 @@
-function findIndex(tags: TagList[], icon: string) {
+function findIndex(tags: Tag[], icon: string) {
   let result = -1;
   for (let i = 0; i < tags.length; i++) {
     tags[i].icon === icon && (result = i);
