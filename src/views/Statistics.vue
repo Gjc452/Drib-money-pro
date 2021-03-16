@@ -1,89 +1,26 @@
 <template>
   <Layout>
-    <StatisticsHeader/>
+    <StatisticsHeader :time="time"/>
     <main>
       <ol>
-        <li>
+        <li v-for="group in groupList" :key="group.title">
           <h3 class="title">
             <div class="payTime">
-              <span>03月15日</span>
-              <span>星期一</span>
+              <span>{{ group.title }}</span>
+              <span>{{ group.day }}</span>
             </div>
             <div class="total">
-              <span>收入:160</span>
-              <span>支出:20</span>
+              <span>收入:{{ group.income }}</span>
+              <span>支出:{{ group.outlay }}</span>
             </div>
           </h3>
           <ul class="recordWrapper">
-            <li class="record">
+            <li class="record" v-for="(item,index) in group.items" :key="index">
               <div>
-                <Icon name="icon-juanzeng"/>
+                <Icon :name="item.icon"/>
               </div>
-              <span>彩票</span>
-              <span>-60</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>维修</span>
-              <span>-100</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>彩票</span>
-              <span>-60</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>维修</span>
-              <span>-100</span>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h3 class="title">
-            <div class="payTime">
-              <span>03月15日</span>
-              <span>星期一</span>
-            </div>
-            <div class="total">
-              <span>收入:160</span>
-              <span>支出:20</span>
-            </div>
-          </h3>
-          <ul class="recordWrapper">
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>彩票</span>
-              <span>-60</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>维修</span>
-              <span>-100</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>彩票</span>
-              <span>-60</span>
-            </li>
-            <li class="record">
-              <div>
-                <Icon name="icon-juanzeng"/>
-              </div>
-              <span>维修</span>
-              <span>-100</span>
+              <span>{{ item.notes }}</span>
+              <span>{{ item.amount }}</span>
             </li>
           </ul>
         </li>
@@ -96,11 +33,53 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import StatisticsHeader from '@/components/Statistics/StatisticsHeader.vue';
+import dayjs from 'dayjs';
+import getDay from '@/lib/getDay';
 
 @Component({
   components: {StatisticsHeader}
 })
 export default class Statistics extends Vue {
+  time = dayjs();
+
+  mounted() {
+    return
+  }
+
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+
+  get groupList() {
+    const {recordList} = this;
+    if (recordList.length === 0) {return [];}
+    const newList = (JSON.parse(JSON.stringify(recordList)) as RecordItem[]).filter(r => dayjs(r.createAt).format('YYYY-MM') === dayjs(this.time).format('YYYY-MM')).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    if (newList.length === 0) {return [];}
+    type Result = { title: string; day: string; income?: number; outlay?: number; items: RecordItem[] }[]
+    const result: Result = [{
+      title: dayjs(newList[0].createAt).format('YYYY-MM-DD'),
+      day: getDay(dayjs(newList[0].createAt).day()),
+      income: 0,
+      outlay: 0,
+      items: [newList[0]]
+    }];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];
+      const last = result[result.length - 1];
+      if (dayjs(last.title).isSame(dayjs(current.createAt), 'day')) {
+        last.items.push(current);
+      } else {
+        result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'),day:getDay(dayjs(current.createAt).day()), items: [current]});
+      }
+    }
+    result.map(group => group.outlay = group.items.filter(item => item.type === '-').reduce((sum, item) => sum + parseFloat(item.amount), 0));
+    result.map(group => group.income = group.items.filter(item => item.type === '+').reduce((sum, item) => sum + parseFloat(item.amount), 0));
+    return result;
+  }
+
+  beforeCreate() {
+    this.$store.commit('fetchRecordList');
+  }
 }
 </script>
 

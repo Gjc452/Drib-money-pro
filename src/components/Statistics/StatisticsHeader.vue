@@ -2,9 +2,9 @@
   <header>
     <div class="top">
       <div class="time">
-        <span>2021年</span>
+        <span>{{ time.format('YYYY') }}年</span>
         <div>
-          <span>03</span><span>月</span>
+          <span>{{ time.format('MM') }}</span><span>月</span>
           <Icon name="icon-juanzeng"/>
           <span>|</span>
         </div>
@@ -45,9 +45,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
+import dayjs from 'dayjs';
+
 @Component
-export default class StatisticsHeader extends Vue{
+export default class StatisticsHeader extends Vue {
+  @Prop(Object) readonly time!: dayjs.Dayjs;
 }
 </script>
 
@@ -55,7 +58,7 @@ export default class StatisticsHeader extends Vue{
 $gray: rgb(150, 150, 150);
 header {
   padding: 0 6px;
-  background: linear-gradient(180deg, rgba(255,222,92,1) 70%, rgba(253,234,157,1) 83%, rgba(255,255,255,1) 100%);
+  background: linear-gradient(180deg, rgba(255, 222, 92, 1) 70%, rgba(253, 234, 157, 1) 83%, rgba(255, 255, 255, 1) 100%);
 
   .top {
     padding: 14px 8px;
@@ -114,7 +117,7 @@ header {
     display: flex;
     background: white;
     border-radius: 4px;
-    box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
 
     > li {
       width: 20%;
@@ -123,7 +126,8 @@ header {
       justify-content: center;
       align-items: center;
       padding: 8px 0;
-      .icon{
+
+      .icon {
         width: 24px;
         height: 24px;
       }
