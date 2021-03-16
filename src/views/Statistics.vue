@@ -6,7 +6,7 @@
         <li v-for="group in groupList" :key="group.title">
           <h3 class="title">
             <div class="payTime">
-              <span>{{ group.title }}</span>
+              <span>{{ group.title.slice(5).replace('-', '月').concat('日') }}</span>
               <span>{{ group.day }}</span>
             </div>
             <div class="total">
@@ -17,7 +17,7 @@
           <ul class="recordWrapper">
             <li class="record" v-for="(item,index) in group.items" :key="index">
               <div>
-                <Icon :name="item.icon"/>
+                <Icon :name="item.tag.icon"/>
               </div>
               <span>{{ item.notes }}</span>
               <span>{{ item.amount }}</span>
@@ -107,7 +107,7 @@ main {
         }
 
         .total {
-          span:last-child{
+          span:last-child {
             padding-left: 20px;
           }
         }
