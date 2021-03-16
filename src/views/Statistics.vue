@@ -10,8 +10,8 @@
               <span>{{ group.day }}</span>
             </div>
             <div class="total">
-              <span>收入:{{ group.income }}</span>
-              <span>支出:{{ group.outlay }}</span>
+              <span v-if="group.income !== 0">收入:{{ group.income }}</span>
+              <span v-if="group.outlay !== 0">支出:{{ group.outlay }}</span>
             </div>
           </h3>
           <ul class="recordWrapper">
@@ -43,7 +43,7 @@ export default class Statistics extends Vue {
   time = dayjs();
 
   mounted() {
-    return
+    return;
   }
 
   get recordList() {
@@ -69,7 +69,11 @@ export default class Statistics extends Vue {
       if (dayjs(last.title).isSame(dayjs(current.createAt), 'day')) {
         last.items.push(current);
       } else {
-        result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'),day:getDay(dayjs(current.createAt).day()), items: [current]});
+        result.push({
+          title: dayjs(current.createAt).format('YYYY-MM-DD'),
+          day: getDay(dayjs(current.createAt).day()),
+          items: [current]
+        });
       }
     }
     result.map(group => group.outlay = group.items.filter(item => item.type === '-').reduce((sum, item) => sum + parseFloat(item.amount), 0));
@@ -103,8 +107,8 @@ main {
         }
 
         .total {
-          span:first-child {
-            padding-right: 20px;
+          span:last-child{
+            padding-left: 20px;
           }
         }
       }
