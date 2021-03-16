@@ -11,11 +11,11 @@
       </div>
       <div class="income">
         <span>收入</span>
-        <span>20.00</span>
+        <span>{{ money[0].toFixed(2) }}</span>
       </div>
       <div class="outlay">
         <span>支出</span>
-        <span>6724.30</span>
+        <span>{{ money[1].toFixed(2) }}</span>
       </div>
     </div>
     <ul>
@@ -51,6 +51,7 @@ import dayjs from 'dayjs';
 @Component
 export default class StatisticsHeader extends Vue {
   @Prop(Object) readonly time!: dayjs.Dayjs;
+  @Prop(Array) readonly money!: Array;
 }
 </script>
 

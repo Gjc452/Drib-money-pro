@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <StatisticsHeader :time="time"/>
+    <StatisticsHeader :time="time" :money="totalFunds"/>
     <main>
       <ol>
         <li v-for="group in groupList" :key="group.title">
@@ -41,9 +41,8 @@ import getDay from '@/lib/getDay';
 })
 export default class Statistics extends Vue {
   time = dayjs();
-
-  mounted() {
-    return;
+  get totalFunds(){
+    return [this.groupList.map(group => group.income).reduce((a, b) => a + b, 0), this.groupList.map(group=> group.outlay).reduce((a, b) => a + b, 0)];
   }
 
   get recordList() {
