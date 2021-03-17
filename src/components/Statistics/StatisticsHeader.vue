@@ -96,6 +96,7 @@ header {
         .icon {
           width: 14px;
           height: 14px;
+          margin-bottom: 1px;
         }
 
         span:last-child {
@@ -131,7 +132,7 @@ header {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 8px 0;
+      padding: 10px 0;
 
       .icon {
         width: 24px;
