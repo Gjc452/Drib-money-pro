@@ -35,6 +35,7 @@ import {Component} from 'vue-property-decorator';
 import StatisticsHeader from '@/components/Statistics/StatisticsHeader.vue';
 import dayjs from 'dayjs';
 import getDay from '@/lib/getDay';
+import store from '@/store';
 
 @Component({
   components: {StatisticsHeader}
@@ -82,7 +83,12 @@ export default class Statistics extends Vue {
   }
 
   beforeCreate() {
-    this.$store.commit('fetchRecordList');
+    store.commit('fetchRecordList');
+  }
+
+  mounted() {
+    store.commit('resetRecord');
+    store.commit('setType', '-');
   }
 }
 </script>

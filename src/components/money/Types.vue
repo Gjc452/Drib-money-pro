@@ -23,10 +23,6 @@ export default class Notes extends Vue {
 
   back() {
     this.$router.back();
-    store.commit('resetRecord')
-    setTimeout(() => {
-      this.$store.commit('setType', '-');
-    }, 100);
   }
 }
 </script>
