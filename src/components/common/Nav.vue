@@ -4,10 +4,6 @@
       <Icon name="icon-mingxi"/>
       明细
     </router-link>
-    <router-link to="/chart" class="item" active-class="selected">
-      <Icon name="icon-tongji"/>
-      图表
-    </router-link>
     <router-link to="/money" class="item" active-class="selected">
       <div class="addWrapper">
         <div class="iconWrapper">
@@ -17,13 +13,9 @@
       <Icon/>
       记账
     </router-link>
-    <router-link to="/news" class="item" active-class="selected">
-      <Icon name="icon-iconset0456"/>
-      社区
-    </router-link>
-    <router-link to="/user" class="item" active-class="selected">
-      <Icon name="icon-yonghu"/>
-      我的
+    <router-link to="/chart" class="item" active-class="selected">
+      <Icon name="icon-tongji"/>
+      图表
     </router-link>
   </nav>
 </template>
@@ -46,7 +38,7 @@ nav {
 
   > .item {
     padding: 4px 0;
-    width: 25%;
+    width: 33.33333%;
     display: flex;
     justify-content: center;
     align-items: center;

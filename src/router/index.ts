@@ -3,9 +3,7 @@ import VueRouter, {RouteConfig} from 'vue-router';
 import Money from '@/views/Money.vue';
 import Chart from '@/views/Chart.vue';
 import Statistics from '@/views/Statistics.vue';
-import User from '@/views/User.vue';
 import NoteFound from '@/views/NoteFound.vue';
-import News from '@/views/News.vue';
 import SetTags from '@/views/SetTags.vue';
 import CustomTag from '@/views/CustomTag.vue';
 
@@ -35,14 +33,6 @@ const routes: Array<RouteConfig> = [
   {
     path: '/statistics',
     component: Statistics
-  },
-  {
-    path: '/user',
-    component: User
-  },
-  {
-    path: '/news',
-    component: News
   },
   {
     path: '*',
