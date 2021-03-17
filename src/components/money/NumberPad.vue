@@ -70,10 +70,6 @@ export default class NumberPad extends Vue {
     this.$emit('update:notes', input.value);
   }
 
-  amountLastIndex() {
-    return [getLastIndex(/[+-]/gi, this.input), getLastIndex(/[.]/gi, this.input)];
-  }
-
   countingToggle(index: number) {
     this.counting = index > 0 && index < this.input.length - 1;
   }
@@ -94,7 +90,7 @@ export default class NumberPad extends Vue {
   }
 
   count(text: string) {
-    const index = this.amountLastIndex();
+    const index = [getLastIndex(/[+-]/gi, this.input), getLastIndex(/[.]/gi, this.input)];
     if ('0123456789'.indexOf(text) >= 0) {
       if (this.input.length >= 10) {return;}
       if (this.input === '0') {

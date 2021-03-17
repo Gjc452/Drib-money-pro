@@ -1,7 +1,7 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <li @click="setSelectedTag({icon:tag.icon,name:tag.name})" v-for="tag in tagList()" :key="tag.name">
+      <li @click="setSelectedTag({icon:tag.icon,name:tag.name})" v-for="tag in tagList" :key="tag.name">
         <div :class="{selected: selectedTag.icon === tag.icon}">
           <Icon :name="tag.icon"/>
         </div>
@@ -34,25 +34,15 @@ export default class Tags extends Vue {
     store.commit('fetchTagList');
   }
 
-  get tagListIn() {
-    return store.state.tagListIn;
+  get tagList() {
+    return this.type === '-' ? store.state.tagListOut[0] : store.state.tagListIn[0];
   }
 
-  get tagListOut() {
-    return store.state.tagListOut;
-  }
 
   get type() {
     return store.state.type;
   }
 
-  tagList() {
-    if (this.type === '-') {
-      return this.tagListOut[0];
-    } else {
-      return this.tagListIn[0];
-    }
-  }
 }
 </script>
 
