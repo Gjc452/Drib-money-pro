@@ -5,7 +5,7 @@
         <span>{{ time.format('YYYY') }}年</span>
         <div>
           <span>{{ time.format('MM') }}</span><span>月</span>
-          <Icon name="icon-juanzeng"/>
+          <Icon name="icon-xiala"/>
           <span>|</span>
         </div>
       </div>
@@ -20,23 +20,23 @@
     </div>
     <ul>
       <li>
-        <Icon name="icon-juanzeng"/>
+        <Icon name="icon-zhangdan"/>
         <span>账单</span>
       </li>
       <li>
-        <Icon name="icon-juanzeng"/>
+        <Icon name="icon-ziyuan"/>
         <span>预算</span>
       </li>
       <li>
-        <Icon name="icon-juanzeng"/>
+        <Icon name="icon-_baoxianlipei"/>
         <span>资产管家</span>
       </li>
       <li>
-        <Icon name="icon-juanzeng"/>
+        <Icon name="icon--zhishichanquan"/>
         <span>理财知识</span>
       </li>
       <li>
-        <Icon name="icon-juanzeng"/>
+        <Icon name="icon-A"/>
         <span>购物返现</span>
       </li>
     </ul>
@@ -80,7 +80,10 @@ header {
 
     .time {
       div {
+        display: flex;
+        align-items: flex-end;
         span:first-child {
+          line-height: 1.0;
           font-size: 22px;
           padding-right: 2px;
         }
@@ -96,7 +99,9 @@ header {
         }
 
         span:last-child {
+          display: inline-block;
           font-size: 22px;
+          margin-bottom: 1px;
           font-weight: lighter;
           color: $gray;
           padding: 0 8px;
@@ -118,7 +123,7 @@ header {
     display: flex;
     background: white;
     border-radius: 4px;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
 
     > li {
       width: 20%;
