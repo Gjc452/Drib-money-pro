@@ -10,6 +10,7 @@ import * as echarts from 'echarts';
 @Component
 export default class Echarts extends Vue {
   @Prop() readonly option!;
+  chart = null;
 
   mounted() {
     const width = document.documentElement.clientWidth;
@@ -17,6 +18,14 @@ export default class Echarts extends Vue {
     this.$refs.container.style.height = `${width * 0.4}px`;
     this.chart = echarts.init(this.$refs.container);
     this.chart.setOption(this.option);
+    this.chart.on('touchend',()=>{
+      setTimeout(() => {
+        this.chart.dispatchAction({
+          type: 'hideTip'
+        });
+        console.log(1);
+      }, 1000);
+    })
   }
 }
 </script>

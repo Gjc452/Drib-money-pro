@@ -1,5 +1,16 @@
 <template>
   <Layout>
+    <header>
+      <div>
+        <span>支出</span>
+        <Icon name="icon-xiala"/>
+      </div>
+      <div>
+        <button>周</button>
+        <button>月</button>
+        <button>年</button>
+      </div>
+    </header>
     <Echarts :option="option"/>
   </Layout>
 </template>
@@ -15,6 +26,15 @@ import Echarts from '@/components/Echarts.vue';
 })
 export default class Chart extends Vue {
   option = {
+    title: {
+      text: '658',
+      right: 5,
+      top: -2,
+      textStyle: {
+        fontSize: 14,
+        fontWeight: 300,
+      }
+    },
     grid: {
       x: 10,
       y: 20,
@@ -23,6 +43,7 @@ export default class Chart extends Vue {
     },
     tooltip: {
       trigger: 'axis',
+
     },
     xAxis: {
       type: 'category',
@@ -49,12 +70,17 @@ export default class Chart extends Vue {
       type: 'line',
       name: '金额',
       symbolSize: 5,
+      emphasis: {
+        lineStyle: {
+          width: 0.5,
+        },
+      },
       itemStyle: {
         normal: {
           lineStyle: {
             width: 0.5,
             color: '#000'
-          }
+          },
         }
       },
       markLine: {
