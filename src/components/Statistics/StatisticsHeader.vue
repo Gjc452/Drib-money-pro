@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="top">
-      <div class="time">
+      <div class="time" @click="open">
         <span>{{ time.format('YYYY') }}年</span>
         <div>
           <span>{{ time.format('MM') }}</span><span>月</span>
@@ -40,18 +40,31 @@
         <span>购物返现</span>
       </li>
     </ul>
+    <yd-cell-item arrow v-show="false">
+      <yd-datetime type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
+    </yd-cell-item>
   </header>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import dayjs from 'dayjs';
 
 @Component
 export default class StatisticsHeader extends Vue {
   @Prop(Object) readonly time!: dayjs.Dayjs;
-  @Prop(Array) readonly money!: Array;
+  @Prop(Array) readonly money!: [];
+  datetime = dayjs(this.time).format('YYYY-MM');
+
+  @Watch('datetime')
+  update() {
+    this.$emit('update:time', dayjs(this.datetime));
+  }
+
+  open() {
+    this.$refs.datetime.open();
+  }
 }
 </script>
 
@@ -82,6 +95,7 @@ header {
       div {
         display: flex;
         align-items: flex-end;
+
         span:first-child {
           line-height: 1.0;
           font-size: 22px;

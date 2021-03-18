@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <StatisticsHeader :time="time" :money="totalFunds"/>
+    <StatisticsHeader :time.sync="time" :money="totalFunds"/>
     <main>
       <ol>
         <li v-for="group in groupList" :key="group.title">
