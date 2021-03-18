@@ -14,7 +14,7 @@
         <Icon class="calendar" name="icon-rili"/>
         <span>今天</span>
       </button>
-      <button v-else @click="isVisible =true">
+      <button v-else @click="openDate">
         {{ this.selectedDate.replace(/[-]/g, '/') }}
       </button>
       <button>4</button>
@@ -35,7 +35,9 @@
       <button v-if="counting" class="ok">=</button>
       <button v-else class="ok">完成</button>
     </div>
-    <DatePicker :selected-date.sync="selectedDate" :is-visible.sync="isVisible"/>
+    <yd-cell-item arrow v-show="false">
+      <yd-datetime type="date" ref="datetime" v-model="selectedDate" slot="right"></yd-datetime>
+    </yd-cell-item>
   </div>
 </template>
 
@@ -44,17 +46,13 @@ import Vue from 'vue';
 import getLastIndex from '@/lib/getLastIndex';
 import addBits from '@/lib/addBits';
 import {Component, Prop, Watch} from 'vue-property-decorator';
-import DatePicker from '@/components/nutUI/DatePicker.vue';
 import dayjs from 'dayjs';
 
-@Component({
-  components: {DatePicker}
-})
+@Component
 export default class NumberPad extends Vue {
   @Prop(String) readonly notes!: string;
   @Prop(String) readonly createAt!: string;
   @Prop(String) readonly amount!: string;
-  isVisible = false;
   counting = false;
   input = this.amount;
   now = dayjs().format('YYYY-MM-DD');
@@ -68,6 +66,10 @@ export default class NumberPad extends Vue {
   onChange(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     this.$emit('update:notes', input.value);
+  }
+
+  openDate() {
+    this.$refs.datetime.open();
   }
 
   countingToggle(index: number) {
@@ -136,7 +138,7 @@ export default class NumberPad extends Vue {
         this.$emit('submit', this.input);
       }
     } else if (text === '今天') {
-      this.isVisible = true;
+      this.openDate();
     }
     this.countingToggle(index[0]);
     this.$emit('update:amount', this.input);
