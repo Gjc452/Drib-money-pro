@@ -35,9 +35,7 @@
       <button v-if="counting" class="ok">=</button>
       <button v-else class="ok">完成</button>
     </div>
-    <yd-cell-item arrow v-show="false">
-      <yd-datetime type="date" ref="datetime" v-model="selectedDate" slot="right"></yd-datetime>
-    </yd-cell-item>
+    <yd-datetime v-show="false" type="date" ref="datetime" v-model="selectedDate" slot="right"></yd-datetime>
   </div>
 </template>
 

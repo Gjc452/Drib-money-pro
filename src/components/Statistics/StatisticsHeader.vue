@@ -40,9 +40,7 @@
         <span>购物返现</span>
       </li>
     </ul>
-    <yd-cell-item arrow v-show="false">
-      <yd-datetime type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
-    </yd-cell-item>
+    <yd-datetime v-show="false" type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
   </header>
 </template>
 
