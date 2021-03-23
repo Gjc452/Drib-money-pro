@@ -1,17 +1,30 @@
 <template>
   <Layout>
     <header>
-      <div>
+      <div class="switchType">
         <span>支出</span>
         <Icon name="icon-xiala"/>
       </div>
-      <div>
-        <button>周</button>
+      <div class="date">
+        <button class="selected">周</button>
         <button>月</button>
         <button>年</button>
       </div>
     </header>
-    <Echarts :option="option"/>
+    <div class="week">
+      <ol>
+        <li>01周</li>
+        <li>02周</li>
+        <li>03周</li>
+        <li>04周</li>
+        <li>05周</li>
+        <li>06周</li>
+        <li>上周</li>
+        <li>本周</li>
+      </ol>
+      <Charts :options="option"/>
+    </div>
+
   </Layout>
 </template>
 
@@ -19,25 +32,26 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import store from '@/store';
-import Echarts from '@/components/Echarts.vue';
+import Charts from '@/components/Charts.vue';
 
 @Component({
-  components: {Echarts}
+  components: {Charts}
 })
 export default class Chart extends Vue {
   option = {
     title: {
-      text: '658',
-      right: 5,
-      top: -2,
+      text: '总支出：6564.30',
+      subtext:'平均值:937.76',
+      top:6,
+      left:3,
       textStyle: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 300,
       }
     },
     grid: {
       x: 10,
-      y: 20,
+      y: 70,
       x2: 10,
       y2: 20
     },
@@ -56,8 +70,11 @@ export default class Chart extends Vue {
       type: 'value',
       max: 'dataMax',
       splitNumber: 1,
-      axisLabel: {
-        show: false
+      position:'right',
+      offset:-30,
+      axisLabel:{
+        showMinLabel:false,
+
       },
       splitLine: {
         lineStyle: {
@@ -75,13 +92,9 @@ export default class Chart extends Vue {
           width: 0.5,
         },
       },
-      itemStyle: {
-        normal: {
-          lineStyle: {
-            width: 0.5,
-            color: '#000'
-          },
-        }
+      lineStyle: {
+        width: 0.5,
+        color: '#000'
       },
       markLine: {
         silent: true,
@@ -90,13 +103,11 @@ export default class Chart extends Vue {
           width: 1,
           color: 'rgb(217,217,217)',
         },
+        label: {
+          show: false
+        },
         itemStyle: {
-          normal: {
-            color: '#000',
-            label: {
-              show: false
-            }
-          }
+          color: '#000',
         },
         data: [
           {type: 'average', name: '平均值'},
@@ -113,5 +124,77 @@ export default class Chart extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
 
+header {
+  background: $color-highlight;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+
+  .switchType {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
+    }
+  }
+
+  .date {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+
+    button {
+      background: transparent;
+      width: 33.33333%;
+      border: none;
+      font-size: 12px;
+      padding: 3px 0;
+
+      &.selected {
+        background: black;
+        color: $color-highlight;
+      }
+    }
+
+    button:nth-child(1) {
+      border: 1px solid black;
+      border-radius: 4px 0 0 4px;
+    }
+
+    button:nth-child(2) {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+    }
+
+    button:nth-child(3) {
+      border: 1px solid black;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}
+.week{
+  ol{
+    display: flex;
+    font-size: 10px;
+    justify-content: flex-end;
+    border-bottom: 1px solid $gray;
+    li{
+      padding: 8px 0;
+      flex-shrink: 0;
+      width: 18%;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
 </style>
