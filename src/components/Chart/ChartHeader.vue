@@ -5,9 +5,9 @@
       <Icon name="icon-xiala"/>
     </div>
     <div class="date">
-      <button class="selected">周</button>
-      <button>月</button>
-      <button>年</button>
+      <button @click="setTime('周')" :class="time === '周' && 'selected'">周</button>
+      <button @click="setTime('月')" :class="time === '月' && 'selected'">月</button>
+      <button @click="setTime('年')" :class="time === '年' && 'selected'">年</button>
     </div>
     <div v-if="typeSet" class="typeSet">
       <div class="typeWrapper">
@@ -37,7 +37,12 @@ import Shade from '@/components/common/Shade.vue';
 })
 export default class ChartHeader extends Vue {
   @Prop(String) readonly type!: string
+  @Prop(String) readonly time!: string
   typeSet = false
+
+  setTime(value: string){
+    this.$emit('update:time',value)
+  }
 
   setType(value: string){
     this.$emit('update:type',value)

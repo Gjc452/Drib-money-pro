@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <ChartHeader :type.sync="type"/>
+    <ChartHeader :type.sync="type" :time.sync="time"/>
     <div class="week">
       <ol>
         <li>01周</li>
@@ -77,6 +77,7 @@ import ChartHeader from '@/components/Chart/ChartHeader.vue';
 })
 export default class Chart extends Vue {
   type = '+'
+  time = '周'
   option = {
     title: {
       text: '260',
