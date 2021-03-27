@@ -20,11 +20,58 @@
         <li>05周</li>
         <li>06周</li>
         <li>上周</li>
-        <li>本周</li>
+        <li class="selected">本周</li>
       </ol>
+      <div class="title">
+        <span>总支出：1314.00</span>
+        <span>平均值：187.71</span>
+      </div>
       <Charts :options="option"/>
     </div>
-
+    <div class="records">
+      <h3>支出排行榜</h3>
+      <ul>
+        <li>
+          <div class="iconWrapper">
+            <Icon name="icon-tongxun"/>
+          </div>
+          <div class="detailWrapper">
+            <div class="detail">
+              <span>通讯</span>
+              <span>70%</span>
+              <span>70</span>
+            </div>
+            <div class="progressbar"></div>
+          </div>
+        </li>
+        <li>
+          <div class="iconWrapper">
+            <Icon name="icon-tongxun"/>
+          </div>
+          <div class="detailWrapper">
+            <div class="detail">
+              <span>通讯</span>
+              <span>70%</span>
+              <span>70</span>
+            </div>
+            <div class="progressbar"></div>
+          </div>
+        </li>
+        <li>
+          <div class="iconWrapper">
+            <Icon name="icon-tongxun"/>
+          </div>
+          <div class="detailWrapper">
+            <div class="detail">
+              <span>通讯</span>
+              <span>70%</span>
+              <span>70</span>
+            </div>
+            <div class="progressbar"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </Layout>
 </template>
 
@@ -40,10 +87,8 @@ import Charts from '@/components/Charts.vue';
 export default class Chart extends Vue {
   option = {
     title: {
-      text: '总支出：6564.30',
-      subtext:'平均值:937.76',
-      top:6,
-      left:3,
+      text: '260',
+      right: 5,
       textStyle: {
         fontSize: 13,
         fontWeight: 300,
@@ -51,13 +96,12 @@ export default class Chart extends Vue {
     },
     grid: {
       x: 10,
-      y: 70,
+      y: 20,
       x2: 10,
       y2: 20
     },
     tooltip: {
       trigger: 'axis',
-
     },
     xAxis: {
       type: 'category',
@@ -65,16 +109,17 @@ export default class Chart extends Vue {
       axisTick: {
         show: false,
       },
+      axisLabel:{
+        fontSize: 10,
+      },
     },
     yAxis: {
       type: 'value',
       max: 'dataMax',
       splitNumber: 1,
-      position:'right',
-      offset:-30,
-      axisLabel:{
-        showMinLabel:false,
-
+      axisLabel: {
+        showMinLabel: false,
+        showMaxLabel:false
       },
       splitLine: {
         lineStyle: {
@@ -180,20 +225,101 @@ header {
     }
   }
 }
-.week{
-  ol{
+
+.week {
+  padding-bottom: 20px;
+  border-bottom: 1px solid $gray;
+
+  ol {
     display: flex;
-    font-size: 10px;
+    font-size: 12px;
     justify-content: flex-end;
     border-bottom: 1px solid $gray;
-    li{
+
+    li {
       padding: 8px 0;
       flex-shrink: 0;
       width: 18%;
-      overflow: auto;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+
+      &.selected:after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        background: black;
+        height: 3px;
+        width: 100%;
+      }
+    }
+  }
+  .title{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 0;
+    span{
+      font-size: 12px;
+      font-weight: 300;
+    }
+    span:nth-child(2){
+      font-size: 11px;
+      padding-top: 3px;
+    }
+  }
+}
+
+.records {
+  h3 {
+    padding: 12px 12px;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+  ul li {
+    display: flex;
+    padding: 10px 12px 12px;
+    align-items: center;
+
+    .iconWrapper {
+      margin-right: 14px;
+      display: flex;
+      padding: 8px;
+      background: rgb(245, 245, 245);
+      border-radius: 50%;
+
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .detailWrapper {
+      flex-grow: 1;
+
+      .detail {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 13px;
+        padding-bottom: 8px;
+
+        span {
+          padding-right: 14px;
+        }
+
+        span:nth-child(3) {
+          margin-left: auto;
+        }
+      }
+
+      .progressbar {
+        width: 100%;
+        padding: 4px;
+        border-radius: 4px;
+        background: $color-highlight;
+      }
     }
   }
 }
