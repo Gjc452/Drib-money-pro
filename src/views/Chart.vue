@@ -1,16 +1,6 @@
 <template>
   <Layout>
-    <header>
-      <div class="switchType">
-        <span>支出</span>
-        <Icon name="icon-xiala"/>
-      </div>
-      <div class="date">
-        <button class="selected">周</button>
-        <button>月</button>
-        <button>年</button>
-      </div>
-    </header>
+    <ChartHeader :type.sync="type"/>
     <div class="week">
       <ol>
         <li>01周</li>
@@ -80,11 +70,13 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import store from '@/store';
 import Charts from '@/components/Charts.vue';
+import ChartHeader from '@/components/Chart/ChartHeader.vue';
 
 @Component({
-  components: {Charts}
+  components: {ChartHeader, Charts}
 })
 export default class Chart extends Vue {
+  type = '+'
   option = {
     title: {
       text: '260',
@@ -170,62 +162,6 @@ export default class Chart extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
-
-header {
-  background: $color-highlight;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 16px;
-
-  .switchType {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .icon {
-      width: 14px;
-      height: 14px;
-      margin-left: 4px;
-    }
-  }
-
-  .date {
-    display: flex;
-    width: 100%;
-    padding: 10px;
-
-    button {
-      background: transparent;
-      width: 33.33333%;
-      border: none;
-      font-size: 12px;
-      padding: 3px 0;
-
-      &.selected {
-        background: black;
-        color: $color-highlight;
-      }
-    }
-
-    button:nth-child(1) {
-      border: 1px solid black;
-      border-radius: 4px 0 0 4px;
-    }
-
-    button:nth-child(2) {
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
-    }
-
-    button:nth-child(3) {
-      border: 1px solid black;
-      border-radius: 0 4px 4px 0;
-    }
-  }
-}
-
 .week {
   padding-bottom: 20px;
   border-bottom: 1px solid $gray;
