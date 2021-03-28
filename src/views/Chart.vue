@@ -3,14 +3,9 @@
     <ChartHeader :type.sync="type" :time.sync="time"/>
     <div class="week">
       <ol>
-        <li>01周</li>
-        <li>02周</li>
-        <li>03周</li>
-        <li>04周</li>
-        <li>05周</li>
-        <li>06周</li>
-        <li>上周</li>
-        <li class="selected">本周</li>
+        <li @click="changeSelectedTime(n)" :class="{selected:selectedLi===n}" v-for="n in this.week" :key="n">
+          {{ n }}
+        </li>
       </ol>
       <div class="title">
         <span>总支出：1314.00</span>
@@ -34,32 +29,6 @@
             <div class="progressbar"></div>
           </div>
         </li>
-        <li>
-          <div class="iconWrapper">
-            <Icon name="icon-tongxun"/>
-          </div>
-          <div class="detailWrapper">
-            <div class="detail">
-              <span>通讯</span>
-              <span>70%</span>
-              <span>70</span>
-            </div>
-            <div class="progressbar"></div>
-          </div>
-        </li>
-        <li>
-          <div class="iconWrapper">
-            <Icon name="icon-tongxun"/>
-          </div>
-          <div class="detailWrapper">
-            <div class="detail">
-              <span>通讯</span>
-              <span>70%</span>
-              <span>70</span>
-            </div>
-            <div class="progressbar"></div>
-          </div>
-        </li>
       </ul>
     </div>
   </Layout>
@@ -67,17 +36,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import store from '@/store';
 import Charts from '@/components/Charts.vue';
 import ChartHeader from '@/components/Chart/ChartHeader.vue';
+import dayjs from 'dayjs';
 
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+dayjs.extend(weekOfYear);
 @Component({
   components: {ChartHeader, Charts}
 })
 export default class Chart extends Vue {
-  type = '+'
-  time = '周'
+  type = '+';
+  time = '周';
+  selectedLi = this.week[this.week.length-1]
   option = {
     title: {
       text: '260',
@@ -102,7 +75,7 @@ export default class Chart extends Vue {
       axisTick: {
         show: false,
       },
-      axisLabel:{
+      axisLabel: {
         fontSize: 10,
       },
     },
@@ -112,7 +85,7 @@ export default class Chart extends Vue {
       splitNumber: 1,
       axisLabel: {
         showMinLabel: false,
-        showMaxLabel:false
+        showMaxLabel: false
       },
       splitLine: {
         lineStyle: {
@@ -154,7 +127,74 @@ export default class Chart extends Vue {
     }]
   };
 
+  @Watch('week')
+  updateSelectedLi(){
+    this.selectedLi = this.week[this.week.length-1]
+  }
+
+  changeSelectedTime(n: string) {
+    this.selectedLi = n;
+  }
+
+  get week() {
+    const now = dayjs()
+    const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    const year = newList.length !== 1 ? newList[newList.length -1].createAt.slice(0,4) : now.year().toString()
+    const week = now.week();
+    const weeks = [];
+    for (let i = 1; i <= week; i++) {
+      if (i === week) {
+        weeks.push('本周');
+      } else if (i === week - 1) {
+        weeks.push('上周');
+      } else {
+        weeks.push(i + '周');
+      }
+    }
+    const month = now.month();
+    const months = [];
+    for (let i = 0; i <= month; i++) {
+      if (i === month) {
+        months.push('本月');
+      } else if (i === month - 1) {
+        months.push('上月');
+      } else {
+        months.push(i + 1 + '月');
+      }
+    }
+    const years = []
+    for(let i = parseInt(year);i<= now.year();i++){
+      if(i === now.year()){
+        years.push('今年')
+      }else if(i === now.year()-1){
+        years.push('去年')
+      }else {
+        years.push(i+'年')
+      }
+    }
+    for(let i=now.year() ;i>= parseInt(year) ;i--){
+      for(let j = 52;j>=1;j--){
+        weeks.unshift(i+'-'+j+'周')
+      }
+      for(let j = 12;j>=1;j--){
+        months.unshift(i+'-'+j+'月')
+      }
+    }
+    if(this.time === '周'){
+      return weeks
+    }else if(this.time === '月'){
+      return months
+    }else {
+      return years
+    }
+  }
+
+  get recordList(){
+    return store.state.recordList
+  }
+
   mounted() {
+    store.commit('fetchRecordList')
     store.commit('resetRecord');
     store.commit('setType', '-');
   }
@@ -163,6 +203,7 @@ export default class Chart extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 .week {
   padding-bottom: 20px;
   border-bottom: 1px solid $gray;
@@ -192,15 +233,18 @@ export default class Chart extends Vue {
       }
     }
   }
-  .title{
+
+  .title {
     display: flex;
     flex-direction: column;
     padding: 10px 10px 0;
-    span{
+
+    span {
       font-size: 12px;
       font-weight: 300;
     }
-    span:nth-child(2){
+
+    span:nth-child(2) {
       font-size: 11px;
       padding-top: 3px;
     }
