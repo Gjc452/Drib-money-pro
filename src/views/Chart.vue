@@ -3,7 +3,7 @@
     <ChartHeader :type.sync="type" :time.sync="time"/>
     <div class="week">
       <ol ref="ol">
-        <li ref="lis" v-for="n in this.week"  :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)"  :key="n">
+        <li ref="lis" v-for="n in this.week" :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)" :key="n">
           {{ n }}
         </li>
       </ol>
@@ -31,6 +31,7 @@
         </li>
       </ul>
     </div>
+    {{ moneyData }}
   </Layout>
 </template>
 
@@ -41,8 +42,11 @@ import store from '@/store';
 import Charts from '@/components/Charts.vue';
 import ChartHeader from '@/components/Chart/ChartHeader.vue';
 import dayjs from 'dayjs';
-
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import getWeekResult from '@/lib/getWeekResult';
+import getMonthResult from '@/lib/getMonthResult';
+import getYearResult from '@/lib/getYearResult';
+
 dayjs.extend(weekOfYear);
 @Component({
   components: {ChartHeader, Charts}
@@ -50,7 +54,7 @@ dayjs.extend(weekOfYear);
 export default class Chart extends Vue {
   type = '+';
   time = '周';
-  selectedLi = this.week[this.week.length-1]
+  selectedLi: string = this.week[this.week.length - 1];
   option = {
     title: {
       text: '260',
@@ -128,40 +132,93 @@ export default class Chart extends Vue {
   };
 
   @Watch('time')
-  updateSelectedLi(){
-    (this.$refs.ol as HTMLDivElement).style.left = '0px'
-    this.selectedLi = this.week[this.week.length-1]
+  updateSelectedLi() {
+    (this.$refs.ol as HTMLDivElement).style.left = '0px';
+    this.selectedLi = this.week[this.week.length - 1];
   }
 
   changeSelectedLi(n: string) {
-    const oldLis = this.$refs.lis as HTMLDivElement[]
-    const oldLi = oldLis.filter(li => li.className === 'selected')[0]
-    const oldIndex =  oldLis.indexOf(oldLi )
+    const oldLis = this.$refs.lis as HTMLDivElement[];
+    const oldLi = oldLis.filter(li => li.className === 'selected')[0];
+    const oldIndex = oldLis.indexOf(oldLi);
     this.selectedLi = n;
-    this.$nextTick(()=>{
-      const ol = this.$refs.ol as HTMLDivElement
-      const lis = this.$refs.lis as HTMLDivElement[]
-      const selectedLi = lis.filter(li => li.className === 'selected')[0]
-      const index =  lis.indexOf(selectedLi)+1
-      console.log(`lis.length:${lis.length}`);
-      console.log(`selected.index:${index}`);
-      const {left,width} =  selectedLi.getBoundingClientRect()
-      const {clientWidth} = document.body
-      const {left:left1} = ol.getBoundingClientRect()
-      const moveLeft = clientWidth/2-width/2-left
-      if(lis.length >=5){
-         lis.length-index<=3
-             ? oldIndex < index ? ol.style.left = '0px' :  ''
-             : ol.style.left = left1 + moveLeft + 'px'
+    this.$nextTick(() => {
+      const ol = this.$refs.ol as HTMLDivElement;
+      const lis = this.$refs.lis as HTMLDivElement[];
+      const selectedLi = lis.filter(li => li.className === 'selected')[0];
+      const index = lis.indexOf(selectedLi) + 1;
+      const {left, width} = selectedLi.getBoundingClientRect();
+      const {clientWidth} = document.body;
+      const {left: left1} = ol.getBoundingClientRect();
+      const moveLeft = clientWidth / 2 - width / 2 - left;
+      if (lis.length >= 5) {
+        lis.length - index < 3
+            ? oldIndex < index ? ol.style.left = '0px' : ''
+            : ol.style.left = left1 + moveLeft + 'px';
       }
-    })
+    });
+  }
+
+  get moneyData() {
+    const {selectedLi} = this;
+    const result = [];
+    const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r =>r.type ===this.type)
+    if (this.time === '周') {
+      if (selectedLi === '本周') {
+        const week = dayjs().week();
+        getWeekResult(result, week, list);
+      } else if (selectedLi === '上周') {
+        const week = dayjs().week() - 1;
+        getWeekResult(result, week, list);
+      } else if (parseInt(selectedLi.replace('周', '')) <= 52) {
+        const week = parseInt(selectedLi.replace('周', ''));
+        getWeekResult(result, week, list);
+      } else {
+        const year = parseInt(selectedLi.slice(0, 4));
+        const week = parseInt(selectedLi.slice(5, selectedLi.length - 1));
+        const selectedList = list.filter(r => dayjs(r.createAt).year() === year);
+        getWeekResult(result, week, selectedList);
+      }
+    } else if (this.time === '月') {
+      if (selectedLi === '本月') {
+        const month = dayjs().month();
+        const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
+        getMonthResult(result, month, days, list);
+      } else if (selectedLi === '上月') {
+        const month = dayjs().month() - 1;
+        const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
+        getMonthResult(result, month, days, list);
+      } else if (parseInt(selectedLi.replace('月', '')) <= 12) {
+        const month = parseInt(selectedLi.replace('月', '')) - 1;
+        const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
+        getMonthResult(result, month, days, list);
+      } else {
+        const year = parseInt(selectedLi.slice(0, 4));
+        const month = parseInt(selectedLi.slice(5, selectedLi.length - 1)) - 1;
+        const days = dayjs(`${year}-${month + 1}`).daysInMonth();
+        const selectedList = list.filter(r => dayjs(r.createAt).year() === year);
+        getMonthResult(result, month, days, selectedList);
+      }
+    } else if(this.time === '年'){
+      if(selectedLi === '今年'){
+        const year = dayjs().year()
+        getYearResult(result,year,list)
+      }else if(selectedLi === '去年'){
+        const year = dayjs().year()-1
+        getYearResult(result,year,list)
+      }else{
+        const year = parseInt(selectedLi.slice(0,4))
+        getYearResult(result,year,list)
+      }
+    }
+    return result;
   }
 
   get week() {
-    const now = dayjs()
+    const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
     if (newList.length === 0) {return [];}
-    const year = newList.length !== 1 ? newList[newList.length -1].createAt.slice(0,4) : now.year().toString()
+    const year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
     const week = now.week();
     const weeks = [];
     for (let i = 1; i <= week; i++) {
@@ -184,39 +241,39 @@ export default class Chart extends Vue {
         months.push(i + 1 + '月');
       }
     }
-    const years = []
-    for(let i = parseInt(year);i<= now.year();i++){
-      if(i === now.year()){
-        years.push('今年')
-      }else if(i === now.year()-1){
-        years.push('去年')
-      }else {
-        years.push(i+'年')
+    const years = [];
+    for (let i = parseInt(year); i <= now.year(); i++) {
+      if (i === now.year()) {
+        years.push('今年');
+      } else if (i === now.year() - 1) {
+        years.push('去年');
+      } else {
+        years.push(i + '年');
       }
     }
-    for(let i=now.year() ;i> parseInt(year) ;i--){
-      for(let j = 52;j>=1;j--){
-        weeks.unshift(i+'-'+j+'周')
+    for (let i = now.year() - 1; i >= parseInt(year); i--) {
+      for (let j = 52; j >= 1; j--) {
+        weeks.unshift(i + '-' + j + '周');
       }
-      for(let j = 12;j>=1;j--){
-        months.unshift(i+'-'+j+'月')
+      for (let j = 12; j >= 1; j--) {
+        months.unshift(i + '-' + j + '月');
       }
     }
-    if(this.time === '周'){
-      return weeks
-    }else if(this.time === '月'){
-      return months
-    }else {
-      return years
+    if (this.time === '周') {
+      return weeks;
+    } else if (this.time === '月') {
+      return months;
+    } else {
+      return years;
     }
   }
 
-  get recordList(){
-    return store.state.recordList
+  get recordList() {
+    return store.state.recordList;
   }
 
   mounted() {
-    store.commit('fetchRecordList')
+    store.commit('fetchRecordList');
     store.commit('resetRecord');
     store.commit('setType', '-');
   }

@@ -9,7 +9,7 @@ import * as echarts from 'echarts';
 
 @Component
 export default class Charts extends Vue {
-  @Prop() readonly options?: EChartsOption;
+  @Prop() readonly options?: object
 
   mounted() {
     const width = document.documentElement.clientWidth;
