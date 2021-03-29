@@ -105,7 +105,7 @@ const store = new Vuex.Store({
       if (type === '-') {
         state.tagListOut[0][index].custom === true ? state.tagListOut[0].splice(index, 1) : state.tagListOut[1].unshift(...state.tagListOut[0].splice(index, 1));
       } else {
-        state.tagListOut[1][index].custom === true ? state.tagListIn[0].splice(index, 1) : state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
+        state.tagListIn[0][index].custom === true ? state.tagListIn[0].splice(index, 1) : state.tagListIn[1].unshift(...state.tagListIn[0].splice(index, 1));
       }
       store.commit('saveTagList');
     },
