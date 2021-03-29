@@ -160,6 +160,7 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs()
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    if (newList.length === 0) {return [];}
     const year = newList.length !== 1 ? newList[newList.length -1].createAt.slice(0,4) : now.year().toString()
     const week = now.week();
     const weeks = [];
@@ -193,7 +194,7 @@ export default class Chart extends Vue {
         years.push(i+'年')
       }
     }
-    for(let i=now.year() ;i>= parseInt(year) ;i--){
+    for(let i=now.year() ;i> parseInt(year) ;i--){
       for(let j = 52;j>=1;j--){
         weeks.unshift(i+'-'+j+'周')
       }
