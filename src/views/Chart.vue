@@ -2,8 +2,8 @@
   <Layout>
     <ChartHeader :type.sync="type" :time.sync="time"/>
     <div class="week">
-      <ol>
-        <li @click="changeSelectedTime(n)" :class="{selected:selectedLi===n}" v-for="n in this.week" :key="n">
+      <ol ref="ol">
+        <li ref="lis" v-for="n in this.week"  :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)"  :key="n">
           {{ n }}
         </li>
       </ol>
@@ -127,13 +127,34 @@ export default class Chart extends Vue {
     }]
   };
 
-  @Watch('week')
+  @Watch('time')
   updateSelectedLi(){
+    (this.$refs.ol as HTMLDivElement).style.left = '0px'
     this.selectedLi = this.week[this.week.length-1]
   }
 
-  changeSelectedTime(n: string) {
+  changeSelectedLi(n: string) {
+    const oldLis = this.$refs.lis as HTMLDivElement[]
+    const oldLi = oldLis.filter(li => li.className === 'selected')[0]
+    const oldIndex =  oldLis.indexOf(oldLi )
     this.selectedLi = n;
+    this.$nextTick(()=>{
+      const ol = this.$refs.ol as HTMLDivElement
+      const lis = this.$refs.lis as HTMLDivElement[]
+      const selectedLi = lis.filter(li => li.className === 'selected')[0]
+      const index =  lis.indexOf(selectedLi)+1
+      console.log(`lis.length:${lis.length}`);
+      console.log(`selected.index:${index}`);
+      const {left,width} =  selectedLi.getBoundingClientRect()
+      const {clientWidth} = document.body
+      const {left:left1} = ol.getBoundingClientRect()
+      const moveLeft = clientWidth/2-width/2-left
+      if(lis.length >=5){
+         lis.length-index<=3
+             ? oldIndex < index ? ol.style.left = '0px' :  ''
+             : ol.style.left = left1 + moveLeft + 'px'
+      }
+    })
   }
 
   get week() {
@@ -207,12 +228,13 @@ export default class Chart extends Vue {
 .week {
   padding-bottom: 20px;
   border-bottom: 1px solid $gray;
+  overflow: hidden;
 
   ol {
     display: flex;
     font-size: 12px;
     justify-content: flex-end;
-    border-bottom: 1px solid $gray;
+    position: relative;
 
     li {
       padding: 8px 0;
@@ -238,6 +260,7 @@ export default class Chart extends Vue {
     display: flex;
     flex-direction: column;
     padding: 10px 10px 0;
+    border-top: 1px solid $gray;
 
     span {
       font-size: 12px;
