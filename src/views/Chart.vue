@@ -133,8 +133,18 @@ export default class Chart extends Vue {
 
   @Watch('time')
   updateSelectedLi() {
-    (this.$refs.ol as HTMLDivElement).style.left = '0px';
     this.selectedLi = this.week[this.week.length - 1];
+    this.$nextTick(() => {
+      const ol = this.$refs.ol as HTMLDivElement;
+      const lis = this.$refs.lis as HTMLDivElement[];
+      const width = lis.map(li => li.getBoundingClientRect().width).reduce((a,b)=>a+b,0);
+      const {clientWidth} = document.body;
+      if (lis.length <= 5) {
+        ol.style.left = width-clientWidth+'px';
+      } else {
+        ol.style.left = '0px';
+      }
+    });
   }
 
   changeSelectedLi(n: string) {
@@ -162,7 +172,7 @@ export default class Chart extends Vue {
   get moneyData() {
     const {selectedLi} = this;
     const result = [];
-    const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r =>r.type ===this.type)
+    const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (this.time === '周') {
       if (selectedLi === '本周') {
         const week = dayjs().week();
@@ -199,16 +209,16 @@ export default class Chart extends Vue {
         const selectedList = list.filter(r => dayjs(r.createAt).year() === year);
         getMonthResult(result, month, days, selectedList);
       }
-    } else if(this.time === '年'){
-      if(selectedLi === '今年'){
-        const year = dayjs().year()
-        getYearResult(result,year,list)
-      }else if(selectedLi === '去年'){
-        const year = dayjs().year()-1
-        getYearResult(result,year,list)
-      }else{
-        const year = parseInt(selectedLi.slice(0,4))
-        getYearResult(result,year,list)
+    } else if (this.time === '年') {
+      if (selectedLi === '今年') {
+        const year = dayjs().year();
+        getYearResult(result, year, list);
+      } else if (selectedLi === '去年') {
+        const year = dayjs().year() - 1;
+        getYearResult(result, year, list);
+      } else {
+        const year = parseInt(selectedLi.slice(0, 4));
+        getYearResult(result, year, list);
       }
     }
     return result;
