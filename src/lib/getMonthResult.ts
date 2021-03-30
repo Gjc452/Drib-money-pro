@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-function getMonthResult(result: number[],month: number,days: number,selectedList: RecordItem[]){
+function getMonthResult(result: [{}],month: number,days: number,selectedList: RecordItem[]){
   const newList = (JSON.parse(JSON.stringify(selectedList)) as RecordItem[]).filter(r =>dayjs(r.createAt).month()===month)
   for(let i = 1;i<=days;i++){
     let total = 0
@@ -9,7 +9,7 @@ function getMonthResult(result: number[],month: number,days: number,selectedList
         total += parseFloat(newList[j].amount)
       }
     }
-    result.push(total)
+    result.push({total,day:i})
   }
 }
 export default getMonthResult
