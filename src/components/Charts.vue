@@ -4,12 +4,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import * as echarts from 'echarts';
+import {ECharts} from 'echarts';
 
 @Component
 export default class Charts extends Vue {
   @Prop() readonly options?: object
+  chart?: ECharts
 
   mounted() {
     const width = document.documentElement.clientWidth;
@@ -18,6 +20,10 @@ export default class Charts extends Vue {
     chartDom.style.height = `${width * 0.35}px`;
     this.chart = echarts.init(chartDom);
     this.chart.setOption(this.options);
+  }
+  @Watch('options')
+  onOptionsChange(newValue){
+    this.chart.setOption(newValue)
   }
 }
 </script>

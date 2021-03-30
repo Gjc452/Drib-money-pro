@@ -31,7 +31,6 @@
         </li>
       </ul>
     </div>
-    {{moneyData}}}
   </Layout>
 </template>
 
@@ -47,7 +46,10 @@ import getWeekResult from '@/lib/getWeekResult';
 import getMonthResult from '@/lib/getMonthResult';
 import getYearResult from '@/lib/getYearResult';
 import isoWeek from 'dayjs/plugin/isoWeek';
-
+import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
+import isLeapYear from 'dayjs/plugin/isLeapYear';
+dayjs.extend(isLeapYear)
+dayjs.extend(isoWeeksInYear)
 dayjs.extend(isoWeek)
 dayjs.extend(weekOfYear);
 @Component({
@@ -97,10 +99,11 @@ export default class Chart extends Vue {
   }
 
   get chartOptions(){
-    const {moneyData} = this
+    const time = this.moneyData.map(n=>n.time)
+    const money = this.moneyData.map(n=>n.total)
     return {
       title: {
-        text: '260',
+        text: '最大值:260',
         right: 5,
         textStyle: {
           fontSize: 13,
@@ -118,7 +121,7 @@ export default class Chart extends Vue {
       },
       xAxis: {
         type: 'category',
-        data: ['03-08', '03-09', '03-10', '03-11', '03-12', '0-13', '03-14'],
+        data: time,
         axisTick: {
           show: false,
         },
@@ -141,7 +144,7 @@ export default class Chart extends Vue {
         },
       },
       series: [{
-        data: moneyData,
+        data: money,
         type: 'line',
         name: '金额',
         symbolSize: 5,
@@ -177,23 +180,27 @@ export default class Chart extends Vue {
 
   get moneyData() {
     const {selectedLi} = this;
-    const result = [];
+    type Result = [{total: number;time: string}]
+    const result: Result = [];
     const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (this.time === '周') {
       if (selectedLi === '本周') {
+        const year = dayjs().year()
         const week = dayjs().isoWeek();
-        getWeekResult(result, week, list);
+        getWeekResult(result,year, week, list);
       } else if (selectedLi === '上周') {
+        const year = dayjs().year()
         const week = dayjs().isoWeek() - 1;
-        getWeekResult(result, week, list);
-      } else if (parseInt(selectedLi.replace('周', '')) <= 52) {
+        getWeekResult(result, year,week, list);
+      } else if (parseInt(selectedLi.replace('周', '')) <= 53) {
+        const year = dayjs().year()
         const week = parseInt(selectedLi.replace('周', ''));
-        getWeekResult(result, week, list);
+        getWeekResult(result,year, week, list);
       } else {
         const year = parseInt(selectedLi.slice(0, 4));
         const week = parseInt(selectedLi.slice(5, selectedLi.length - 1));
         const selectedList = list.filter(r => dayjs(r.createAt).year() === year);
-        getWeekResult(result, week, selectedList);
+        getWeekResult(result, year,week, selectedList);
       }
     } else if (this.time === '月') {
       if (selectedLi === '本月') {
@@ -268,7 +275,7 @@ export default class Chart extends Vue {
       }
     }
     for (let i = now.year() - 1; i >= parseInt(year); i--) {
-      for (let j = 52; j >= 1; j--) {
+      for (let j = dayjs('2020').isoWeeksInYear(); j >= 1; j--) {
         weeks.unshift(i + '-' + j + '周');
       }
       for (let j = 12; j >= 1; j--) {
