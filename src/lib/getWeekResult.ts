@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-dayjs.extend(weekOfYear);
+import isoWeek from 'dayjs/plugin/isoWeek';
+dayjs.extend(isoWeek)
 function getWeekResult(result: number[],week: number,recordList: RecordItem[]) {
-  const newList = (JSON.parse(JSON.stringify(recordList)) as RecordItem[]).filter(r => dayjs(r.createAt).week() === week)
-  for (let i = 0; i < 7; i++) {
+  const newList = (JSON.parse(JSON.stringify(recordList)) as RecordItem[]).filter(r => dayjs(r.createAt).isoWeek() === week)
+  for (let i = 1; i <= 7; i++) {
     let total = 0;
     for (let j = 0; j < newList.length; j++) {
-      if (dayjs(newList[j].createAt).day() === i) {
+      if (dayjs(newList[j].createAt).isoWeekday() === i) {
         total += parseFloat(newList[j].amount);
       }
     }

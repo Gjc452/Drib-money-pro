@@ -11,7 +11,7 @@
         <span>总支出：1314.00</span>
         <span>平均值：187.71</span>
       </div>
-      <Charts :options="option"/>
+      <Charts :options="chartOptions"/>
     </div>
     <div class="records">
       <h3>支出排行榜</h3>
@@ -31,7 +31,7 @@
         </li>
       </ul>
     </div>
-    {{ moneyData }}
+    {{moneyData}}}
   </Layout>
 </template>
 
@@ -46,7 +46,9 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import getWeekResult from '@/lib/getWeekResult';
 import getMonthResult from '@/lib/getMonthResult';
 import getYearResult from '@/lib/getYearResult';
+import isoWeek from 'dayjs/plugin/isoWeek';
 
+dayjs.extend(isoWeek)
 dayjs.extend(weekOfYear);
 @Component({
   components: {ChartHeader, Charts}
@@ -54,82 +56,7 @@ dayjs.extend(weekOfYear);
 export default class Chart extends Vue {
   type = '+';
   time = '周';
-  selectedLi: string = this.week[this.week.length - 1];
-  option = {
-    title: {
-      text: '260',
-      right: 5,
-      textStyle: {
-        fontSize: 13,
-        fontWeight: 300,
-      }
-    },
-    grid: {
-      x: 10,
-      y: 20,
-      x2: 10,
-      y2: 20
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    xAxis: {
-      type: 'category',
-      data: ['03-08', '03-09', '03-10', '03-11', '03-12', '0-13', '03-14'],
-      axisTick: {
-        show: false,
-      },
-      axisLabel: {
-        fontSize: 10,
-      },
-    },
-    yAxis: {
-      type: 'value',
-      max: 'dataMax',
-      splitNumber: 1,
-      axisLabel: {
-        showMinLabel: false,
-        showMaxLabel: false
-      },
-      splitLine: {
-        lineStyle: {
-          color: 'rgb(136,136,136)'
-        }
-      },
-    },
-    series: [{
-      data: [0, 230, 224, 218, 135, 147, 260],
-      type: 'line',
-      name: '金额',
-      symbolSize: 5,
-      emphasis: {
-        lineStyle: {
-          width: 0.5,
-        },
-      },
-      lineStyle: {
-        width: 0.5,
-        color: '#000'
-      },
-      markLine: {
-        silent: true,
-        symbol: 'none',
-        lineStyle: {
-          width: 1,
-          color: 'rgb(217,217,217)',
-        },
-        label: {
-          show: false
-        },
-        itemStyle: {
-          color: '#000',
-        },
-        data: [
-          {type: 'average', name: '平均值'},
-        ]
-      }
-    }]
-  };
+  selectedLi: string = this.week[this.week.length -  1];
 
   @Watch('time')
   updateSelectedLi() {
@@ -169,16 +96,95 @@ export default class Chart extends Vue {
     });
   }
 
+  get chartOptions(){
+    const {moneyData} = this
+    return {
+      title: {
+        text: '260',
+        right: 5,
+        textStyle: {
+          fontSize: 13,
+          fontWeight: 300,
+        }
+      },
+      grid: {
+        x: 10,
+        y: 20,
+        x2: 10,
+        y2: 20
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      xAxis: {
+        type: 'category',
+        data: ['03-08', '03-09', '03-10', '03-11', '03-12', '0-13', '03-14'],
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          fontSize: 10,
+        },
+      },
+      yAxis: {
+        type: 'value',
+        max: 'dataMax',
+        splitNumber: 1,
+        axisLabel: {
+          showMinLabel: false,
+          showMaxLabel: false
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgb(136,136,136)'
+          }
+        },
+      },
+      series: [{
+        data: moneyData,
+        type: 'line',
+        name: '金额',
+        symbolSize: 5,
+        emphasis: {
+          lineStyle: {
+            width: 0.5,
+          },
+        },
+        lineStyle: {
+          width: 0.5,
+          color: '#000'
+        },
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: {
+            width: 1,
+            color: 'rgb(217,217,217)',
+          },
+          label: {
+            show: false
+          },
+          itemStyle: {
+            color: '#000',
+          },
+          data: [
+            {type: 'average', name: '平均值'},
+          ]
+        }
+      }]
+    }
+  }
+
   get moneyData() {
     const {selectedLi} = this;
     const result = [];
     const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (this.time === '周') {
       if (selectedLi === '本周') {
-        const week = dayjs().week();
+        const week = dayjs().isoWeek();
         getWeekResult(result, week, list);
       } else if (selectedLi === '上周') {
-        const week = dayjs().week() - 1;
+        const week = dayjs().isoWeek() - 1;
         getWeekResult(result, week, list);
       } else if (parseInt(selectedLi.replace('周', '')) <= 52) {
         const week = parseInt(selectedLi.replace('周', ''));
@@ -229,7 +235,7 @@ export default class Chart extends Vue {
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
     if (newList.length === 0) {return [];}
     const year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
-    const week = now.week();
+    const week = now.isoWeek();
     const weeks = [];
     for (let i = 1; i <= week; i++) {
       if (i === week) {
