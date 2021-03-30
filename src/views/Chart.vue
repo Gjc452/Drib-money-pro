@@ -101,12 +101,14 @@ export default class Chart extends Vue {
   get chartOptions(){
     const time = this.moneyData.map(n=>n.time)
     const money = this.moneyData.map(n=>n.total)
+    const max = JSON.parse(JSON.stringify(money)).sort((a,b)=>b-a)[0]
     return {
       title: {
-        text: '最大值:260',
+        text: `最大值:${max}`,
         right: 5,
+        top:-1,
         textStyle: {
-          fontSize: 13,
+          fontSize: 12,
           fontWeight: 300,
         }
       },
