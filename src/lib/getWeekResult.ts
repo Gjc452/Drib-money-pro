@@ -23,7 +23,7 @@ function getWeekResult(result: [{}],year: number,week: number,recordList: Record
         total += parseFloat(newList[j].amount);
       }
     }
-    result.push({total,time:day});
+    result.push({total,time:day.toString()});
   }
 }
 

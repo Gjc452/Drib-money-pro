@@ -9,7 +9,7 @@ function getYearResult(result: [{}],year: number,list: RecordItem[]){
         total += parseFloat(newList[j].amount)
       }
     }
-    result.push({total,time:i+1})
+    result.push({total,time:(i+1).toString()})
   }
 }
 export default getYearResult
