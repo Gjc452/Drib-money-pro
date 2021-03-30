@@ -9,7 +9,7 @@ function getMonthResult(result: [{}],month: number,days: number,selectedList: Re
         total += parseFloat(newList[j].amount)
       }
     }
-    result.push({total,day:i})
+    result.push({total,time:i})
   }
 }
 export default getMonthResult
