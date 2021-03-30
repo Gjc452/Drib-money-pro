@@ -8,8 +8,8 @@
         </li>
       </ol>
       <div class="title">
-        <span>总支出：1314.00</span>
-        <span>平均值：187.71</span>
+        <span>总支出：{{ moneyData.map(d=>d.total).reduce((a,b)=>a+b) }}</span>
+        <span>平均值：{{ (moneyData.map(d=>d.total).reduce((a,b)=>a+b)/moneyData.length).toFixed(2) }}</span>
       </div>
       <Charts :options="chartOptions"/>
     </div>
@@ -135,6 +135,7 @@ export default class Chart extends Vue {
         type: 'value',
         max: 'dataMax',
         splitNumber: 1,
+        interval: max===0 ?'0':max,
         axisLabel: {
           showMinLabel: false,
           showMaxLabel: false
