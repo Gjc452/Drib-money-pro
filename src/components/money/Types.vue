@@ -9,7 +9,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
-import store from '@/store';
 
 @Component
 export default class Notes extends Vue {

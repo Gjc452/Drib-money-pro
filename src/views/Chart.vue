@@ -68,6 +68,7 @@ export default class Chart extends Vue {
     this.$nextTick(() => {
       const ol = this.$refs.ol as HTMLDivElement;
       const lis = this.$refs.lis as HTMLDivElement[];
+      if(!lis){return []}
       const width = lis.map(li => li.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
       const {clientWidth} = document.body;
       if (lis.length <= 5) {
@@ -233,11 +234,12 @@ export default class Chart extends Vue {
   }
 
   get moneyData() {
-    const {selectedLi} = this;
+    let {selectedLi} = this;
     type Result = [{ total: number; time: string }]
     const result: Result = [];
     const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (this.time === '周') {
+      if(!selectedLi){selectedLi = '本周'}
       if (selectedLi === '本周') {
         const year = dayjs().year();
         const week = dayjs().isoWeek();
@@ -257,6 +259,7 @@ export default class Chart extends Vue {
         getWeekResult(result, year, week, selectedList);
       }
     } else if (this.time === '月') {
+      if(!selectedLi){selectedLi = '本月'}
       if (selectedLi === '本月') {
         const month = dayjs().month();
         const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
@@ -280,6 +283,7 @@ export default class Chart extends Vue {
         getMonthResult(result, month, days, selectedList);
       }
     } else if (this.time === '年') {
+      if(!selectedLi){selectedLi = '今年'}
       if (selectedLi === '今年') {
         const year = dayjs().year();
         getYearResult(result, year, list);
@@ -297,9 +301,12 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
-    if (newList.length === 0) {return [];}
-    const year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
-    const week = now.isoWeek();
+    let year = dayjs().year().toString()
+    let week = dayjs().isoWeek()
+    if (newList.length !== 0) {
+      year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
+      week = now.isoWeek();
+    }
     const weeks = [];
     for (let i = 1; i <= week; i++) {
       if (i === week) {
