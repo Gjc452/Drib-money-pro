@@ -310,15 +310,18 @@ export default class Chart extends Vue {
       if (selectedLi === '本月') {
         const month = dayjs().month();
         const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
-        getMonthResult(result, month, days, list);
+        const monthList = list.filter(l => dayjs(l.createAt).year() === dayjs().year());
+        getMonthResult(result, month, days, monthList);
       } else if (selectedLi === '上月') {
         const month = dayjs().month() - 1;
         const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
-        getMonthResult(result, month, days, list);
+        const monthList = list.filter(l => dayjs(l.createAt).year() === dayjs().year());
+        getMonthResult(result, month, days, monthList);
       } else if (parseInt(selectedLi.replace('月', '')) <= 12) {
         const month = parseInt(selectedLi.replace('月', '')) - 1;
         const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
-        getMonthResult(result, month, days, list);
+        const monthList = list.filter(l => dayjs(l.createAt).year() === dayjs().year());
+        getMonthResult(result, month, days, monthList);
       } else {
         const year = parseInt(selectedLi.slice(0, 4));
         const month = parseInt(selectedLi.slice(5, selectedLi.length - 1)) - 1;
