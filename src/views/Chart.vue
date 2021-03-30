@@ -101,8 +101,10 @@ export default class Chart extends Vue {
 
   updated() {
     const lis = this.$refs.moneyLi as HTMLDivElement[];
-    for (let i = 0; i < lis.length; i++) {
-      lis[i].style.width = this.newList[i].percent;
+    if(lis){
+      for (let i = 0; i < lis.length; i++) {
+        lis[i].style.width = this.newList[i].percent;
+      }
     }
   }
 
@@ -134,7 +136,7 @@ export default class Chart extends Vue {
       const monthList = list.filter(l => dayjs(l.createAt).year() === year).filter(r => dayjs(r.createAt).format('YYYY-MM') === dayjs(`${year}-${month}`).format('YYYY-MM'));
       return getRankResult(monthList);
     } else {
-      let year;
+      let year = dayjs().year();
       if (this.selectedLi === '去年') {
         year = dayjs().subtract(1, 'year').year();
       } else if (this.selectedLi === '今年') {
@@ -150,7 +152,7 @@ export default class Chart extends Vue {
   get chartOptions() {
     const time = this.moneyData.map(n => n.time);
     const money = this.moneyData.map(n => n.total);
-    const max = JSON.parse(JSON.stringify(money)).sort((a, b) => b - a)[0];
+    const max = JSON.parse(JSON.stringify(money)).sort((a: number, b: number) => b - a)[0];
     return {
       title: {
         text: `最大值:${max}`,

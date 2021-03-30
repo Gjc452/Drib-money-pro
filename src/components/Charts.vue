@@ -7,10 +7,11 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 import * as echarts from 'echarts';
 import {ECharts} from 'echarts';
+import {ECBasicOption} from 'echarts/types/dist/shared';
 
 @Component
 export default class Charts extends Vue {
-  @Prop() readonly options?: object
+  @Prop() readonly options?: ECBasicOption
   chart?: ECharts
 
   mounted() {
@@ -19,11 +20,11 @@ export default class Charts extends Vue {
     chartDom.style.width = `${width}px`;
     chartDom.style.height = `${width * 0.35}px`;
     this.chart = echarts.init(chartDom);
-    this.chart.setOption(this.options);
+    this.options && this.chart.setOption(this.options);
   }
   @Watch('options')
-  onOptionsChange(newValue){
-    this.chart.setOption(newValue)
+  onOptionsChange(newValue: ECBasicOption){
+    this.chart && this.chart.setOption(newValue)
   }
 }
 </script>
