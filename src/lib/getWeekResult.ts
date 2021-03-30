@@ -4,7 +4,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 dayjs.extend(weekOfYear);
 dayjs.extend(isoWeek)
 function getWeekResult(result: [{}],year: number,week: number,recordList: RecordItem[]) {
-  const newList = (JSON.parse(JSON.stringify(recordList)) as RecordItem[]).filter(r => dayjs(r.createAt).isoWeek() === week)
+  const newList = (JSON.parse(JSON.stringify(recordList)) as RecordItem[]).filter(r=>dayjs(r.createAt).year()===year).filter(r => dayjs(r.createAt).isoWeek() === week)
   let time
   if(year === dayjs().year()){
     time = dayjs(`${year}`).week(week+1)
