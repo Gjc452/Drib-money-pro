@@ -16,15 +16,15 @@
     <div class="records">
       <h3>支出排行榜</h3>
       <ul>
-        <li>
+        <li ref="moneyLi" v-for="(r,index) in this.newList" :key="index">
           <div class="iconWrapper">
-            <Icon name="icon-tongxun"/>
+            <Icon :name="r.tag"/>
           </div>
           <div class="detailWrapper">
             <div class="detail">
-              <span>通讯</span>
-              <span>70%</span>
-              <span>70</span>
+              <span>{{ r.note }}</span>
+              <span>{{ r.percent }}</span>
+              <span>{{ r.total }}</span>
             </div>
             <div class="progressbar"></div>
           </div>
@@ -96,6 +96,34 @@ export default class Chart extends Vue {
             : ol.style.left = left1 + moveLeft + 'px';
       }
     });
+  }
+
+  mounted() {
+    store.commit('fetchRecordList');
+    store.commit('resetRecord');
+    store.commit('setType', '-');
+  }
+
+  get newList(){
+    const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
+    if(list.length===0){return []}
+    const result = [{
+      tag: list[0].tag.icon,
+      note: list[0].tag.name,
+      total: 0,
+      percent: '0%'
+    }]
+    if(this.time==='周'){
+      for(let i =1;i<list.length;i++){
+        if(result.map(r=>r.tag).indexOf(list[i].tag.icon)<0){
+         result.push({tag:list[i].tag.icon,note: list[i].tag.name,total:0,percent: '0%'})
+        }
+      }
+    }
+    result.map(group=>group.total=list.filter(l=>l.tag.icon===group.tag).reduce((sum, item) => sum + parseFloat(item.amount), 0))
+    const amount = result.reduce((sum, item) => sum + parseFloat(item.total), 0)
+    result.map(group=>group.percent=(group.total/amount*100).toFixed(2)+'%')
+    return result
   }
 
   get chartOptions(){
@@ -296,12 +324,6 @@ export default class Chart extends Vue {
 
   get recordList() {
     return store.state.recordList;
-  }
-
-  mounted() {
-    store.commit('fetchRecordList');
-    store.commit('resetRecord');
-    store.commit('setType', '-');
   }
 }
 </script>
