@@ -14,7 +14,7 @@
       记账
     </router-link>
     <router-link to="/chart" class="item" active-class="selected">
-      <Icon name="icon-tongji"/>
+      <Icon name="icon-tubiao3"/>
       图表
     </router-link>
   </nav>
@@ -51,7 +51,9 @@ nav {
   }
 
   > .item.selected {
-    color: $color-highlight;
+    .icon{
+      color: $color-highlight;
+    }
   }
 }
 
