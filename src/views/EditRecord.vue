@@ -35,18 +35,18 @@
     </main>
     <footer>
       <button>编辑</button>
-      <button @click="deleteCurrentRecord">删除</button>
+      <button @click="changeChoose">删除</button>
     </footer>
-    <div class="shadeWrapper">
-      <AskDelete/>
+    <div class="shadeWrapper" v-if="choose">
+      <AskDelete @click.native="changeChoose"/>
       <div class="content">
         <div class="text">
           <h3>确认删除</h3>
           <span>删除后数据不可恢复！</span>
         </div>
         <div class="choose">
-          <button>取消</button>
-          <button>删除</button>
+          <button @click="changeChoose">取消</button>
+          <button @click="deleteCurrentRecord">删除</button>
         </div>
       </div>
     </div>
@@ -67,6 +67,11 @@ dayjs.extend(isoWeek);
 })
 export default class EditRecord extends Vue {
   id = -1;
+  choose = false;
+
+  changeChoose() {
+    this.choose = !this.choose;
+  }
 
   created() {
     this.id = parseInt(this.$route.params.id);
@@ -199,10 +204,11 @@ export default class EditRecord extends Vue {
     }
   }
 }
-.content{
+
+.content {
   border-radius: 2px;
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 50%;
   width: 340px;
   padding: 10px 16px;
@@ -211,25 +217,30 @@ export default class EditRecord extends Vue {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  .text{
+
+  .text {
     padding-bottom: 30px;
-    h3{
+
+    h3 {
       font-size: 16px;
       font-weight: bolder;
       padding-bottom: 5px;
     }
-    span{
+
+    span {
       font-size: 14px;
     }
   }
-  .choose{
+
+  .choose {
     margin-left: auto;
-    button{
+
+    button {
       background: transparent;
       padding: 5px;
       margin-left: 16px;
       font-size: 14px;
-      color: rgb(10,148,135);
+      color: rgb(10, 148, 135);
       border: none;
     }
   }
