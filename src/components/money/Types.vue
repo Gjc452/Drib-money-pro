@@ -22,7 +22,7 @@ export default class Notes extends Vue {
   }
 
   back() {
-    this.id <= this.recordList[this.recordList.length - 1].id
+    this.id <= this.recordList[this.recordList.length - 1].id && this.id !== 0
         ? this.$router.replace(`/statistics/edit/${this.id}`)
         : this.$router.back();
   }
