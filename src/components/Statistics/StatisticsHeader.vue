@@ -23,22 +23,22 @@
         <Icon name="icon-zhangdan"/>
         <span>账单</span>
       </li>
-      <li>
+      <router-link to="/fitting">
         <Icon name="icon-ziyuan"/>
         <span>预算</span>
-      </li>
-      <li>
+      </router-link>
+      <router-link to="/fitting">
         <Icon name="icon-_baoxianlipei"/>
         <span>资产管家</span>
-      </li>
-      <li>
+      </router-link>
+      <router-link to="/fitting">
         <Icon name="icon--zhishichanquan"/>
         <span>理财知识</span>
-      </li>
-      <li>
+      </router-link>
+      <router-link to="/fitting">
         <Icon name="icon-A"/>
         <span>购物返现</span>
-      </li>
+      </router-link>
     </ul>
     <yd-datetime v-show="false" type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
   </header>
@@ -138,7 +138,7 @@ header {
     border-radius: 4px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
 
-    > li {
+    > li, a {
       width: 20%;
       display: flex;
       flex-direction: column;
