@@ -121,6 +121,7 @@ export default class EditRecord extends Vue {
 
     > span {
       padding-top: 5px;
+      visibility: hidden;
     }
 
     > .iconWrapper, {
