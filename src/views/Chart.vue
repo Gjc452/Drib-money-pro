@@ -15,7 +15,7 @@
     </div>
     <div class="records">
       <h3>支出排行榜</h3>
-      <ul>
+      <ul v-if="newList.length!==0">
         <li v-for="(r,index) in this.newList" :key="index">
           <div class="iconWrapper">
             <Icon :name="r.tag"/>
@@ -30,6 +30,11 @@
           </div>
         </li>
       </ul>
+      <div class="noList" v-else>
+        <icon name="icon-qingdan"/>
+        <div></div>
+        <span>暂无数据</span>
+      </div>
     </div>
   </Layout>
 </template>
@@ -58,7 +63,7 @@ dayjs.extend(weekOfYear);
   components: {ChartHeader, Charts}
 })
 export default class Chart extends Vue {
-  type = '+';
+  type = '-';
   time = '周';
   selectedLi: string = this.week[this.week.length - 1];
 
@@ -463,6 +468,29 @@ export default class Chart extends Vue {
         border-radius: 4px;
         background: $color-highlight;
       }
+    }
+  }
+  .noList{
+    color: rgb(209,209,209);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    .icon{
+      width: 50px;
+      height: 50px;
+    }
+    div{
+      margin-top: 3px;
+      background: rgb(209,209,209);
+      width: 40px;
+      height: 10px;
+      border-radius: 80% 80% ;
+    }
+    span{
+      padding-top: 10px;
+      font-size: 12px;
     }
   }
 }
