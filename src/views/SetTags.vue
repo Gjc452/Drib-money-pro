@@ -4,7 +4,7 @@
     <main>
       <ul>
         <li v-for="tag in tagList()" :key="tag.name">
-          <Icon @click.native="deleteTag(tag.icon)" name="icon-substract"/>
+          <Icon @click.native="changeChoose(tag.icon)" name="icon-substract"/>
           <div>
             <Icon :name="tag.icon"/>
           </div>
@@ -26,6 +26,19 @@
       </ul>
     </main>
     <SetTagsFooter/>
+    <div class="shadeWrapper" v-if="choose">
+      <AskDelete @click.native="choose = false"/>
+      <div class="content">
+        <div class="text">
+          <h3>警告</h3>
+          <span>删除类别会同时删除该类别下的所有记账</span>
+        </div>
+        <div class="choose">
+          <button @click="choose = false">取消</button>
+          <button @click="deleteCurrentTag">确认</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,11 +49,34 @@ import SetTagsFooter from '@/components/setTags/SetTagsFooter.vue';
 import SetTagsTop from '@/components/setTags/SetTagsTop.vue';
 import findIndex from '@/lib/findIndex';
 import store from '@/store';
+import AskDelete from '@/components/common/AskDelete.vue';
 
 @Component({
-  components: {SetTagsTop, SetTagsFooter}
+  components: {AskDelete, SetTagsTop, SetTagsFooter}
 })
 export default class EditTags extends Vue {
+  selectedTag = 'icon';
+  choose = false;
+
+  changeChoose(name: string) {
+    this.selectedTag = name;
+    if (this.recordList.length !== 0 && this.recordList.map(r => r.tag.icon).filter(i => i === this.selectedTag).length !== 0) {
+      this.choose = !this.choose;
+    } else {
+      this.deleteCurrentTag();
+    }
+  }
+
+  deleteCurrentTag() {
+    const ids = this.recordList.map(r => r).filter(i => i.tag.icon === this.selectedTag).map(i => i.id);
+    if (ids.indexOf(this.record.id) >= 0) {
+      this.$store.commit('resetRecord');
+    }
+    ids.map(id => this.$store.commit('deleteRecord', id));
+    const index = this.addType === '-' ? findIndex(this.tagListOut[0], this.selectedTag) : findIndex(this.tagListIn[0], this.selectedTag);
+    this.$store.commit('deleteTagList', {type: this.addType, index});
+    this.choose = false;
+  }
 
   setAddType(value: string) {
     store.commit('setAddType', value);
@@ -54,11 +90,6 @@ export default class EditTags extends Vue {
     return this.addType === '-' ? this.tagListOut[1] : this.tagListIn[1];
   }
 
-  deleteTag(icon: string) {
-    const index = this.addType === '-' ? findIndex(this.tagListOut[0], icon) : findIndex(this.tagListIn[0], icon);
-    this.$store.commit('deleteTagList', {type: this.addType, index});
-  }
-
   addTag(icon: string) {
     const index = this.addType === '-' ? findIndex(this.tagListOut[1], icon) : findIndex(this.tagListIn[1], icon);
     this.$store.commit('addTagList', {type: this.addType, index});
@@ -66,6 +97,7 @@ export default class EditTags extends Vue {
 
   created() {
     store.commit('fetchTagList');
+    store.commit('fetchRecordList');
   }
 
   get addType() {
@@ -78,6 +110,14 @@ export default class EditTags extends Vue {
 
   get tagListOut() {
     return store.state.tagListOut;
+  }
+
+  get recordList() {
+    return this.$store.state.recordList as RecordItem[];
+  }
+
+  get record() {
+    return this.$store.state.record as RecordItem;
   }
 
 }
@@ -155,7 +195,46 @@ export default class EditTags extends Vue {
       padding: 16px 0 6px;
     }
   }
+}
 
+.content {
+  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  padding: 10px 16px;
+  transform: translateX(-50%) translateY(-50%);
+  background: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
 
+  .text {
+    padding-bottom: 30px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: bolder;
+      padding-bottom: 5px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  .choose {
+    margin-left: auto;
+
+    button {
+      background: transparent;
+      padding: 5px;
+      margin-left: 16px;
+      font-size: 14px;
+      color: rgb(10, 148, 135);
+      border: none;
+    }
+  }
 }
 </style>
