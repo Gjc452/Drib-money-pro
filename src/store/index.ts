@@ -149,6 +149,11 @@ const store = new Vuex.Store({
       state.recordList.push(state.record);
       store.commit('saveRecordList');
       store.commit('resetRecord');
+    },
+    deleteRecord(state, id: number) {
+      const index = state.recordList.map(r => r.id).indexOf(id);
+      state.recordList.splice(index, 1);
+      store.commit('saveRecordList');
     }
   },
   actions: {},
