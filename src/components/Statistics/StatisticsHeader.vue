@@ -19,10 +19,10 @@
       </div>
     </div>
     <ul>
-      <li>
+      <router-link to="/bill">
         <Icon name="icon-zhangdan"/>
         <span>账单</span>
-      </li>
+      </router-link>
       <router-link to="/fitting">
         <Icon name="icon-ziyuan"/>
         <span>预算</span>

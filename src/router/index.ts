@@ -8,6 +8,7 @@ import SetTags from '@/views/SetTags.vue';
 import CustomTag from '@/views/CustomTag.vue';
 import EditRecord from '@/views/EditRecord.vue';
 import Fitting from '@/views/Fitting.vue';
+import Bill from '@/views/Bill.vue';
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,9 @@ const routes: Array<RouteConfig> = [
   {
     path:'/fitting',
     component:Fitting
+  },{
+    path:'/bill',
+    component:Bill
   },
   {
     path: '*',
