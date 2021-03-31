@@ -113,12 +113,6 @@ export default class Chart extends Vue {
     }
   }
 
-  mounted() {
-    store.commit('fetchRecordList');
-    store.commit('resetRecord');
-    store.commit('setType', '-');
-  }
-
   get newList() {
     const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (list.length === 0) {return [];}
@@ -305,28 +299,29 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    console.log(newList);
     let year = dayjs().year().toString();
     let week = dayjs().isoWeek();
     if (newList.length !== 0) {
       year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
-      week = now.isoWeek();
+      week = dayjs(newList[0].createAt).isoWeek();
     }
     const weeks = [];
     for (let i = 1; i <= week; i++) {
-      if (i === week) {
+      if (i === dayjs().isoWeek()) {
         weeks.push('本周');
-      } else if (i === week - 1) {
+      } else if (i === dayjs().isoWeek() - 1) {
         weeks.push('上周');
       } else {
         weeks.push(i + '周');
       }
     }
-    const month = now.month();
+    const month = dayjs(newList[0].createAt).month();
     const months = [];
     for (let i = 0; i <= month; i++) {
-      if (i === month) {
+      if (i === dayjs().month()) {
         months.push('本月');
-      } else if (i === month - 1) {
+      } else if (i === dayjs().month() - 1) {
         months.push('上月');
       } else {
         months.push(i + 1 + '月');
@@ -361,6 +356,12 @@ export default class Chart extends Vue {
 
   get recordList() {
     return store.state.recordList;
+  }
+
+  mounted() {
+    store.commit('fetchRecordList');
+    store.commit('resetRecord');
+    store.commit('setType', '-');
   }
 }
 </script>
