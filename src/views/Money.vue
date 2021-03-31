@@ -1,6 +1,6 @@
 <template>
   <div class="moneyWrapper">
-    <Types :type="type" :id="record.id" @update:value="changeType"/>
+    <Types :type="type" :id="id" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
     <NumberPad v-if="selectedTag.icon !== 'icon'" :selected-tag.sync="selectedTag"
                :notes.sync="notes" :create-at.sync="createAt" :amount.sync="amount"
@@ -24,6 +24,7 @@ export default class Money extends Vue {
   notes = this.record.notes;
   amount = this.record.amount;
   createAt = this.record.createAt;
+  id = this.record.id;
 
   mounted() {
     this.$store.commit('fetchRecordList');
