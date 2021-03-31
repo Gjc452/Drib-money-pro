@@ -305,10 +305,15 @@ export default class Chart extends Vue {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
     let year = dayjs().year().toString();
+    let month = dayjs().month();
     let week = dayjs().isoWeek();
     if (newList.length !== 0) {
-      year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
-      week = dayjs(newList[0].createAt).isoWeek();
+      if (dayjs(newList[0].createAt).isBefore(dayjs())) {
+        month = dayjs(newList[0].createAt).month();
+        year = dayjs(newList[0].createAt).year().toString();
+      } else {
+        week = dayjs(newList[0].createAt).isoWeek();
+      }
     }
     const weeks = [];
     for (let i = 1; i <= week; i++) {
@@ -320,7 +325,6 @@ export default class Chart extends Vue {
         weeks.push(i + '周');
       }
     }
-    const month = newList.length !== 0 ? dayjs(newList[0].createAt).month() : dayjs().month();
     const months = [];
     for (let i = 0; i <= month; i++) {
       if (i === dayjs().month()) {
