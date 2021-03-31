@@ -18,7 +18,7 @@ export default class Charts extends Vue {
     const width = document.documentElement.clientWidth;
     const chartDom = this.$refs.container as HTMLDivElement;
     chartDom.style.width = `${width}px`;
-    chartDom.style.height = `${width * 0.35}px`;
+    chartDom.style.height = '132px';
     this.chart = echarts.init(chartDom);
     this.options && this.chart.setOption(this.options);
   }
