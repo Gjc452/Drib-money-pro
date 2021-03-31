@@ -308,10 +308,10 @@ export default class Chart extends Vue {
     let month = dayjs().month();
     let week = dayjs().isoWeek();
     if (newList.length !== 0) {
-      if (dayjs(newList[0].createAt).isBefore(dayjs())) {
+      if (dayjs(newList[0].createAt).isAfter(dayjs())) {
+        console.log(1);
         month = dayjs(newList[0].createAt).month();
         year = dayjs(newList[0].createAt).year().toString();
-      } else {
         week = dayjs(newList[0].createAt).isoWeek();
       }
     }
