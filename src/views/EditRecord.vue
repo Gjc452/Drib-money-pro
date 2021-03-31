@@ -35,7 +35,7 @@
     </main>
     <footer>
       <button>编辑</button>
-      <button>删除</button>
+      <button @click="deleteCurrentRecord">删除</button>
     </footer>
   </div>
 </template>
@@ -56,6 +56,11 @@ export default class EditRecord extends Vue {
     this.id = parseInt(this.$route.params.id);
     this.$store.commit('fetchRecordList');
     this.recordList.map(r => r.id).indexOf(this.id) < 0 ? this.$router.replace('/404') : '';
+  }
+
+  deleteCurrentRecord() {
+    this.$store.commit('deleteRecord', this.id);
+    this.$router.back();
   }
 
   back() {
