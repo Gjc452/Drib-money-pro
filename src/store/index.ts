@@ -145,7 +145,7 @@ const store = new Vuex.Store({
     },
     saveRecord(state) {
       const id = state.record.id;
-      if (id <= state.recordList[state.recordList.length - 1].id) {
+      if (id <= state.recordList[state.recordList.length - 1].id && id !== 0) {
         const index = state.recordList.map(r => r.id).indexOf(id);
         state.recordList.splice(index, 1, state.record);
       } else {
