@@ -136,6 +136,8 @@ export default class NumberPad extends Vue {
     } else if (text === '完成') {
       if (index[0] === this.input.length - 1 || this.input.slice(-1) === '.') {
         this.input = this.input.slice(0, -1);
+      } else if (this.input === '0') {
+        return;
       } else {
         this.$emit('submit', this.input);
       }
