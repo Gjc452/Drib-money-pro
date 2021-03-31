@@ -35,7 +35,8 @@
       <button v-if="counting" class="ok">=</button>
       <button v-else class="ok">完成</button>
     </div>
-    <yd-datetime v-show="false" type="date" ref="datetime" v-model="selectedDate" slot="right"></yd-datetime>
+    <yd-datetime v-show="false" type="date" ref="datetime" :end-date="endDate" v-model="selectedDate"
+                 slot="right"></yd-datetime>
   </div>
 </template>
 
@@ -45,7 +46,9 @@ import getLastIndex from '@/lib/getLastIndex';
 import addBits from '@/lib/addBits';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 import dayjs from 'dayjs';
+import dayOfYear from 'dayjs/plugin/dayOfYear';
 
+dayjs.extend(dayOfYear);
 @Component
 export default class NumberPad extends Vue {
   @Prop(String) readonly notes!: string;
@@ -55,6 +58,7 @@ export default class NumberPad extends Vue {
   input = this.amount;
   now = dayjs().format('YYYY-MM-DD');
   selectedDate = this.createAt;
+  endDate = dayjs().add(1, 'year').dayOfYear(1).subtract(1, 'day').format('YYYY-MM-DD');
 
   @Watch('selectedDate')
   update() {
