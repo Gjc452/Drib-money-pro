@@ -77,6 +77,7 @@ export default class EditRecord extends Vue {
     this.id = parseInt(this.$route.params.id);
     this.$store.commit('fetchRecordList');
     this.recordList.map(r => r.id).indexOf(this.id) < 0 ? this.$router.replace('/404') : '';
+    this.$store.commit('resetRecord');
   }
 
   deleteCurrentRecord() {
@@ -88,11 +89,12 @@ export default class EditRecord extends Vue {
     this.$store.commit('setRecord', {
       id: this.currentRecord.id,
       tag: this.currentRecord.tag,
-      notes: this.currentRecord.notes,
+      notes: this.currentRecord.notes === this.currentRecord.tag.name ? '' : this.currentRecord.notes,
       type: this.currentRecord.type,
       amount: this.currentRecord.amount,
       createAt: this.currentRecord.createAt
     });
+    this.$store.commit('setType', this.currentRecord.type);
     this.$router.replace('/money');
   }
 

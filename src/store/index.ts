@@ -141,12 +141,18 @@ const store = new Vuex.Store({
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     },
     saveRecordList(state) {
-      state.record.id === 0 ? state.record.id = idCreate() : '';
-      state.record.notes === '' ? state.record.notes = state.record.tag.name : '';
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
     saveRecord(state) {
-      state.recordList.push(state.record);
+      const id = state.record.id;
+      if (id <= state.recordList[state.recordList.length - 1].id) {
+        const index = state.recordList.map(r => r.id).indexOf(id);
+        state.recordList.splice(index, 1, state.record);
+      } else {
+        state.record.id === 0 ? state.record.id = idCreate() : '';
+        state.recordList.push(state.record);
+      }
+      state.record.notes === '' ? state.record.notes = state.record.tag.name : '';
       store.commit('saveRecordList');
       store.commit('resetRecord');
     },
