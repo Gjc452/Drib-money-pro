@@ -2,7 +2,7 @@
   <Layout>
     <StatisticsHeader :time.sync="time" :money="totalFunds"/>
     <main>
-      <ol>
+      <ol v-if="groupList.length!==0">
         <li v-for="group in groupList" :key="group.title">
           <h3 class="title">
             <div class="payTime">
@@ -25,6 +25,9 @@
           </ul>
         </li>
       </ol>
+      <div class="noGroup" v-else>
+        <NoList/>
+      </div>
     </main>
   </Layout>
 </template>
@@ -36,9 +39,10 @@ import StatisticsHeader from '@/components/Statistics/StatisticsHeader.vue';
 import dayjs from 'dayjs';
 import getDay from '@/lib/getDay';
 import store from '@/store';
+import NoList from '@/components/common/NoList.vue';
 
 @Component({
-  components: {StatisticsHeader}
+  components: {NoList, StatisticsHeader}
 })
 export default class Statistics extends Vue {
   time = dayjs();
@@ -149,6 +153,9 @@ main {
         }
       }
     }
+  }
+  .noGroup{
+    padding-top: 100px;
   }
 }
 </style>

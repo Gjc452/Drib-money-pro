@@ -30,10 +30,8 @@
           </div>
         </li>
       </ul>
-      <div class="noList" v-else>
-        <icon name="icon-qingdan"/>
-        <div></div>
-        <span>暂无数据</span>
+      <div v-else>
+        <NoList/>
       </div>
     </div>
   </Layout>
@@ -54,13 +52,14 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
 import isLeapYear from 'dayjs/plugin/isLeapYear';
 import getRankResult from '@/lib/getRankResult';
+import NoList from '@/components/common/NoList.vue';
 
 dayjs.extend(isLeapYear);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 @Component({
-  components: {ChartHeader, Charts}
+  components: {NoList, ChartHeader, Charts}
 })
 export default class Chart extends Vue {
   type = '-';
@@ -73,7 +72,7 @@ export default class Chart extends Vue {
     this.$nextTick(() => {
       const ol = this.$refs.ol as HTMLDivElement;
       const lis = this.$refs.lis as HTMLDivElement[];
-      if(!lis){return []}
+      if (!lis) {return [];}
       const width = lis.map(li => li.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
       const {clientWidth} = document.body;
       if (lis.length <= 5) {
@@ -107,7 +106,7 @@ export default class Chart extends Vue {
 
   updated() {
     const lis = this.$refs.moneyLi as HTMLDivElement[];
-    if(lis){
+    if (lis) {
       for (let i = 0; i < lis.length; i++) {
         lis[i].style.width = this.newList[i].percent;
       }
@@ -244,7 +243,7 @@ export default class Chart extends Vue {
     const result: Result = [];
     const list = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).filter(r => r.type === this.type);
     if (this.time === '周') {
-      if(!selectedLi){selectedLi = '本周'}
+      if (!selectedLi) {selectedLi = '本周';}
       if (selectedLi === '本周') {
         const year = dayjs().year();
         const week = dayjs().isoWeek();
@@ -264,7 +263,7 @@ export default class Chart extends Vue {
         getWeekResult(result, year, week, selectedList);
       }
     } else if (this.time === '月') {
-      if(!selectedLi){selectedLi = '本月'}
+      if (!selectedLi) {selectedLi = '本月';}
       if (selectedLi === '本月') {
         const month = dayjs().month();
         const days = dayjs(`${dayjs().year()}-${month + 1}`).daysInMonth();
@@ -288,7 +287,7 @@ export default class Chart extends Vue {
         getMonthResult(result, month, days, selectedList);
       }
     } else if (this.time === '年') {
-      if(!selectedLi){selectedLi = '今年'}
+      if (!selectedLi) {selectedLi = '今年';}
       if (selectedLi === '今年') {
         const year = dayjs().year();
         getYearResult(result, year, list);
@@ -306,8 +305,8 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
-    let year = dayjs().year().toString()
-    let week = dayjs().isoWeek()
+    let year = dayjs().year().toString();
+    let week = dayjs().isoWeek();
     if (newList.length !== 0) {
       year = newList.length !== 1 ? newList[newList.length - 1].createAt.slice(0, 4) : now.year().toString();
       week = now.isoWeek();
@@ -468,29 +467,6 @@ export default class Chart extends Vue {
         border-radius: 4px;
         background: $color-highlight;
       }
-    }
-  }
-  .noList{
-    color: rgb(209,209,209);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 50px;
-    .icon{
-      width: 50px;
-      height: 50px;
-    }
-    div{
-      margin-top: 3px;
-      background: rgb(209,209,209);
-      width: 40px;
-      height: 10px;
-      border-radius: 80% 80% ;
-    }
-    span{
-      padding-top: 10px;
-      font-size: 12px;
     }
   }
 }
