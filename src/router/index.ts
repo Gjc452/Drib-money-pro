@@ -6,6 +6,7 @@ import Statistics from '@/views/Statistics.vue';
 import NoteFound from '@/views/NoteFound.vue';
 import SetTags from '@/views/SetTags.vue';
 import CustomTag from '@/views/CustomTag.vue';
+import EditRecord from '@/views/EditRecord.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/statistics',
     component: Statistics
+  },
+  {
+    path: '/statistics/edit/:id',
+    component: EditRecord
   },
   {
     path: '*',

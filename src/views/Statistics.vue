@@ -15,13 +15,13 @@
             </div>
           </h3>
           <ul class="recordWrapper">
-            <li class="record" v-for="(item,index) in group.items" :key="index">
+            <router-link :to="`/statistics/edit/${item.id}`" class="record" v-for="(item,index) in group.items" :key="index">
               <div>
                 <Icon :name="item.tag.icon"/>
               </div>
               <span>{{ item.notes }}</span>
               <span>{{ item.type === '-' ? '-'.concat(item.amount) : item.amount }}</span>
-            </li>
+            </router-link>
           </ul>
         </li>
       </ol>
