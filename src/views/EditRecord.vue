@@ -34,7 +34,7 @@
       </div>
     </main>
     <footer>
-      <button>编辑</button>
+      <button @click="editCurrentRecord">编辑</button>
       <button @click="changeChoose">删除</button>
     </footer>
     <div class="shadeWrapper" v-if="choose">
@@ -82,6 +82,18 @@ export default class EditRecord extends Vue {
   deleteCurrentRecord() {
     this.$store.commit('deleteRecord', this.id);
     this.$router.back();
+  }
+
+  editCurrentRecord() {
+    this.$store.commit('setRecord', {
+      id: this.currentRecord.id,
+      tag: this.currentRecord.tag,
+      notes: this.currentRecord.notes,
+      type: this.currentRecord.type,
+      amount: this.currentRecord.amount,
+      createAt: this.currentRecord.createAt
+    });
+    this.$router.replace('/money');
   }
 
   back() {
