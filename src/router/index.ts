@@ -7,6 +7,7 @@ import NoteFound from '@/views/NoteFound.vue';
 import SetTags from '@/views/SetTags.vue';
 import CustomTag from '@/views/CustomTag.vue';
 import EditRecord from '@/views/EditRecord.vue';
+import Fitting from '@/views/Fitting.vue';
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/statistics/edit/:id',
     component: EditRecord
+  },
+  {
+    path:'/fitting',
+    component:Fitting
   },
   {
     path: '*',
