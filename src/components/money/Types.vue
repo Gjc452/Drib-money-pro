@@ -13,6 +13,7 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Notes extends Vue {
   @Prop(String) readonly type!: string;
+  @Prop(Number) readonly id!: number;
 
   selectType(type: string) {
     if (type !== '-' && type !== '+') {throw new Error('type is unknown');}
@@ -21,7 +22,13 @@ export default class Notes extends Vue {
   }
 
   back() {
-    this.$router.back();
+    this.id <= this.recordList[this.recordList.length - 1].id
+        ? this.$router.replace(`/statistics/edit/${this.id}`)
+        : this.$router.back();
+  }
+
+  get recordList() {
+    return this.$store.state.recordList as RecordItem[];
   }
 }
 </script>

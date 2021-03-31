@@ -1,6 +1,6 @@
 <template>
   <div class="moneyWrapper">
-    <Types :type="type" @update:value="changeType"/>
+    <Types :type="type" :id="record.id" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
     <NumberPad v-if="selectedTag.icon !== 'icon'" :selected-tag.sync="selectedTag"
                :notes.sync="notes" :create-at.sync="createAt" :amount.sync="amount"
