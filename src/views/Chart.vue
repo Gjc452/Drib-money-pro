@@ -64,44 +64,21 @@ dayjs.extend(weekOfYear);
 export default class Chart extends Vue {
   type = '-';
   time = '周';
-  selectedLi: string = this.week[this.week.length - 1];
+  selectedLi = '本周';
 
   @Watch('time')
   updateSelectedLi() {
-    this.selectedLi = this.week[this.week.length - 1];
-    this.$nextTick(() => {
-      const ol = this.$refs.ol as HTMLDivElement;
-      const lis = this.$refs.lis as HTMLDivElement[];
-      if (!lis) {return [];}
-      const width = lis.map(li => li.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
-      const {clientWidth} = document.body;
-      if (lis.length <= 5) {
-        ol.style.left = width - clientWidth + 'px';
-      } else {
-        ol.style.left = '0px';
-      }
-    });
+    if (this.time === '周') {
+      this.selectedLi = '本周';
+    } else if (this.time === '月') {
+      this.selectedLi = '本月';
+    } else {
+      this.selectedLi = '今年';
+    }
   }
 
   changeSelectedLi(n: string) {
-    const oldLis = this.$refs.lis as HTMLDivElement[];
-    const oldLi = oldLis.filter(li => li.className === 'selected')[0];
-    const oldIndex = oldLis.indexOf(oldLi);
     this.selectedLi = n;
-    this.$nextTick(() => {
-      const ol = this.$refs.ol as HTMLDivElement;
-      const lis = this.$refs.lis as HTMLDivElement[];
-      const selectedLi = lis.filter(li => li.className === 'selected')[0];
-      const index = lis.indexOf(selectedLi) + 1;
-      const {left, width} = selectedLi.getBoundingClientRect();
-      const {left: left1} = ol.getBoundingClientRect();
-      const moveLeft = document.body.clientWidth / 2 - width / 2 - left;
-      if (lis.length >= 5) {
-        lis.length - index < 3
-            ? oldIndex < index ? ol.style.left = '0px' : ''
-            : ol.style.left = left1 + moveLeft + 'px';
-      }
-    });
   }
 
   updated() {
@@ -111,6 +88,34 @@ export default class Chart extends Vue {
         lis[i].style.width = this.newList[i].percent;
       }
     }
+    const oldLis = this.$refs.lis as HTMLDivElement[];
+    const oldLi = oldLis.filter(li => li.className === 'selected')[0];
+    const oldIndex = oldLis.indexOf(oldLi);
+    this.$nextTick(() => {
+      const ol = this.$refs.ol as HTMLDivElement;
+      const lis = this.$refs.lis as HTMLDivElement[];
+      const {clientWidth} = document.body;
+      if (this.week[this.week.length - 1] !== this.selectedLi) {
+        const selectedLi = lis.filter(li => li.className === 'selected')[0];
+        const index = lis.indexOf(selectedLi) + 1;
+        const {left, width} = selectedLi.getBoundingClientRect();
+        const {left: left1} = ol.getBoundingClientRect();
+        const moveLeft = clientWidth / 2 - width / 2 - left;
+        if (lis.length >= 5) {
+          lis.length - index < 3
+              ? oldIndex < index ? ol.style.left = '0px' : ''
+              : ol.style.left = left1 + moveLeft + 'px';
+        }
+      } else {
+        if (!lis) {return [];}
+        const width = lis.map(li => li.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
+        if (lis.length <= 5) {
+          ol.style.left = width - clientWidth + 'px';
+        } else {
+          ol.style.left = '0px';
+        }
+      }
+    });
   }
 
   get newList() {
@@ -299,7 +304,6 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
-    console.log(newList);
     let year = dayjs().year().toString();
     let week = dayjs().isoWeek();
     if (newList.length !== 0) {
@@ -316,7 +320,7 @@ export default class Chart extends Vue {
         weeks.push(i + '周');
       }
     }
-    const month = dayjs(newList[0].createAt).month();
+    const month = newList.length !== 0 ? dayjs(newList[0].createAt).month() : dayjs().month();
     const months = [];
     for (let i = 0; i <= month; i++) {
       if (i === dayjs().month()) {
@@ -362,6 +366,7 @@ export default class Chart extends Vue {
     store.commit('fetchRecordList');
     store.commit('resetRecord');
     store.commit('setType', '-');
+
   }
 }
 </script>
