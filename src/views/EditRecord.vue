@@ -37,6 +37,19 @@
       <button>编辑</button>
       <button @click="deleteCurrentRecord">删除</button>
     </footer>
+    <div class="shadeWrapper">
+      <AskDelete/>
+      <div class="content">
+        <div class="text">
+          <h3>确认删除</h3>
+          <span>删除后数据不可恢复！</span>
+        </div>
+        <div class="choose">
+          <button>取消</button>
+          <button>删除</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,9 +59,12 @@ import {Component} from 'vue-property-decorator';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import getDay from '@/lib/getDay';
+import AskDelete from '@/components/common/AskDelete.vue';
 
 dayjs.extend(isoWeek);
-@Component
+@Component({
+  components: {AskDelete}
+})
 export default class EditRecord extends Vue {
   id = -1;
 
@@ -180,6 +196,41 @@ export default class EditRecord extends Vue {
       top: 50%;
       transform: translateX(1px) translateY(-8px);
       position: absolute;
+    }
+  }
+}
+.content{
+  border-radius: 2px;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  width: 340px;
+  padding: 10px 16px;
+  transform: translateX(-50%) translateY(-50%);
+  background: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  .text{
+    padding-bottom: 30px;
+    h3{
+      font-size: 16px;
+      font-weight: bolder;
+      padding-bottom: 5px;
+    }
+    span{
+      font-size: 14px;
+    }
+  }
+  .choose{
+    margin-left: auto;
+    button{
+      background: transparent;
+      padding: 5px;
+      margin-left: 16px;
+      font-size: 14px;
+      color: rgb(10,148,135);
+      border: none;
     }
   }
 }
