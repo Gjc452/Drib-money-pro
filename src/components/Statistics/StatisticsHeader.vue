@@ -138,7 +138,7 @@ header {
     border-radius: 4px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
 
-    > li, a {
+    a {
       width: 20%;
       display: flex;
       flex-direction: column;

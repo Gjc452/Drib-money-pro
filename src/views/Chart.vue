@@ -398,6 +398,11 @@ export default class Chart extends Vue {
       justify-content: center;
       align-items: center;
       position: relative;
+      color: $gray;
+
+      &.selected {
+        color: black;
+      }
 
       &.selected:after {
         content: '';
