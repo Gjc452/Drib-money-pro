@@ -1,7 +1,7 @@
 <template>
   <header>
-    <div class="switchType" @click="typeSet = true">
-      <span>{{ type === '-'? '支出':'收入' }}</span>
+    <div class="switchType" @click="typeSet = !typeSet">
+      <span>{{ type === '-' ? '支出' : '收入' }}</span>
       <Icon name="icon-xiala"/>
     </div>
     <div class="date">
@@ -32,29 +32,31 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 import Shade from '@/components/common/Shade.vue';
+
 @Component({
   components: {Shade}
 })
 export default class ChartHeader extends Vue {
-  @Prop(String) readonly type!: string
-  @Prop(String) readonly time!: string
-  typeSet = false
+  @Prop(String) readonly type!: string;
+  @Prop(String) readonly time!: string;
+  typeSet = false;
 
-  setTime(value: string){
-    this.$emit('update:time',value)
+  setTime(value: string) {
+    this.$emit('update:time', value);
   }
 
-  setType(value: string){
-    this.$emit('update:type',value)
-    setTimeout(()=>{
-      this.typeSet = false
-    },150)
+  setType(value: string) {
+    this.$emit('update:type', value);
+    setTimeout(() => {
+      this.typeSet = false;
+    }, 150);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 header {
   background: $color-highlight;
   display: flex;
@@ -109,36 +111,44 @@ header {
       border-radius: 0 4px 4px 0;
     }
   }
-  .typeSet{
+
+  .typeSet {
     position: absolute;
-    top:81px;
+    top: 81px;
     width: 100%;
     z-index: 1;
-    .typeWrapper{
+
+    .typeWrapper {
       background: white;
       overflow: hidden;
-      div{
+
+      div {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding:13px 30px;
-        .icon{
+        padding: 13px 30px;
+
+        .icon {
           width: 18px;
           height: 18px;
         }
-        span{
+
+        span {
           font-size: 14px;
           padding-left: 10px;
         }
-        .icon:nth-child(3){
+
+        .icon:nth-child(3) {
           margin-left: auto;
         }
       }
-      > span{
+
+      > span {
         display: block;
-        border: 1px solid $gray;
+        position: relative;
         width: 100%;
         margin-left: 15%;
+        @extend %border-bottom
       }
     }
   }

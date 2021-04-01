@@ -15,7 +15,7 @@ export default class Shade extends Vue{
 .i-shade{
   background: rgba(000,000,000,0.6);
   position: fixed;
-  top:173px;
+  top:170px;
   right: 0;
   left: 0;
   bottom: 0;
