@@ -182,7 +182,7 @@ export default class NumberPad extends Vue {
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    @extend %border-bottom;
+    @extend %border-top-bottom;
 
     .iconWrapper {
       display: flex;
