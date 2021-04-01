@@ -23,7 +23,7 @@ export default class Notes extends Vue {
 
   back() {
     document.activeElement.blur();
-    this.$nextTick(() => {
+    setTimeout(() => {
       if (this.recordList.length !== 0) {
         this.id <= this.recordList[this.recordList.length - 1].id && this.id !== 0
             ? this.$router.replace(`/statistics/edit/${this.id}`)
@@ -31,7 +31,7 @@ export default class Notes extends Vue {
       } else {
         this.$router.replace(`/statistics`);
       }
-    });
+    }, 150);
   }
 
   get recordList() {

@@ -31,10 +31,10 @@ export default class Top extends Vue {
       const n = [...result.map(arr => arr.length)].reduce((a, b) => { return a + b;});
       if (n === 0) {
         document.activeElement.blur();
-        this.$nextTick(() => {
+        setTimeout(() => {
           store.commit('addCustomTag', {icon: this.selectedTag, name: this.value, custom: true});
           this.back();
-        });
+        }, 150);
       } else {
         window.alert('类别不能重复添加');
       }
