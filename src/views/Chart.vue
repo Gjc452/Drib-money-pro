@@ -304,17 +304,16 @@ export default class Chart extends Vue {
   get week() {
     const now = dayjs();
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
-    let year = dayjs().year().toString();
     let month = dayjs().month();
     let week = dayjs().isoWeek();
+    console.log(newList);
     if (newList.length !== 0) {
       if (dayjs(newList[0].createAt).isAfter(dayjs())) {
-        console.log(1);
         month = dayjs(newList[0].createAt).month();
-        year = dayjs(newList[0].createAt).year().toString();
         week = dayjs(newList[0].createAt).isoWeek();
       }
     }
+    const lastYear = dayjs(newList[newList.length-1].createAt).year()
     const weeks = [];
     for (let i = 1; i <= week; i++) {
       if (i === dayjs().isoWeek()) {
@@ -336,7 +335,7 @@ export default class Chart extends Vue {
       }
     }
     const years = [];
-    for (let i = parseInt(year); i <= now.year(); i++) {
+    for (let i = parseInt(lastYear); i <= now.year(); i++) {
       if (i === now.year()) {
         years.push('今年');
       } else if (i === now.year() - 1) {
@@ -345,7 +344,7 @@ export default class Chart extends Vue {
         years.push(i + '年');
       }
     }
-    for (let i = now.year() - 1; i >= parseInt(year); i--) {
+    for (let i = now.year() - 1; i >= parseInt(lastYear); i--) {
       for (let j = dayjs('2020').isoWeeksInYear(); j >= 1; j--) {
         weeks.unshift(i + '-' + j + '周');
       }
