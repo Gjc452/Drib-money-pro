@@ -217,6 +217,9 @@ export default class Chart extends Vue {
           width: 0.5,
           color: '#000'
         },
+        itemStyle:{
+          color:'rgb(255,218,68)'
+        },
         markLine: {
           silent: true,
           symbol: 'none',
