@@ -73,7 +73,9 @@ export default class EditTags extends Vue {
     if (ids.indexOf(this.record.id) >= 0) {
       this.$store.commit('resetRecord');
     }
-    ids.map(id => this.$store.commit('deleteRecord', id));
+    if(ids.length !== 0){
+      ids.map(id => this.$store.commit('deleteRecord', id));
+    }
     const index = this.addType === '-' ? findIndex(this.tagListOut[0], this.selectedTag) : findIndex(this.tagListIn[0], this.selectedTag);
     this.$store.commit('deleteTagList', {type: this.addType, index});
     this.choose = false;
