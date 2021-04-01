@@ -115,9 +115,12 @@ main {
   flex-grow: 1;
 
   ol {
+    > li:nth-child(n+2){
+      @extend %border-top;
+    }
     > li {
       position: relative;
-      @extend %border-bottom;
+
 
       .title {
         display: flex;
