@@ -3,6 +3,6 @@ module.exports = {
 }
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/Drib-money-pro-website/'
+    ? '/drib-money-website/'
     : '/'
 }
