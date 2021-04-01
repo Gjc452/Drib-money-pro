@@ -74,7 +74,7 @@ export default class Chart extends Vue {
       this.selectedLi = '本周';
     } else if (this.time === '月') {
       this.selectedLi = '本月';
-    } else {
+    } else if (this.time === '年') {
       this.selectedLi = '今年';
     }
   }

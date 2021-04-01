@@ -5,9 +5,9 @@
       <Icon name="icon-xiala"/>
     </div>
     <div class="date">
-      <button @click="setTime('周')" :class="time === '周' && 'selected'">周</button>
-      <button @click="setTime('月')" :class="time === '月' && 'selected'">月</button>
-      <button @click="setTime('年')" :class="time === '年' && 'selected'">年</button>
+      <button @click="setTime('周')" :class="{selected:time === '周'}">周</button>
+      <button @click="setTime('月')" :class="{selected:time === '月'}">月</button>
+      <button @click="setTime('年')" :class="{selected:time === '年'}">年</button>
     </div>
     <div v-if="typeSet" class="typeSet">
       <div class="typeWrapper">
