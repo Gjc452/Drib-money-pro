@@ -15,12 +15,10 @@ export default class Charts extends Vue {
   chart?: ECharts;
 
   mounted() {
-    const width = document.documentElement.clientWidth;
     const chartDom = this.$refs.container as HTMLDivElement;
-    chartDom.style.width = `${width}px`;
-    chartDom.style.height = '132px';
     this.chart = echarts.init(chartDom);
     this.options && this.chart.setOption(this.options);
+
   }
 
   @Watch('options')
@@ -36,6 +34,8 @@ export default class Charts extends Vue {
 div {
   position: relative;
   padding-bottom: 20px;
+  height: 132px;
+  width: 100%;
   @extend %border-bottom;
 }
 </style>
