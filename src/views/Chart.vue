@@ -110,12 +110,7 @@ export default class Chart extends Vue {
         }
       } else {
         if (!lis) {return [];}
-        const width = lis.map(li => li.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
-        if (lis.length <= 5) {
-          ol.style.left = width - clientWidth + 'px';
-        } else {
-          ol.style.left = '0px';
-        }
+        ol.style.left = '0px';
       }
     });
   }
@@ -317,7 +312,7 @@ export default class Chart extends Vue {
         week = dayjs(newList[0].createAt).isoWeek();
       }
     }
-    const lastYear = dayjs(newList[newList.length - 1].createAt).year();
+    const lastYear = newList.length !== 0 ? dayjs(newList[newList.length - 1].createAt).year() : dayjs().year();
     const weeks = [];
     for (let i = 1; i <= week; i++) {
       if (i === dayjs().isoWeek()) {
