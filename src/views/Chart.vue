@@ -8,10 +8,10 @@
             {{ n }}
           </li>
         </ol>
-        <div class="title">
-          <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
-          <span>平均值：{{ (moneyData.map(d => d.total).reduce((a, b) => a + b) / moneyData.length).toFixed(2) }}</span>
-        </div>
+      </div>
+      <div class="title">
+        <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
+        <span>平均值：{{ (moneyData.map(d => d.total).reduce((a, b) => a + b) / moneyData.length).toFixed(2) }}</span>
       </div>
       <Charts :options="chartOptions"/>
       <div class="records">
@@ -418,22 +418,23 @@ export default class Chart extends Vue {
       }
     }
   }
+}
 
-  .title {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 10px 0;
-    position: relative;
+.title {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 0;
+  position: relative;
+  @extend %border-top;
 
-    span {
-      font-size: 12px;
-      font-weight: 300;
-    }
+  span {
+    font-size: 12px;
+    font-weight: 300;
+  }
 
-    span:nth-child(2) {
-      font-size: 11px;
-      padding-top: 3px;
-    }
+  span:nth-child(2) {
+    font-size: 11px;
+    padding-top: 3px;
   }
 }
 
