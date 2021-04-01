@@ -2,12 +2,15 @@
   <Layout>
     <div class="chartWrapper">
       <ChartHeader :type.sync="type" :time.sync="time"/>
-      <div class="week">
-        <ol ref="ol">
-          <li ref="lis" v-for="n in this.week" :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)" :key="n">
-            {{ n }}
-          </li>
-        </ol>
+      <div class="weekWrapper">
+        <div class="week">
+          <ol ref="ol">
+            <li ref="lis" v-for="n in this.week" :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)"
+                :key="n">
+              {{ n }}
+            </li>
+          </ol>
+        </div>
       </div>
       <div class="title">
         <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
@@ -382,37 +385,39 @@ export default class Chart extends Vue {
   height: 100%;
 }
 
-.week {
-  overflow: hidden;
-  position: relative;
-
-  ol {
-    display: flex;
-    font-size: 12px;
-    justify-content: flex-end;
+.weekWrapper {
+  .week {
+    overflow: hidden;
     position: relative;
 
-    li {
-      padding: 8px 0;
-      flex-shrink: 0;
-      width: 18%;
+    ol {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      font-size: 12px;
+      justify-content: flex-end;
       position: relative;
-      color: $gray;
 
-      &.selected {
-        color: black;
-      }
+      li {
+        padding: 8px 0;
+        flex-shrink: 0;
+        width: 18%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: $gray;
 
-      &.selected:after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        background: black;
-        height: 3px;
-        width: 100%;
+        &.selected {
+          color: black;
+        }
+
+        &.selected:after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          background: black;
+          height: 3px;
+          width: 100%;
+        }
       }
     }
   }
