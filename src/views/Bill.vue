@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div ref="div" class="wrapper">
     <header>
       <div class="top">
         <div class="year" @click="open">
@@ -50,6 +50,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import dayjs from 'dayjs';
 import NoList from '@/components/common/NoList.vue';
+import resetHeight from '@/lib/resetHeight';
 
 @Component({
   components: {NoList}
@@ -63,6 +64,10 @@ export default class Bill extends Vue {
 
   back() {
     this.$router.back();
+  }
+
+  mounted() {
+    resetHeight(this.$refs.div);
   }
 
   created() {

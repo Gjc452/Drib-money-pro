@@ -1,5 +1,5 @@
 <template>
-  <div class="moneyWrapper">
+  <div ref="div" class="moneyWrapper">
     <Types :type="type" :id="id" @update:value="changeType"/>
     <Tags :selectedTag.sync="selectedTag"/>
     <NumberPad v-if="selectedTag.icon !== 'icon'" :selected-tag.sync="selectedTag"
@@ -15,6 +15,7 @@ import NumberPad from '@/components/money/NumberPad.vue';
 import Types from '@/components/money/Types.vue';
 import Tags from '@/components/money/Tags.vue';
 import store from '@/store';
+import resetHeight from '@/lib/resetHeight';
 
 @Component({
   components: {Tags, Types, NumberPad}
@@ -28,6 +29,7 @@ export default class Money extends Vue {
 
   mounted() {
     this.$store.commit('fetchRecordList');
+    resetHeight(this.$refs.div);
   }
 
   saveRecord() {

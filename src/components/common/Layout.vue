@@ -1,5 +1,5 @@
 <template>
-  <div class="layoutWrapper">
+  <div ref="div" class="layoutWrapper">
     <div class="content" :class="classPrefix&&`${classPrefix}-content`">
       <slot/>
     </div>
@@ -8,10 +8,18 @@
 </template>
 
 <script lang="ts">
-export default {
-  props:['classPrefix'],
-  name: 'Layout'
-};
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+import resetHeight from '@/lib/resetHeight';
+
+@Component
+export default class Layout extends Vue {
+  @Prop() readonly classPrefix!: string;
+
+  mounted() {
+    resetHeight(this.$refs.div);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

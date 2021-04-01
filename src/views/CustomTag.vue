@@ -1,5 +1,5 @@
 <template>
-  <div class="addWrapper">
+  <div ref="div" class="addWrapper">
     <div class="topWrapper">
       <Top :top-name="addType === '-' ? '添加支出类别' : '添加收入类别'" name="完成" :value="input" :selected-tag="selectedTag"/>
     </div>
@@ -31,6 +31,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Top from '@/components/common/Top.vue';
 import store from '@/store';
+import resetHeight from '@/lib/resetHeight';
 
 @Component({
   components: {Top}
@@ -41,6 +42,10 @@ export default class CustomTag extends Vue {
 
   selected(tag: string) {
     this.selectedTag = tag;
+  }
+
+  mounted() {
+    resetHeight(this.$refs.div);
   }
 
   get addType() {

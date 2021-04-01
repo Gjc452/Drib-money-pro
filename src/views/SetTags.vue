@@ -1,5 +1,5 @@
 <template>
-  <div class="setTagsWrapper">
+  <div ref="div" class="setTagsWrapper">
     <SetTagsTop :type="addType" @update:type="setAddType"/>
     <main>
       <ul>
@@ -50,6 +50,7 @@ import SetTagsTop from '@/components/setTags/SetTagsTop.vue';
 import findIndex from '@/lib/findIndex';
 import store from '@/store';
 import AskDelete from '@/components/common/AskDelete.vue';
+import resetHeight from '@/lib/resetHeight';
 
 @Component({
   components: {AskDelete, SetTagsTop, SetTagsFooter}
@@ -98,6 +99,10 @@ export default class EditTags extends Vue {
   created() {
     store.commit('fetchTagList');
     store.commit('fetchRecordList');
+  }
+
+  mounted() {
+    resetHeight(this.$refs.div);
   }
 
   get addType() {

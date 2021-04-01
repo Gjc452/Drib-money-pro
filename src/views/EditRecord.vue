@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div ref="div" class="wrapper">
     <header v-if="currentRecord">
       <div class="iconWrapper">
         <div @click="back">
@@ -60,6 +60,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import getDay from '@/lib/getDay';
 import AskDelete from '@/components/common/AskDelete.vue';
+import resetHeight from '@/lib/resetHeight';
 
 dayjs.extend(isoWeek);
 @Component({
@@ -68,6 +69,10 @@ dayjs.extend(isoWeek);
 export default class EditRecord extends Vue {
   id = -1;
   choose = false;
+
+  mounted() {
+    resetHeight(this.$refs.div);
+  }
 
   changeChoose() {
     this.choose = !this.choose;
