@@ -41,7 +41,8 @@
       </ol>
       <NoList v-else/>
     </main>
-    <yd-datetime v-show="false" type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
+    <yd-datetime v-show="false" type="month" :end-date="endDate" ref="datetime" v-model="datetime"
+                 slot="right"></yd-datetime>
   </div>
 </template>
 
@@ -57,6 +58,7 @@ import resetHeight from '@/lib/resetHeight';
 })
 export default class Bill extends Vue {
   datetime = dayjs().format('YYYY-MM');
+  endDate = dayjs().add(1, 'year').dayOfYear(1).subtract(1, 'day').format('YYYY-MM');
 
   open() {
     this.$refs.datetime.open();

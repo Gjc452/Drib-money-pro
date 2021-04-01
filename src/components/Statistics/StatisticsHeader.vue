@@ -40,7 +40,8 @@
         <span>购物返现</span>
       </router-link>
     </ul>
-    <yd-datetime v-show="false" type="month" ref="datetime" v-model="datetime" slot="right"></yd-datetime>
+    <yd-datetime v-show="false" :end-date="endDate" type="month" ref="datetime" v-model="datetime"
+                 slot="right"></yd-datetime>
   </header>
 </template>
 
@@ -54,6 +55,7 @@ export default class StatisticsHeader extends Vue {
   @Prop(Object) readonly time!: dayjs.Dayjs;
   @Prop(Array) readonly money!: [];
   datetime = dayjs(this.time).format('YYYY-MM');
+  endDate = dayjs().add(1, 'year').dayOfYear(1).subtract(1, 'day').format('YYYY-MM');
 
   @Watch('datetime')
   update() {
