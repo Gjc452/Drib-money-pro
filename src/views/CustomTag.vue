@@ -44,10 +44,6 @@ export default class CustomTag extends Vue {
     this.selectedTag = tag;
   }
 
-  beforeDestroy() {
-    document.activeElement.blur();
-  }
-
   mounted() {
     resetHeight(this.$refs.div as HTMLDivElement);
   }

@@ -39,11 +39,6 @@ export default class Money extends Vue {
     };
   }
 
-  beforeDestroy() {
-    document.activeElement.blur();
-  }
-
-
   saveRecord() {
     this.$store.commit('saveRecord');
     this.$router.replace('/statistics');

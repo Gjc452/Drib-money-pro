@@ -30,8 +30,11 @@ export default class Top extends Vue {
       this.addType === '-' ? result = this.tagListOut.map(tags => tags.filter(tag => tag.name === this.value)) : result = this.tagListIn.map(tags => tags.filter(tag => tag.name === this.value));
       const n = [...result.map(arr => arr.length)].reduce((a, b) => { return a + b;});
       if (n === 0) {
-        store.commit('addCustomTag', {icon: this.selectedTag, name: this.value, custom: true});
-        this.back();
+        document.activeElement.blur();
+        this.$nextTick(() => {
+          store.commit('addCustomTag', {icon: this.selectedTag, name: this.value, custom: true});
+          this.back();
+        });
       } else {
         window.alert('类别不能重复添加');
       }
