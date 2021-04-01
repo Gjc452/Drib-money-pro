@@ -175,13 +175,14 @@ export default class NumberPad extends Vue {
 @import "~@/assets/style/helper.scss";
 
 .numberPadWrapper {
-  background: rgb(242, 243, 245);
+  background: rgb(253, 252, 255);
 
   .notes {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    border-bottom: 1px solid rgb(217, 217, 217);
+    position: relative;
+    @extend %border-bottom;
 
     .iconWrapper {
       display: flex;
@@ -227,11 +228,12 @@ export default class NumberPad extends Vue {
       height: 45px;
       border: none;
       background: transparent;
-      border-bottom: 1px solid rgb(217, 217, 217);
-      border-right: 1px solid rgb(217, 217, 217);
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+
+      @extend %border-right-bottom;
 
       &.remove {
         span {
