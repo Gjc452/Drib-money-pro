@@ -217,8 +217,8 @@ export default class Chart extends Vue {
           width: 0.5,
           color: '#000'
         },
-        itemStyle:{
-          color:'rgb(255,218,68)'
+        itemStyle: {
+          color: 'rgb(255,218,68)'
         },
         markLine: {
           silent: true,
@@ -339,7 +339,7 @@ export default class Chart extends Vue {
       }
     }
     const years = [];
-    for (let i = parseInt(lastYear); i <= now.year(); i++) {
+    for (let i = lastYear; i <= now.year(); i++) {
       if (i === now.year()) {
         years.push('今年');
       } else if (i === now.year() - 1) {
@@ -348,7 +348,7 @@ export default class Chart extends Vue {
         years.push(i + '年');
       }
     }
-    for (let i = now.year() - 1; i >= parseInt(lastYear); i--) {
+    for (let i = now.year() - 1; i >= lastYear; i--) {
       for (let j = dayjs('2020').isoWeeksInYear(); j >= 1; j--) {
         weeks.unshift(i + '-' + j + '周');
       }
