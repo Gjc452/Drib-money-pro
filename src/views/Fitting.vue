@@ -1,5 +1,5 @@
 <template>
-  <div class="contentWrapper">
+  <div ref="div" class="contentWrapper">
     <div>
       <div>
         <Icon name="icon-shigong"/>
@@ -13,9 +13,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import resetHeight from '@/lib/resetHeight';
 
 @Component
 export default class Fitting extends Vue {
+  mounted() {
+    resetHeight(this.$refs.div);
+  }
 }
 </script>
 
@@ -28,6 +32,7 @@ export default class Fitting extends Vue {
   align-items: center;
   height: 100vh;
   position: relative;
+  overflow: hidden;
 
   > div {
     display: flex;
