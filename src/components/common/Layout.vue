@@ -17,7 +17,7 @@ export default class Layout extends Vue {
   @Prop() readonly classPrefix!: string;
 
   mounted() {
-    resetHeight(this.$refs.div);
+    resetHeight(this.$refs.div as HTMLDivElement);
   }
 }
 </script>

@@ -71,7 +71,7 @@ export default class EditRecord extends Vue {
   choose = false;
 
   mounted() {
-    resetHeight(this.$refs.div);
+    resetHeight(this.$refs.div as HTMLDivElement);
   }
 
   changeChoose() {

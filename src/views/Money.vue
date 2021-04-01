@@ -29,7 +29,7 @@ export default class Money extends Vue {
 
   mounted() {
     this.$store.commit('fetchRecordList');
-    resetHeight(this.$refs.div);
+    resetHeight(this.$refs.div as HTMLDivElement);
     window.onresize = () => {
       const div = this.$refs.div as HTMLDivElement;
       div.style.height = window.innerHeight + 'px';

@@ -45,7 +45,7 @@ export default class CustomTag extends Vue {
   }
 
   mounted() {
-    resetHeight(this.$refs.div);
+    resetHeight(this.$refs.div as HTMLDivElement);
   }
 
   get addType() {

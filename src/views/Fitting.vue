@@ -18,7 +18,7 @@ import resetHeight from '@/lib/resetHeight';
 @Component
 export default class Fitting extends Vue {
   mounted() {
-    resetHeight(this.$refs.div);
+    resetHeight(this.$refs.div as HTMLDivElement);
   }
 }
 </script>
