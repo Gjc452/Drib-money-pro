@@ -308,7 +308,6 @@ export default class Chart extends Vue {
     const newList = (JSON.parse(JSON.stringify(this.recordList)) as RecordItem[]).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
     let month = dayjs().month();
     let week = dayjs().isoWeek();
-    console.log(newList);
     if (newList.length !== 0) {
       if (dayjs(newList[0].createAt).isAfter(dayjs())) {
         month = dayjs(newList[0].createAt).month();
