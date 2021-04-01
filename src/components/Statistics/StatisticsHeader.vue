@@ -32,11 +32,11 @@
         <span>资产管家</span>
       </router-link>
       <router-link to="/fitting">
-        <Icon name="icon--zhishichanquan"/>
+        <Icon name="icon-shuqian"/>
         <span>理财知识</span>
       </router-link>
       <router-link to="/fitting">
-        <Icon name="icon-A"/>
+        <Icon name="icon-huangsetubiaozhizuomoban-04"/>
         <span>购物返现</span>
       </router-link>
     </ul>
