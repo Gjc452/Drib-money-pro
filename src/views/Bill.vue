@@ -206,7 +206,8 @@ main {
     }
 
     li:nth-child(n+2) {
-      border-top: 1px solid $gray;
+      position: relative;
+      @extend %border-top
     }
 
     li {

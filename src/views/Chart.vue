@@ -380,8 +380,9 @@ export default class Chart extends Vue {
 
 .week {
   padding-bottom: 20px;
-  border-bottom: 1px solid $gray;
   overflow: hidden;
+  position: relative;
+  @extend %border-bottom;
 
   ol {
     display: flex;
@@ -413,7 +414,8 @@ export default class Chart extends Vue {
     display: flex;
     flex-direction: column;
     padding: 10px 10px 0;
-    border-top: 1px solid $gray;
+    position: relative;
+    @extend %border-top;
 
     span {
       font-size: 12px;

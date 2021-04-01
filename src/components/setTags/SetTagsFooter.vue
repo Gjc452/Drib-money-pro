@@ -17,9 +17,11 @@ export default class SetTagsFooter extends Vue {
 </script>
 
 <style lang="scss" scoped>
-footer {
+@import '~@/assets/style/helper.scss';
 
-  border-top: 1px solid rgb(235, 235, 235);
+footer {
+  position: relative;
+  @extend %border-top;
 
   a {
     display: flex;

@@ -140,12 +140,17 @@ export default class EditTags extends Vue {
     overflow: auto;
 
     ul {
+      li:nth-child(n+2) {
+        @extend %border-top;
+      }
+
       li {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        border-bottom: 1px solid rgb(235, 235, 235);
+        position: relative;
         padding: 6px 0;
+
 
         > .icon {
           width: 20px;

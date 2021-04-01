@@ -176,10 +176,11 @@ export default class EditRecord extends Vue {
     flex-grow: 1;
 
     div {
+      position: relative;
       padding: 12px 0;
       margin-left: 16px;
-      border-bottom: 1px solid $gray;
       font-size: 14px;
+      @extend %border-bottom;
 
       span:nth-child(1) {
         padding-right: 16px;
@@ -195,8 +196,8 @@ export default class EditRecord extends Vue {
   footer {
     display: flex;
     justify-content: center;
-    border-top: 1px solid $gray;
     position: relative;
+    @extend %border-top;
 
     button {
       font-size: 14px;
@@ -209,11 +210,11 @@ export default class EditRecord extends Vue {
     button:nth-child(1)::after {
       content: '';
       display: block;
-      height: 16px;
-      border: 1px solid $gray;
+      height: 32px;
+      border: 1px solid rgb(240,240,240);
       right: 50%;
       top: 50%;
-      transform: translateX(1px) translateY(-8px);
+      transform: translateX(1px) translateY(-16px) scale(0.5);
       position: absolute;
     }
   }

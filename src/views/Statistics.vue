@@ -15,7 +15,8 @@
             </div>
           </h3>
           <ul class="recordWrapper">
-            <router-link :to="`/statistics/edit/${item.id}`" class="record" v-for="(item,index) in group.items" :key="index">
+            <router-link :to="`/statistics/edit/${item.id}`" class="record" v-for="(item,index) in group.items"
+                         :key="index">
               <div>
                 <Icon :name="item.tag.icon"/>
               </div>
@@ -98,17 +99,21 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 $gray: rgb(150, 150, 150);
 main {
   ol {
     > li {
+      position: relative;
+      @extend %border-bottom;
+
       .title {
         display: flex;
         color: $gray;
         font-size: 11px;
         justify-content: space-between;
         padding: 8px 12px;
-        border-bottom: 0.5px solid;
 
         .payTime {
           span:first-child {
@@ -122,6 +127,7 @@ main {
           }
         }
       }
+
 
       .recordWrapper {
         .record {
@@ -154,7 +160,8 @@ main {
       }
     }
   }
-  .noGroup{
+
+  .noGroup {
     padding-top: 100px;
   }
 }

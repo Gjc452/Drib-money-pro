@@ -88,7 +88,8 @@ export default class CustomTag extends Vue {
     justify-content: center;
     align-items: center;
     padding: 10px 14px;
-    border-bottom: 1px solid rgb(235, 235, 235);
+    position: relative;
+    @extend %border-bottom;
 
     label {
       flex-grow: 1;
