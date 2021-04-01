@@ -1,37 +1,39 @@
 <template>
   <Layout>
-    <ChartHeader :type.sync="type" :time.sync="time"/>
-    <div class="week">
-      <ol ref="ol">
-        <li ref="lis" v-for="n in this.week" :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)" :key="n">
-          {{ n }}
-        </li>
-      </ol>
-      <div class="title">
-        <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
-        <span>平均值：{{ (moneyData.map(d => d.total).reduce((a, b) => a + b) / moneyData.length).toFixed(2) }}</span>
+    <div class="chartWrapper">
+      <ChartHeader :type.sync="type" :time.sync="time"/>
+      <div class="week">
+        <ol ref="ol">
+          <li ref="lis" v-for="n in this.week" :class="{selected:selectedLi===n}" @click="changeSelectedLi(n)" :key="n">
+            {{ n }}
+          </li>
+        </ol>
+        <div class="title">
+          <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
+          <span>平均值：{{ (moneyData.map(d => d.total).reduce((a, b) => a + b) / moneyData.length).toFixed(2) }}</span>
+        </div>
       </div>
       <Charts :options="chartOptions"/>
-    </div>
-    <div class="records">
-      <h3>支出排行榜</h3>
-      <ul v-if="newList.length!==0">
-        <li v-for="(r,index) in this.newList" :key="index">
-          <div class="iconWrapper">
-            <Icon :name="r.tag"/>
-          </div>
-          <div class="detailWrapper">
-            <div class="detail">
-              <span>{{ r.note }}</span>
-              <span>{{ r.percent }}</span>
-              <span>{{ r.total }}</span>
+      <div class="records">
+        <h3>支出排行榜</h3>
+        <ul v-if="newList.length!==0">
+          <li v-for="(r,index) in this.newList" :key="index">
+            <div class="iconWrapper">
+              <Icon :name="r.tag"/>
             </div>
-            <div ref="moneyLi" class="progressbar"></div>
-          </div>
-        </li>
-      </ul>
-      <div v-else>
-        <NoList/>
+            <div class="detailWrapper">
+              <div class="detail">
+                <span>{{ r.note }}</span>
+                <span>{{ r.percent }}</span>
+                <span>{{ r.total }}</span>
+              </div>
+              <div ref="moneyLi" class="progressbar"></div>
+            </div>
+          </li>
+        </ul>
+        <div v-else>
+          <NoList/>
+        </div>
       </div>
     </div>
   </Layout>
@@ -313,7 +315,7 @@ export default class Chart extends Vue {
         week = dayjs(newList[0].createAt).isoWeek();
       }
     }
-    const lastYear = dayjs(newList[newList.length-1].createAt).year()
+    const lastYear = dayjs(newList[newList.length - 1].createAt).year();
     const weeks = [];
     for (let i = 1; i <= week; i++) {
       if (i === dayjs().isoWeek()) {
@@ -377,11 +379,15 @@ export default class Chart extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 
+.chartWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .week {
-  padding-bottom: 20px;
   overflow: hidden;
   position: relative;
-  @extend %border-bottom;
 
   ol {
     display: flex;
@@ -419,7 +425,6 @@ export default class Chart extends Vue {
     flex-direction: column;
     padding: 10px 10px 0;
     position: relative;
-    @extend %border-top;
 
     span {
       font-size: 12px;
@@ -434,6 +439,10 @@ export default class Chart extends Vue {
 }
 
 .records {
+  @extend %border-top;
+  flex-grow: 1;
+  overflow: auto;
+
   h3 {
     padding: 12px 12px;
     font-size: 16px;

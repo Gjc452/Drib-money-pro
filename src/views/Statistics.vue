@@ -1,35 +1,37 @@
 <template>
   <Layout>
-    <StatisticsHeader :time.sync="time" :money="totalFunds"/>
-    <main>
-      <ol v-if="groupList.length!==0">
-        <li v-for="group in groupList" :key="group.title">
-          <h3 class="title">
-            <div class="payTime">
-              <span>{{ group.title.slice(5).replace('-', '月').concat('日') }}</span>
-              <span>{{ group.day }}</span>
-            </div>
-            <div class="total">
-              <span v-if="group.income !== 0">收入:{{ group.income }}</span>
-              <span v-if="group.outlay !== 0">支出:{{ group.outlay }}</span>
-            </div>
-          </h3>
-          <ul class="recordWrapper">
-            <router-link :to="`/statistics/edit/${item.id}`" class="record" v-for="(item,index) in group.items"
-                         :key="index">
-              <div>
-                <Icon :name="item.tag.icon"/>
+    <div class="statisticsWrapper">
+      <StatisticsHeader :time.sync="time" :money="totalFunds"/>
+      <main>
+        <ol v-if="groupList.length!==0">
+          <li v-for="group in groupList" :key="group.title">
+            <h3 class="title">
+              <div class="payTime">
+                <span>{{ group.title.slice(5).replace('-', '月').concat('日') }}</span>
+                <span>{{ group.day }}</span>
               </div>
-              <span>{{ item.notes }}</span>
-              <span>{{ item.type === '-' ? '-'.concat(item.amount) : item.amount }}</span>
-            </router-link>
-          </ul>
-        </li>
-      </ol>
-      <div class="noGroup" v-else>
-        <NoList/>
-      </div>
-    </main>
+              <div class="total">
+                <span v-if="group.income !== 0">收入:{{ group.income }}</span>
+                <span v-if="group.outlay !== 0">支出:{{ group.outlay }}</span>
+              </div>
+            </h3>
+            <ul class="recordWrapper">
+              <router-link :to="`/statistics/edit/${item.id}`" class="record" v-for="(item,index) in group.items"
+                           :key="index">
+                <div>
+                  <Icon :name="item.tag.icon"/>
+                </div>
+                <span>{{ item.notes }}</span>
+                <span>{{ item.type === '-' ? '-'.concat(item.amount) : item.amount }}</span>
+              </router-link>
+            </ul>
+          </li>
+        </ol>
+        <div class="noGroup" v-else>
+          <NoList/>
+        </div>
+      </main>
+    </div>
   </Layout>
 </template>
 
@@ -102,7 +104,16 @@ export default class Statistics extends Vue {
 @import "~@/assets/style/helper.scss";
 
 $gray: rgb(150, 150, 150);
+.statisticsWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 main {
+  overflow: auto;
+  flex-grow: 1;
+
   ol {
     > li {
       position: relative;
