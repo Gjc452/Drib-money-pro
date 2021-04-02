@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="title">
-        <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b) }}</span>
+        <span>总支出：{{ moneyData.map(d => d.total).reduce((a, b) => a + b).toFixed(2) }}</span>
         <span>平均值：{{ (moneyData.map(d => d.total).reduce((a, b) => a + b) / moneyData.length).toFixed(2) }}</span>
       </div>
       <Charts :options="chartOptions"/>
@@ -156,7 +156,7 @@ export default class Chart extends Vue {
   get chartOptions() {
     const time = this.moneyData.map(n => n.time);
     const money = this.moneyData.map(n => n.total);
-    const max = JSON.parse(JSON.stringify(money)).sort((a: number, b: number) => b - a)[0];
+    const max = JSON.parse(JSON.stringify(money as number[])).sort((a: number, b: number) => b - a)[0].toFixed(2);
     return {
       title: {
         text: `最大值:${max}`,

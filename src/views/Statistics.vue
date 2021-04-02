@@ -84,8 +84,8 @@ export default class Statistics extends Vue {
         });
       }
     }
-    result.map(group => group.outlay = group.items.filter(item => item.type === '-').reduce((sum, item) => sum + parseFloat(item.amount), 0));
-    result.map(group => group.income = group.items.filter(item => item.type === '+').reduce((sum, item) => sum + parseFloat(item.amount), 0));
+    result.map(group => group.outlay = parseFloat(group.items.filter(item => item.type === '-').reduce((sum, item) => sum + parseFloat(item.amount), 0).toFixed(2)));
+    result.map(group => group.income = parseFloat(group.items.filter(item => item.type === '+').reduce((sum, item) => sum + parseFloat(item.amount), 0).toFixed(2)));
     return result;
   }
 
@@ -115,9 +115,10 @@ main {
   flex-grow: 1;
 
   ol {
-    > li:nth-child(n+2){
+    > li:nth-child(n+2) {
       @extend %border-top;
     }
+
     > li {
       position: relative;
 
