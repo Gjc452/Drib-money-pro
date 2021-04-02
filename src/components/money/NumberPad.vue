@@ -96,7 +96,7 @@ export default class NumberPad extends Vue {
   count(text: string) {
     const index = [getLastIndex(/[+-]/gi, this.input), getLastIndex(/[.]/gi, this.input)];
     if ('0123456789'.indexOf(text) >= 0) {
-      if (this.input.length >= 10) {return;}
+      if (this.input.length >= 16) {return;}
       if (this.input === '0') {
         this.input = text;
       } else if (text === '0' && index[0] === this.input.length - 2 && this.input.slice(-1) === '0') {
@@ -198,6 +198,7 @@ export default class NumberPad extends Vue {
 
     .name {
       font-size: 14px;
+      min-width: 32px;
     }
 
     input {
@@ -206,7 +207,7 @@ export default class NumberPad extends Vue {
       height: 40px;
       flex-grow: 1;
       padding: 0 6px;
-      min-width: 20px;
+      min-width: 10px;
     }
 
     .output {
