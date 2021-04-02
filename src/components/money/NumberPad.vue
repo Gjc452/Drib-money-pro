@@ -107,7 +107,7 @@ export default class NumberPad extends Vue {
         this.input += text;
       }
     } else if (text === '.') {
-      if (this.input.length >= 10) {return;}
+      if (this.input.length >= 16) {return;}
       if (this.input.indexOf(text) >= 0 && index[0] < 0) {
         return;
       } else {
