@@ -92,6 +92,7 @@ header {
     }
 
     .time {
+
       div {
         display: flex;
         align-items: flex-end;
@@ -125,12 +126,12 @@ header {
     }
 
     .income {
-      padding: 0 10px;
+      padding-left: 10px;
+      width: 40%;
     }
 
     .outlay {
-      margin-left: auto;
-      padding-right: 60px;
+      width: 40%;
     }
   }
 
