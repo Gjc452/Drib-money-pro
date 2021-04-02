@@ -27,7 +27,7 @@ const store = new Vuex.Store({
       }
       , {
         title: '家居',
-        icons: ['icon-bingxiang', 'icon-shafa', 'icon-dengpao', 'icon-dianshi', 'icon-yundou', 'icon-pentou', 'icon-pentou', 'icon-kongtiao', 'icon-linyu', 'icon-xiyiji', 'icon-chuifengji', 'icon-chuang', 'icon-dianfei', 'icon-yigui', 'icon-weixiu', 'icon-cheliang']
+        icons: ['icon-bingxiang', 'icon-shafa', 'icon-dengpao', 'icon-dianshi', 'icon-yundou', 'icon-pentou', 'icon-kongtiao', 'icon-linyu', 'icon-xiyiji', 'icon-chuifengji', 'icon-chuang', 'icon-dianfei', 'icon-yigui', 'icon-weixiu', 'icon-cheliang']
       },
       {
         title: '交通',
