@@ -21,6 +21,7 @@ function getWeekResult(result: [{}],year: number,week: number,recordList: Record
     for (let j = 0; j < newList.length; j++) {
       if (dayjs(newList[j].createAt).isoWeekday() === i) {
         total += parseFloat(newList[j].amount);
+        total = parseFloat(total.toFixed(2));
       }
     }
     result.push({total,time:day.toString()});
