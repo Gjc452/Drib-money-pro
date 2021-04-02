@@ -95,31 +95,35 @@ export default class NumberPad extends Vue {
 
   count(text: string) {
     const index = [getLastIndex(/[+-]/gi, this.input), getLastIndex(/[.]/gi, this.input)];
+    const n = this.input[0] === '-' ? this.input.slice(1) : this.input;
     if ('0123456789'.indexOf(text) >= 0) {
-      if (this.input.length >= 16) {return;}
+      const inputLength = n.split(/[+-]/).map(i => i.indexOf('.') !== -1 ? i.slice(0, i.indexOf('.')).length : i.length);
+      if (inputLength[0] >= 8 && index[0] <= 0 && index[1] < 0) {
+        return;
+      } else if (inputLength[1] >= 8 && this.input[this.input.length - 1] !== '.' && this.input[this.input.length - 2] !== '.') {
+        return;
+      }
       if (this.input === '0') {
         this.input = text;
       } else if (text === '0' && index[0] === this.input.length - 2 && this.input.slice(-1) === '0') {
         return;
       } else if (index[0] !== this.input.length - 1 && index[1] === this.input.length - 3) {
         return;
-      } else if (index[0] >= 0 && this.input.indexOf('0') === this.input.length - 1) {
-        return;
       } else {
         this.input += text;
       }
     } else if (text === '.') {
-      if (this.input.length >= 16) {return;}
-      if (this.input.indexOf(text) >= 0 && index[0] < 0) {
+      const arr = n.split(/[+-]/).map(i => i.indexOf(text));
+      if (arr[0] >= 0 && index[0] < 1) {
         return;
-      } else if (index[0] >= 0 && this.input.indexOf(text) === this.input.length - 1) {
+      } else if (arr[1] >= 0) {
         return;
+      } else if (index[0] === this.input.length - 1) {
+        this.input += '0.';
       } else {
-        const num = this.input.split('.').length - 1;
-        if (num < 2) {
-          this.input += text;
-        }
+        this.input += text;
       }
+
     } else if ('+-'.indexOf(text) >= 0) {
       if (index[0] >= 0) {
         if (index[0] === this.input.length - 1) {
@@ -219,6 +223,7 @@ export default class NumberPad extends Vue {
       font-weight: lighter;
       margin-left: auto;
       padding-right: 8px;
+      white-space: nowrap;
     }
   }
 
