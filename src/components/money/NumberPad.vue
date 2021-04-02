@@ -103,12 +103,16 @@ export default class NumberPad extends Vue {
         return;
       } else if (index[0] !== this.input.length - 1 && index[1] === this.input.length - 3) {
         return;
+      } else if (index[0] >= 0 && this.input.indexOf('0') === this.input.length - 1) {
+        return;
       } else {
         this.input += text;
       }
     } else if (text === '.') {
       if (this.input.length >= 16) {return;}
       if (this.input.indexOf(text) >= 0 && index[0] < 0) {
+        return;
+      } else if (index[0] >= 0 && this.input.indexOf(text) === this.input.length - 1) {
         return;
       } else {
         const num = this.input.split('.').length - 1;
