@@ -145,7 +145,7 @@ const store = new Vuex.Store({
     },
     saveRecord(state) {
       const id = state.record.id;
-      const lastId = state.recordList.length!==0? state.recordList[state.recordList.length - 1].id : idCreate()
+      const lastId = state.recordList.length !== 0 ? state.recordList[state.recordList.length - 1].id : idCreate();
       if (id <= lastId && id !== 0) {
         const index = state.recordList.map(r => r.id).indexOf(id);
         state.recordList.splice(index, 1, state.record);
@@ -154,6 +154,7 @@ const store = new Vuex.Store({
         state.recordList.push(state.record);
       }
       state.record.notes === '' ? state.record.notes = state.record.tag.name : '';
+      state.record.amount = state.record.amount.replace(/[+-]/, '');
       store.commit('saveRecordList');
       store.commit('resetRecord');
     },
