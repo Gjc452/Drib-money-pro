@@ -34,7 +34,7 @@ export default class Charts extends Vue {
 div {
   position: relative;
   padding-bottom: 20px;
-  height: 132px;
+  height: 152px;
   width: 100%;
   @extend %border-bottom;
 }
