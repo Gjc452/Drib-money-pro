@@ -34,9 +34,9 @@
         </li>
         <li v-for="r in recordList" :key="r.month">
           <span>{{ r.month }}</span>
-          <span>{{ r.income }}</span>
-          <span>{{ r.outlay }}</span>
-          <span>{{ r.surplus }}</span>
+          <span>{{ r.income.toFixed(2) }}</span>
+          <span>{{ r.outlay.toFixed(2) }}</span>
+          <span>{{ r.surplus.toFixed(2) }}</span>
         </li>
       </ol>
       <NoList v-else/>
