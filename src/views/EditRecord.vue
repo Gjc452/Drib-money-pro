@@ -110,7 +110,7 @@ export default class EditRecord extends Vue {
   get recordTime() {
     const time = dayjs(this.currentRecord.createAt);
     const currentTime = time.format('YYYY年MM月DD日');
-    const week = getDay(time.isoWeekday());
+    const week = getDay(time.day());
     return {currentTime, week};
   }
 
@@ -216,7 +216,7 @@ export default class EditRecord extends Vue {
       content: '';
       display: block;
       height: 32px;
-      border: 1px solid rgb(240,240,240);
+      border: 1px solid rgb(240, 240, 240);
       right: 50%;
       top: 50%;
       transform: translateX(1px) translateY(-16px) scale(0.5);
